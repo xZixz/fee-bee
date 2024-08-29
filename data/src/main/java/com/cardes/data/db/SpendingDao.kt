@@ -44,7 +44,7 @@ abstract class SpendingDao {
     abstract fun getAllSpendings(): Flow<List<SpendingWithCategories>>
 
     @Query(value = "SELECT * FROM spendings where id=:spendingId")
-    abstract suspend fun getSpending(spendingId: Long): SpendingEntity
+    abstract suspend fun getSpending(spendingId: Long): SpendingWithCategories
 
     @Query(value = "DELETE FROM spendings where id=:spendingId")
     abstract suspend fun deleteSpending(spendingId: Long)

@@ -18,6 +18,7 @@ private fun Spending.toSpendingUiState(): SpendingUiState =
         description = content,
         cost = amount.toString(),
         date = spendingDateDisplayFormat.format(time),
+        categories = categories,
     )
 
 @HiltViewModel

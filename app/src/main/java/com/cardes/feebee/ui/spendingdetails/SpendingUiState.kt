@@ -1,5 +1,7 @@
 package com.cardes.feebee.ui.spendingdetails
 
+import com.cardes.domain.entity.Category
+
 sealed interface SpendingUiState {
     data object Loading : SpendingUiState
 
@@ -7,5 +9,6 @@ sealed interface SpendingUiState {
         val description: String,
         val date: String,
         val cost: String,
+        val categories: List<Category>,
     ) : SpendingUiState
 }
