@@ -15,7 +15,7 @@ class CreateSpendingUiStatePreviewParameter : PreviewParameterProvider<CreateSpe
             amount = "10",
             date = dateFormat.format(Calendar.getInstance().time),
             categories = Fake.categories,
-            selectedCategoryIds = listOf(),
+            selectedCategoryIds = listOf(1),
         ),
     )
 }

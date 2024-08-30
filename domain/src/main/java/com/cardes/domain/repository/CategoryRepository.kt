@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
     fun observeCategories(): Flow<List<Category>>
+
+    suspend fun createCategory(name: String): Result<Unit>
 }

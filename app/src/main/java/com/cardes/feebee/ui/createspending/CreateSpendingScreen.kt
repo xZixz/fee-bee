@@ -1,7 +1,6 @@
 package com.cardes.feebee.ui.createspending
 
 import android.content.res.Configuration
-import android.icu.util.Calendar
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -9,24 +8,23 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -52,9 +50,12 @@ fun CreateSpendingRoute(
 ) {
     val createSpendingUiState by createSpendingViewModel.createSpendingUiState.collectAsStateWithLifecycle()
     val showDatePickerDialog by createSpendingViewModel.showDatePickerDialog.collectAsStateWithLifecycle()
+    val showAddCategoryDialog by createSpendingViewModel.showAddCategoryDialog.collectAsStateWithLifecycle()
+
     CreateSpendingScreen(
         createSpendingUiState = createSpendingUiState,
         showDatePickerDialog = showDatePickerDialog,
+        showAddCategoryDialog = showAddCategoryDialog,
         onDescriptionChanged = createSpendingViewModel::onDescriptionChanged,
         onCostChanged = createSpendingViewModel::onCostChanged,
         onCreateSpendingClicked = {
@@ -64,14 +65,18 @@ fun CreateSpendingRoute(
         onDatePickerDismiss = createSpendingViewModel::hideDatePickerDialog,
         onDatePickerConfirmed = createSpendingViewModel::onDatePicked,
         onCategoryClick = createSpendingViewModel::onCategoryClick,
+        onAddCategoryClick = createSpendingViewModel::onAddCategoryClick,
+        onAddCategoryDismiss = createSpendingViewModel::onAddCategoryDialogDismiss,
+        onAddCategory = createSpendingViewModel::onAddCategory,
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CreateSpendingScreen(
     createSpendingUiState: CreateSpendingUiState,
     showDatePickerDialog: Boolean,
+    showAddCategoryDialog: Boolean,
     onDescriptionChanged: (String) -> Unit,
     onCostChanged: (String) -> Unit,
     onCreateSpendingClicked: () -> Unit,
@@ -79,42 +84,22 @@ fun CreateSpendingScreen(
     onDatePickerDismiss: () -> Unit,
     onDatePickerConfirmed: (Long) -> Unit,
     onCategoryClick: (Long) -> Unit,
+    onAddCategoryClick: () -> Unit,
+    onAddCategoryDismiss: () -> Unit,
+    onAddCategory: (String) -> Unit,
 ) {
     if (showDatePickerDialog) {
-        val dateState = rememberDatePickerState(
-            initialSelectedDateMillis = Calendar.getInstance().timeInMillis,
-            selectableDates = object : SelectableDates {
-                override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                    return utcTimeMillis < Calendar.getInstance().timeInMillis
-                }
-            },
+        SpendingDatePicker(
+            onDatePickerDismiss = onDatePickerDismiss,
+            onDatePickerConfirmed = onDatePickerConfirmed,
         )
+    }
 
-        DatePickerDialog(
-            onDismissRequest = {
-                onDatePickerDismiss()
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        onDatePickerConfirmed(dateState.selectedDateMillis ?: 0)
-                    },
-                ) {
-                    Text(text = stringResource(R.string.ok))
-                }
-            },
-            dismissButton = {
-                Button(
-                    onClick = {
-                        onDatePickerDismiss()
-                    },
-                ) {
-                    Text(text = stringResource(R.string.cancel))
-                }
-            },
-        ) {
-            DatePicker(state = dateState)
-        }
+    if (showAddCategoryDialog) {
+        CreateCategoryDialog(
+            onDismiss = { onAddCategoryDismiss() },
+            onConfirm = { categoryName -> onAddCategory(categoryName) },
+        )
     }
 
     BasePage(
@@ -157,7 +142,9 @@ fun CreateSpendingScreen(
                 // Categories
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(text = stringResource(R.string.categories))
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
                     createSpendingUiState.categories.forEach { category ->
                         FilterChip(
                             selected = category.id in createSpendingUiState.selectedCategoryIds,
@@ -171,8 +158,21 @@ fun CreateSpendingScreen(
                             interactionSource = NoRippleInteractionSource(),
                         )
                     }
+                    Button(
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .size(30.dp),
+                        onClick = {
+                            onAddCategoryClick()
+                        },
+                        contentPadding = PaddingValues(0.dp),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add category",
+                        )
+                    }
                 }
-
                 Spacer(modifier = Modifier.height(20.dp))
                 Button(
                     modifier = Modifier.fillMaxWidth(),
@@ -208,14 +208,18 @@ private fun CreateSpendingScreenPreview(
         Surface {
             CreateSpendingScreen(
                 createSpendingUiState = createSpendingUiState,
+                showDatePickerDialog = false,
                 onDescriptionChanged = {},
                 onCostChanged = {},
                 onCreateSpendingClicked = {},
                 onCalendarClick = {},
                 onDatePickerDismiss = {},
                 onDatePickerConfirmed = {},
-                showDatePickerDialog = false,
                 onCategoryClick = {},
+                onAddCategoryClick = {},
+                showAddCategoryDialog = false,
+                onAddCategoryDismiss = {},
+                onAddCategory = {},
             )
         }
     }

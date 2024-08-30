@@ -2,6 +2,7 @@ package com.cardes.feebee.ui.createspending
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cardes.domain.usecase.addcategory.AddCategoryUseCase
 import com.cardes.domain.usecase.createspending.CreateSpendingUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +24,7 @@ val spendingDateDisplayFormat = SimpleDateFormat("EEEE, MMMM dd, yyyy", Locale.U
 @HiltViewModel
 class CreateSpendingViewModel @Inject constructor(
     private val createSpendingUseCase: CreateSpendingUseCase,
+    private val addCategoryUseCase: AddCategoryUseCase,
     private val observeCategoriesUseCase: ObserveCategoriesUseCase,
 ) : ViewModel() {
     private val _createSpendingUiState = MutableStateFlow(
@@ -38,6 +40,9 @@ class CreateSpendingViewModel @Inject constructor(
 
     private val _showDatePickerDialog = MutableStateFlow(false)
     val showDatePickerDialog = _showDatePickerDialog.asStateFlow()
+
+    private val _showAddCategoryDialog = MutableStateFlow(false)
+    val showAddCategoryDialog = _showAddCategoryDialog.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -95,6 +100,21 @@ class CreateSpendingViewModel @Inject constructor(
                 if (remove(categoryId).not()) add(categoryId)
                 it.copy(selectedCategoryIds = this)
             }
+        }
+    }
+
+    fun onAddCategoryClick() {
+        _showAddCategoryDialog.value = true
+    }
+
+    fun onAddCategoryDialogDismiss() {
+        _showAddCategoryDialog.value = false
+    }
+
+    fun onAddCategory(categoryName: String) {
+        _showAddCategoryDialog.value = false
+        viewModelScope.launch {
+            addCategoryUseCase.invoke(name = categoryName)
         }
     }
 }

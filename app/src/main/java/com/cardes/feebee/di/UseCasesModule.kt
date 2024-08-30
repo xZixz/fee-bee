@@ -1,5 +1,7 @@
 package com.cardes.feebee.di
 
+import com.cardes.domain.usecase.addcategory.AddCategoryUseCase
+import com.cardes.domain.usecase.addcategory.AddCategoryUseCaseImpl
 import com.cardes.domain.usecase.addsamples.AddSamplesUseCase
 import com.cardes.domain.usecase.addsamples.AddSamplesUseCaseImpl
 import com.cardes.domain.usecase.createspending.CreateSpendingUseCase
@@ -42,4 +44,7 @@ interface UseCasesModule {
 
     @Binds
     fun bindObserveCategoriesUseCase(observeCategoriesUseCase: ObserveCategoriesUseCaseImpl): ObserveCategoriesUseCase
+
+    @Binds
+    fun bindAddCategoryUseCase(addCategoryUseCase: AddCategoryUseCaseImpl): AddCategoryUseCase
 }
