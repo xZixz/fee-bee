@@ -8,6 +8,8 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.cardes.feebee.ui.createspending.createSpending
 import com.cardes.feebee.ui.createspending.navigateToCreateSpending
+import com.cardes.feebee.ui.editspending.editSpending
+import com.cardes.feebee.ui.editspending.navigateToEditSpendingRoute
 import com.cardes.feebee.ui.spendingdetails.navigateToSpendingDetails
 import com.cardes.feebee.ui.spendingdetails.spendingDetails
 import com.cardes.feebee.ui.spendingslist.spendingsList
@@ -32,7 +34,14 @@ fun FeeBeeHostNav(
                 onSpendingClick = navController::navigateToSpendingDetails,
             )
             createSpending(onNavUp = navController::navigateUp)
-            spendingDetails(onRemoveSpending = navController::navigateUp)
+            spendingDetails(onEditClick = navController::navigateToEditSpendingRoute)
+            editSpending(
+                onRemoveSpending = {
+                    navController.popBackStack(NavRoutes.Main.SpendingsList.name, false)
+                },
+                onDoneUpdating = navController::navigateUp,
+            )
         }
     }
 }
+

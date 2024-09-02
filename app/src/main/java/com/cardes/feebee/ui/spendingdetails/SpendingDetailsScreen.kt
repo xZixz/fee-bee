@@ -6,13 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -20,64 +16,39 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.BasePage
 import com.cardes.feebee.ui.spendingslist.CategoryChip
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable
 fun SpendingDetailsRoute(
+    onEditClick: () -> Unit,
     spendingDetailsViewModel: SpendingDetailsViewModel = hiltViewModel(),
-    onSpendingRemoved: () -> Unit,
 ) {
     val spendingUiState by spendingDetailsViewModel.spendingUiState.collectAsStateWithLifecycle()
-    val removeSpendingDialogState by spendingDetailsViewModel.removeSpendingDialogState.collectAsStateWithLifecycle(minActiveState = Lifecycle.State.CREATED)
 
     SpendingDetailsScreen(
-        removeSpendingDialogState = removeSpendingDialogState,
         spendingUiState = spendingUiState,
-        onDismissRemoveDialog = spendingDetailsViewModel::closeRemoveSpendingDialog,
-        onRemoveSpendingClick = spendingDetailsViewModel::onRemoveSpendingClick,
-        removeSpending = {
-            spendingDetailsViewModel.removeSpending(onSpendingRemoved)
-        },
-        onEditClick = spendingDetailsViewModel::onEditClick,
-        onExitEditModeClick = spendingDetailsViewModel::exitEditMode,
+        onEditClick = onEditClick,
     )
 }
 
 @Composable
 fun SpendingDetailsScreen(
     spendingUiState: SpendingUiState,
-    removeSpendingDialogState: Boolean,
-    onDismissRemoveDialog: () -> Unit,
-    onRemoveSpendingClick: () -> Unit,
-    onExitEditModeClick: () -> Unit,
     onEditClick: () -> Unit,
-    removeSpending: () -> Unit,
 ) {
-    if (removeSpendingDialogState) {
-        DeleteSpendingDialog(
-            onDismissRemoveDialog = onDismissRemoveDialog,
-            removeSpending = removeSpending,
-        )
-    }
     when (spendingUiState) {
         is SpendingUiState.Loading -> {}
         is SpendingUiState.Success -> {
             SpendingDetails(
                 spendingUiState = spendingUiState,
                 onEditClick = onEditClick,
-                onExitEditModeClick = onExitEditModeClick,
-                onRemoveSpendingClick = onRemoveSpendingClick,
             )
         }
     }
@@ -87,8 +58,6 @@ fun SpendingDetailsScreen(
 @Composable
 fun SpendingDetails(
     spendingUiState: SpendingUiState.Success,
-    onRemoveSpendingClick: () -> Unit,
-    onExitEditModeClick: () -> Unit,
     modifier: Modifier = Modifier,
     onEditClick: () -> Unit,
 ) {
@@ -96,27 +65,13 @@ fun SpendingDetails(
         modifier = modifier,
         title = spendingUiState.description,
         titleAction = {
-            when (spendingUiState.viewMode) {
-                SpendingUiState.ViewMode.VIEW_ONLY -> {
-                    Icon(
-                        modifier = Modifier.clickable {
-                            onEditClick()
-                        },
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Enter Edit mode",
-                    )
-                }
-
-                SpendingUiState.ViewMode.EDIT -> {
-                    Icon(
-                        modifier = Modifier.clickable {
-                            onExitEditModeClick()
-                        },
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back to View mode",
-                    )
-                }
-            }
+            Icon(
+                modifier = Modifier.clickable {
+                    onEditClick()
+                },
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Enter Edit mode",
+            )
         },
     ) {
         Text(
@@ -135,25 +90,6 @@ fun SpendingDetails(
             }
         }
         Spacer(modifier = Modifier.weight(1.0f))
-        if (spendingUiState.viewMode == SpendingUiState.ViewMode.EDIT) {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                shape = RectangleShape,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.error,
-                ),
-                onClick = {
-                    onRemoveSpendingClick()
-                },
-            ) {
-                Text(
-                    text = stringResource(R.string.remove_this_spending),
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
-        }
     }
 }
 
@@ -179,9 +115,7 @@ private fun SpendingDetailsPreview(
         Surface {
             SpendingDetails(
                 spendingUiState = spendingUiState,
-                onRemoveSpendingClick = {},
                 onEditClick = {},
-                onExitEditModeClick = {},
             )
         }
     }

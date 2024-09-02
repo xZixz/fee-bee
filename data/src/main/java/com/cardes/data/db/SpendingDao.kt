@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.cardes.data.db.entity.SpendingCategoryCrossRef
 import com.cardes.data.db.entity.SpendingEntity
 import com.cardes.data.db.entity.SpendingWithCategories
@@ -51,4 +52,10 @@ abstract class SpendingDao {
 
     @Query(value = "DELETE FROM spendings")
     abstract suspend fun deleteAll()
+
+    @Update
+    abstract suspend fun updateSpending(spending: SpendingEntity)
+
+    @Query(value = "SELECT * FROM spendings where id=:spendingId")
+    abstract fun observeSpending(spendingId: Long): Flow<SpendingWithCategories>
 }

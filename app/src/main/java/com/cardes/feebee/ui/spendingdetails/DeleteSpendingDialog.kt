@@ -10,7 +10,7 @@ import com.cardes.feebee.R
 @Composable
 fun DeleteSpendingDialog(
     onDismissRemoveDialog: () -> Unit,
-    removeSpending: () -> Unit,
+    onRemoveSpending: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = {
@@ -18,7 +18,7 @@ fun DeleteSpendingDialog(
         },
         confirmButton = {
             Button(
-                onClick = { removeSpending() },
+                onClick = { onRemoveSpending() },
             ) {
                 Text(text = stringResource(id = R.string.yes))
             }

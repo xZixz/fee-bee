@@ -10,11 +10,5 @@ sealed interface SpendingUiState {
         val date: String,
         val cost: String,
         val categories: List<Category>,
-        val viewMode: ViewMode,
     ) : SpendingUiState
-
-    enum class ViewMode {
-        VIEW_ONLY,
-        EDIT,
-    }
 }

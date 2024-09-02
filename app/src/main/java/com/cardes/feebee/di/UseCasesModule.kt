@@ -14,8 +14,12 @@ import com.cardes.domain.usecase.getspendings.ObserveSpendingsUseCase
 import com.cardes.domain.usecase.getspendings.ObserveSpendingsUseCaseImpl
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCaseImpl
+import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
+import com.cardes.domain.usecase.observespending.ObserveSpendingUseCaseImpl
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCaseImpl
+import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
+import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -47,4 +51,10 @@ interface UseCasesModule {
 
     @Binds
     fun bindAddCategoryUseCase(addCategoryUseCase: AddCategoryUseCaseImpl): AddCategoryUseCase
+
+    @Binds
+    fun bindUpdateSpendingUseCase(updateSpendingUseCase: UpdateSpendingUseCaseImpl): UpdateSpendingUseCase
+
+    @Binds
+    fun bindObserveSpending(observeSpendingUseCase: ObserveSpendingUseCaseImpl): ObserveSpendingUseCase
 }

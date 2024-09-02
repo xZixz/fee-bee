@@ -30,6 +30,15 @@ interface SpendingLocalDataSource {
         amount: BigDecimal,
         categoryIds: List<Long>,
     )
+
+    suspend fun updateSpending(
+        id: Long,
+        content: String,
+        time: Long,
+        amount: BigDecimal,
+    )
+
+    fun observeSpending(spendingId: Long): Flow<Spending>
 }
 
 class SpendingLocalDataSourceImpl @Inject constructor(
@@ -53,9 +62,29 @@ class SpendingLocalDataSourceImpl @Inject constructor(
         )
     }
 
+    override suspend fun updateSpending(
+        id: Long,
+        content: String,
+        time: Long,
+        amount: BigDecimal,
+    ) {
+        spendingDao.updateSpending(
+            SpendingEntity(
+                id = id,
+                content = content,
+                time = time,
+                amount = amount,
+            ),
+        )
+    }
+
     override fun getSpendings(): Flow<List<Spending>> =
         spendingDao.getAllSpendings()
             .map { spendingEntities -> spendingEntities.map { spendingEntity -> spendingEntity.toSpending() } }
+
+    override fun observeSpending(spendingId: Long): Flow<Spending> =
+        spendingDao.observeSpending(spendingId)
+            .map { spendingEntity -> spendingEntity.toSpending() }
 
     override suspend fun getSpending(spendingId: Long): Spending = spendingDao.getSpending(spendingId).toSpending()
 
@@ -74,15 +103,6 @@ class SpendingLocalDataSourceImpl @Inject constructor(
         spendingDao.deleteAll()
     }
 }
-
-private fun SpendingEntity.toSpending() =
-    Spending(
-        id = id,
-        time = time,
-        amount = amount,
-        content = content,
-        categories = listOf(),
-    )
 
 // Mapper functions
 private fun SpendingWithCategories.toSpending() =

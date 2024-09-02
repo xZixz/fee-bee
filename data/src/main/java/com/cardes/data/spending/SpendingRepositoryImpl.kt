@@ -31,6 +31,23 @@ class SpendingRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun updateSpending(
+        id: Long,
+        content: String,
+        time: Long,
+        amount: BigDecimal,
+    ): Result<Unit> =
+        withContext(ioDispatcher) {
+            resultWrap {
+                spendingLocalDataSource.updateSpending(
+                    id = id,
+                    content = content,
+                    time = time,
+                    amount = amount,
+                )
+            }
+        }
+
     override suspend fun getSpending(spendingId: Long): Result<Spending> =
         withContext(ioDispatcher) {
             resultWrap {
@@ -39,6 +56,8 @@ class SpendingRepositoryImpl @Inject constructor(
         }
 
     override fun observeSpendings(): Flow<List<Spending>> = spendingLocalDataSource.getSpendings()
+
+    override fun observeSpending(spendingId: Long): Flow<Spending> = spendingLocalDataSource.observeSpending(spendingId)
 
     override suspend fun removeSpending(spendingId: Long): Result<Unit> =
         withContext(ioDispatcher) {

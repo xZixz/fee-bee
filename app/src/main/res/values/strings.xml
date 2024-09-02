@@ -14,4 +14,7 @@
     <string name="categories">Categories</string>
     <string name="add_a_new_category">Add a new category</string>
     <string name="remove_this_spending">Remove this Spending</string>
+    <string name="edit_spending">Edit Spending</string>
+    <string name="update">Update</string>
+    <string name="loading">Loading</string>
 </resources>

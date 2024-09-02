@@ -21,4 +21,13 @@ interface SpendingRepository {
         amount: BigDecimal,
         categoryIds: List<Long>,
     ): Result<Unit>
+
+    suspend fun updateSpending(
+        id: Long,
+        content: String,
+        time: Long,
+        amount: BigDecimal,
+    ): Result<Unit>
+
+    fun observeSpending(spendingId: Long): Flow<Spending>
 }

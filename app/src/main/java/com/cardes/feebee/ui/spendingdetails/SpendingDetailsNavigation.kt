@@ -17,11 +17,11 @@ fun NavController.navigateToSpendingDetails(spendingId: Long) {
     navigate("${SPENDING_DETAILS_ROUTE}/$spendingId")
 }
 
-fun NavGraphBuilder.spendingDetails(onRemoveSpending: () -> Unit) {
+fun NavGraphBuilder.spendingDetails(onEditClick: (Long) -> Unit) {
     composable(
         route = "$SPENDING_DETAILS_ROUTE/{$SPENDING_ID_ARG}",
         arguments = listOf(
-            navArgument(SPENDING_ID_ARG) { type = NavType.IntType },
+            navArgument(SPENDING_ID_ARG) { type = NavType.LongType },
         ),
         exitTransition = {
             return@composable fadeOut(tween(UiSetting.SCREEN_TRANSITION_DURATION))
@@ -32,7 +32,8 @@ fun NavGraphBuilder.spendingDetails(onRemoveSpending: () -> Unit) {
                 animationSpec = tween(UiSetting.SCREEN_TRANSITION_DURATION),
             )
         },
-    ) {
-        SpendingDetailsRoute(onSpendingRemoved = onRemoveSpending)
+    ) { navBackStackEntry ->
+        val spendingId = navBackStackEntry.arguments?.getLong(SPENDING_ID_ARG) ?: 0L
+        SpendingDetailsRoute(onEditClick = { onEditClick(spendingId) })
     }
 }

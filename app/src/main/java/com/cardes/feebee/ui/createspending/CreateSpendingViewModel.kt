@@ -5,20 +5,18 @@ import androidx.lifecycle.viewModelScope
 import com.cardes.domain.usecase.addcategory.AddCategoryUseCase
 import com.cardes.domain.usecase.createspending.CreateSpendingUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
+import com.cardes.feebee.ui.common.StringUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
 
-private val nonBigDecimalCharRegex = "[^0-9,.]".toRegex()
+val nonBigDecimalCharRegex = "[^0-9,.]".toRegex()
 val spendingDateDisplayFormat = SimpleDateFormat("EEEE, MMMM dd, yyyy", Locale.US)
 
 @HiltViewModel
@@ -68,7 +66,7 @@ class CreateSpendingViewModel @Inject constructor(
             _createSpendingUiState.value.run {
                 createSpendingUseCase.invoke(
                     content = description,
-                    amount = parseBigDecimalString(amount),
+                    amount = StringUtil.parseBigDecimalString(amount),
                     time = spendingDateDisplayFormat.parse(date)?.time ?: 0L,
                     categoryIds = selectedCategoryIds,
                 )
@@ -118,14 +116,3 @@ class CreateSpendingViewModel @Inject constructor(
         }
     }
 }
-
-private fun parseBigDecimalString(bigDecimalString: String): BigDecimal {
-    val decimalFormatSymbols = DecimalFormatSymbols().apply {
-        groupingSeparator = ','
-        decimalSeparator = '.'
-    }
-    val pattern = "#,##0.0#"
-    val decimalFormat = DecimalFormat(pattern, decimalFormatSymbols).apply { isParseBigDecimal = true }
-    return decimalFormat.parse(bigDecimalString) as BigDecimal
-}
-
