@@ -26,6 +26,12 @@ fun NavGraphBuilder.spendingDetails(onEditClick: (Long) -> Unit) {
         exitTransition = {
             return@composable fadeOut(tween(UiSetting.SCREEN_TRANSITION_DURATION))
         },
+        popEnterTransition = {
+            return@composable slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.End,
+                animationSpec = tween(UiSetting.SCREEN_TRANSITION_DURATION),
+            )
+        },
         enterTransition = {
             return@composable slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,

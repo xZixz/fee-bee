@@ -3,153 +3,202 @@ package com.cardes.feebee.ui.editspending
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cardes.domain.entity.Category
+import com.cardes.domain.usecase.addcategory.AddCategoryUseCase
+import com.cardes.domain.usecase.createspending.CreateSpendingUseCase
 import com.cardes.domain.usecase.getspending.GetSpendingUseCase
+import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
 import com.cardes.feebee.ui.common.StringUtil
-import com.cardes.feebee.ui.createspending.nonBigDecimalCharRegex
-import com.cardes.feebee.ui.createspending.spendingDateDisplayFormat
 import com.cardes.feebee.ui.spendingdetails.SPENDING_ID_ARG
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeoutOrNull
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
+
+val nonBigDecimalCharRegex = "[^0-9,.]".toRegex()
+val spendingDateDisplayFormat = SimpleDateFormat("EEEE, MMMM dd, yyyy", Locale.US)
 
 @HiltViewModel
 class EditSpendingViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val removeSpendingUseCase: RemoveSpendingUseCase,
-    private val getSpendingUseCase: GetSpendingUseCase,
+    private val createSpendingUseCase: CreateSpendingUseCase,
     private val updateSpendingUseCase: UpdateSpendingUseCase,
+    private val removeSpendingUseCase: RemoveSpendingUseCase,
+    private val addCategoryUseCase: AddCategoryUseCase,
+    private val getSpendingUseCase: GetSpendingUseCase,
+    private val observeCategoriesUseCase: ObserveCategoriesUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val spendingId: Long = checkNotNull(savedStateHandle[SPENDING_ID_ARG])
+    private val spendingId: Long = savedStateHandle[SPENDING_ID_ARG] ?: 0L
+    val editMode: EditMode
+        get() = if (spendingId == 0L) EditMode.NEW else EditMode.EDIT
+
+    private val _editSpendingUiState = MutableStateFlow(
+        EditSpendingUiState(
+            description = "",
+            amount = "",
+            date = spendingDateDisplayFormat.format(Calendar.getInstance().time),
+            categories = listOf(),
+            selectedCategoryIds = listOf(),
+        ),
+    )
+
+    val createSpendingUiState = _editSpendingUiState.asStateFlow()
+
+    private val _showDatePickerDialog = MutableStateFlow(false)
+    val showDatePickerDialog = _showDatePickerDialog.asStateFlow()
+
+    private val _showAddCategoryDialog = MutableStateFlow(false)
+    val showAddCategoryDialog = _showAddCategoryDialog.asStateFlow()
+
     private val _removeSpendingDialogState = MutableStateFlow(false)
     val removeSpendingDialogState = _removeSpendingDialogState.asStateFlow()
-    private val editingSpending = MutableSharedFlow<EditedSpendingUiState>(replay = 1)
-    private val _showDatePicker = MutableStateFlow(false)
-    val showDatePicker = _showDatePicker.asStateFlow()
-
-    val editSpendingScreenUiState: StateFlow<EditSpendingScreenUiState> = editingSpending
-        .map { editedSpending ->
-            EditSpendingScreenUiState.Success(editedSpendingUiState = editedSpending)
-        }
-        .stateIn(
-            initialValue = EditSpendingScreenUiState.Loading,
-            started = SharingStarted.WhileSubscribed(500L),
-            scope = viewModelScope,
-        )
 
     init {
         viewModelScope.launch {
+            observeCategoriesUseCase.invoke()
+                .collect { categories ->
+                    _editSpendingUiState.update { it.copy(categories = categories) }
+                }
+        }
+
+        viewModelScope.launch {
             getSpendingUseCase.invoke(spendingId)
                 .onSuccess { spending ->
-                    editingSpending.emit(
-                        EditedSpendingUiState(
+                    _editSpendingUiState.update {
+                        it.copy(
                             description = spending.content,
-                            cost = spending.amount.toString(),
+                            amount = spending.amount.toString(),
                             date = spendingDateDisplayFormat.format(spending.time),
-                        ),
-                    )
+                            selectedCategoryIds = spending.categories.map(Category::id),
+                        )
+                    }
                 }
                 .onFailure {
-                    // TODO: error handling later
+                    // TODO handle error state later
                 }
         }
     }
 
-    fun removeSpending(onSpendingRemoved: () -> Unit) {
+    fun onDescriptionChanged(content: String) {
+        _editSpendingUiState.update { it.copy(description = content) }
+    }
+
+    fun onCostChanged(cost: String) {
+        _editSpendingUiState.update {
+            it.copy(amount = cost.replace(nonBigDecimalCharRegex, ""))
+        }
+    }
+
+    private fun createSpending(onFinishUpdating: () -> Unit) {
         viewModelScope.launch {
-            removeSpendingUseCase(spendingId = spendingId)
-                .onSuccess {
-                    closeRemoveSpendingDialog()
-                    onSpendingRemoved()
-                }
-                .onFailure {
-                    // TODO: error handling later
-                }
+            _editSpendingUiState.value.run {
+                createSpendingUseCase.invoke(
+                    content = description,
+                    amount = StringUtil.parseBigDecimalString(amount),
+                    time = spendingDateDisplayFormat.parse(date)?.time ?: 0L,
+                    categoryIds = selectedCategoryIds,
+                )
+            }.onSuccess {
+                onFinishUpdating()
+            }.onFailure {
+                // TODO: error handling later
+            }
         }
     }
 
-    fun closeRemoveSpendingDialog() {
-        _removeSpendingDialogState.value = false
+    fun onCtaButtonClick(onFinishedCreating: () -> Unit) {
+        when (editMode) {
+            EditMode.NEW -> createSpending(onFinishedCreating)
+            EditMode.EDIT -> updateSpending(onFinishedCreating)
+        }
+    }
+
+    private fun updateSpending(onFinishUpdating: () -> Unit) {
+        viewModelScope.launch {
+            _editSpendingUiState.value.run {
+                updateSpendingUseCase.invoke(
+                    id = spendingId,
+                    content = description,
+                    amount = StringUtil.parseBigDecimalString(amount),
+                    time = spendingDateDisplayFormat.parse(date)?.time ?: 0L,
+                    categoryIds = selectedCategoryIds,
+                ).onSuccess {
+                    onFinishUpdating()
+                }.onFailure {
+                    // TODO: error handling later
+                }
+            }
+        }
+    }
+
+    fun showDatePickerDialog() {
+        _showDatePickerDialog.update { true }
+    }
+
+    fun hideDatePickerDialog() {
+        _showDatePickerDialog.update { false }
+    }
+
+    fun onDatePicked(timeInMillis: Long) {
+        val pickedDate = Calendar.getInstance().apply { this.timeInMillis = timeInMillis }.time
+        _editSpendingUiState.update { it.copy(date = spendingDateDisplayFormat.format(pickedDate)) }
+        hideDatePickerDialog()
+    }
+
+    fun onCategoryClick(categoryId: Long) {
+        _editSpendingUiState.update {
+            with(it.selectedCategoryIds.toMutableList()) {
+                if (remove(categoryId).not()) add(categoryId)
+                it.copy(selectedCategoryIds = this)
+            }
+        }
+    }
+
+    fun onAddCategoryClick() {
+        _showAddCategoryDialog.value = true
+    }
+
+    fun onAddCategoryDialogDismiss() {
+        _showAddCategoryDialog.value = false
+    }
+
+    fun onAddCategory(categoryName: String) {
+        _showAddCategoryDialog.value = false
+        viewModelScope.launch {
+            addCategoryUseCase.invoke(name = categoryName)
+        }
     }
 
     fun onRemoveSpendingClick() {
         _removeSpendingDialogState.value = true
     }
 
-    fun onSpendingNameChanged(name: String) {
+    fun closeRemoveSpendingDialog() {
+        _removeSpendingDialogState.value = false
+    }
+
+    fun removeSpending(onSpendingRemoved: () -> Unit) {
         viewModelScope.launch {
-            editingSpending.update { it.copy(description = name) }
-        }
-    }
-
-    fun onCostChanged(cost: String) {
-        viewModelScope.launch {
-            editingSpending.update {
-                it.copy(cost = cost.replace(nonBigDecimalCharRegex, ""))
-            }
-        }
-    }
-
-    fun showDatePicker() {
-        _showDatePicker.value = true
-    }
-
-    fun hideDatePicker() {
-        _showDatePicker.value = false
-    }
-
-    fun onDatePicked(time: Long) {
-        viewModelScope.launch {
-            _showDatePicker.value = false
-            editingSpending.update { it.copy(date = spendingDateDisplayFormat.format(time)) }
-        }
-    }
-
-    fun update(onDoneUpdating: () -> Unit) {
-        viewModelScope.launch {
-            val editedSpending = editingSpending.first()
-            updateSpendingUseCase.invoke(
-                id = spendingId,
-                content = editedSpending.description,
-                amount = StringUtil.parseBigDecimalString(editedSpending.cost),
-                time = spendingDateDisplayFormat.parse(editedSpending.date)?.time ?: 0L,
-            )
+            removeSpendingUseCase.invoke(spendingId)
                 .onSuccess {
-                    onDoneUpdating()
+                    closeRemoveSpendingDialog()
+                    onSpendingRemoved()
                 }
                 .onFailure {
-                    // TODO handle error states later
+                    // TODO Handle error later
                 }
         }
     }
 }
 
-suspend fun <T> MutableSharedFlow<T>.update(block: (T) -> T) {
-    val value = withTimeoutOrNull(1_000) {
-        first()
-    } ?: return
-
-    emit(block(value))
+enum class EditMode {
+    NEW,
+    EDIT,
 }
-
-sealed class EditSpendingScreenUiState {
-    data object Loading : EditSpendingScreenUiState()
-
-    data class Success(val editedSpendingUiState: EditedSpendingUiState) : EditSpendingScreenUiState()
-}
-
-data class EditedSpendingUiState(
-    val description: String,
-    val date: String,
-    val cost: String,
-)

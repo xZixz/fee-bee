@@ -36,6 +36,7 @@ interface SpendingLocalDataSource {
         content: String,
         time: Long,
         amount: BigDecimal,
+        categoryIds: List<Long>,
     )
 
     fun observeSpending(spendingId: Long): Flow<Spending>
@@ -67,14 +68,16 @@ class SpendingLocalDataSourceImpl @Inject constructor(
         content: String,
         time: Long,
         amount: BigDecimal,
+        categoryIds: List<Long>,
     ) {
         spendingDao.updateSpending(
-            SpendingEntity(
+            spending = SpendingEntity(
                 id = id,
                 content = content,
                 time = time,
                 amount = amount,
             ),
+            categoryIds = categoryIds,
         )
     }
 

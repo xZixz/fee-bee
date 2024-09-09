@@ -40,6 +40,9 @@ abstract class SpendingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun addSpendingCategoriesCrossRef(crossRef: List<SpendingCategoryCrossRef>)
 
+    @Query(value = "DELETE FROM SpendingCategoryCrossRef where spendingId=:spendingId")
+    abstract fun removeSpendingCategoryCrossRef(spendingId: Long)
+
     @Transaction
     @Query(value = "SELECT * FROM spendings")
     abstract fun getAllSpendings(): Flow<List<SpendingWithCategories>>
@@ -55,6 +58,18 @@ abstract class SpendingDao {
 
     @Update
     abstract suspend fun updateSpending(spending: SpendingEntity)
+
+    @Transaction
+    open suspend fun updateSpending(
+        spending: SpendingEntity,
+        categoryIds: List<Long>,
+    ) {
+        updateSpending(spending)
+        removeSpendingCategoryCrossRef(spending.id)
+        addSpendingCategoriesCrossRef(
+            categoryIds.map { categoryId -> SpendingCategoryCrossRef(spending.id, categoryId) },
+        )
+    }
 
     @Query(value = "SELECT * FROM spendings where id=:spendingId")
     abstract fun observeSpending(spendingId: Long): Flow<SpendingWithCategories>

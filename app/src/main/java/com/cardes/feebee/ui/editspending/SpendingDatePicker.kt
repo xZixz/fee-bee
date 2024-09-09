@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.createspending
+package com.cardes.feebee.ui.editspending
 
 import android.icu.util.Calendar
 import androidx.compose.material3.Button

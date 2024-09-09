@@ -36,6 +36,7 @@ class SpendingRepositoryImpl @Inject constructor(
         content: String,
         time: Long,
         amount: BigDecimal,
+        categoryIds: List<Long>,
     ): Result<Unit> =
         withContext(ioDispatcher) {
             resultWrap {
@@ -44,6 +45,7 @@ class SpendingRepositoryImpl @Inject constructor(
                     content = content,
                     time = time,
                     amount = amount,
+                    categoryIds = categoryIds,
                 )
             }
         }

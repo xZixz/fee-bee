@@ -1,6 +1,6 @@
 package com.cardes.feebee.navigation
 
-import com.cardes.feebee.ui.createspending.CREATE_SPENDING_ROUTE
+import com.cardes.feebee.ui.editspending.CREATE_SPENDING_ROUTE
 import com.cardes.feebee.ui.spendingdetails.SPENDING_DETAILS_ROUTE
 import com.cardes.feebee.ui.spendingdetails.SPENDING_ID_ARG
 import com.cardes.feebee.ui.spendingslist.SPENDINGS_LIST_ROUTE
@@ -13,7 +13,7 @@ value class NavRouteName(private val name: String) {
     companion object {
         val MainRoute = NavRouteName(MAIN_ROUTE)
         val SpendingsList = NavRouteName(SPENDINGS_LIST_ROUTE)
-        val CreateSpendingRoute = NavRouteName(CREATE_SPENDING_ROUTE)
+        val EditSpendingRoute = NavRouteName(CREATE_SPENDING_ROUTE)
         val SpendingDetails = NavRouteName("$SPENDING_DETAILS_ROUTE/{$SPENDING_ID_ARG}")
     }
 
@@ -33,6 +33,6 @@ object NavRoutes {
 
         data object SpendingDetails : NavRoute(routeName = NavRouteName.SpendingDetails)
 
-        data object CreateSpending : NavRoute(routeName = NavRouteName.CreateSpendingRoute)
+        data object EditSpending : NavRoute(routeName = NavRouteName.EditSpendingRoute)
     }
 }

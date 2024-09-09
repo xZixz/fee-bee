@@ -27,6 +27,7 @@ interface SpendingRepository {
         content: String,
         time: Long,
         amount: BigDecimal,
+        categoryIds: List<Long>,
     ): Result<Unit>
 
     fun observeSpending(spendingId: Long): Flow<Spending>

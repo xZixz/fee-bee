@@ -2,7 +2,7 @@ package com.cardes.feebee.ui.spendingdetails
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.cardes.data.fake.Fake
-import com.cardes.feebee.ui.createspending.spendingDateDisplayFormat
+import com.cardes.feebee.ui.editspending.spendingDateDisplayFormat
 
 class SpendingDetailsUiStatePreviewParameter : PreviewParameterProvider<SpendingUiState.Success> {
     override val values: Sequence<SpendingUiState.Success>

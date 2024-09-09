@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.createspending
+package com.cardes.feebee.ui.editspending
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button

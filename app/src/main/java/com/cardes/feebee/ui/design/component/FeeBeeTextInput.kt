@@ -3,8 +3,8 @@ package com.cardes.feebee.ui.design.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -18,12 +18,16 @@ fun FeeBeeTextInput(
     onTextChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
     readOnly: Boolean = false,
+    enabled: Boolean = true,
 ) {
     val focusManager = LocalFocusManager.current
     Column(modifier = modifier) {
-        Text(text = title)
-        TextField(
+        OutlinedTextField(
+            enabled = enabled,
             value = text,
+            label = {
+                Text(text = title)
+            },
             onValueChange = onTextChanged,
             readOnly = readOnly,
             keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),

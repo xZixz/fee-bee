@@ -10,6 +10,7 @@ interface UpdateSpendingUseCase {
         content: String,
         time: Long,
         amount: BigDecimal,
+        categoryIds: List<Long>,
     ): Result<Unit>
 }
 
@@ -21,12 +22,14 @@ class UpdateSpendingUseCaseImpl @Inject constructor(
         content: String,
         time: Long,
         amount: BigDecimal,
+        categoryIds: List<Long>,
     ): Result<Unit> =
         spendingRepository.updateSpending(
             id = id,
             content = content,
             time = time,
             amount = amount,
+            categoryIds = categoryIds,
         )
 }
 
