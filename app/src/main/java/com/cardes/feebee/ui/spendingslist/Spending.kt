@@ -18,6 +18,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cardes.domain.entity.Spending
@@ -34,6 +35,7 @@ fun Spending(
     modifier: Modifier = Modifier,
 ) {
     Card(
+        shape = RectangleShape,
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
     ) {
