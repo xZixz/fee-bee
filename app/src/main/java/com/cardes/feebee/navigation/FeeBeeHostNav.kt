@@ -9,9 +9,9 @@ import androidx.navigation.compose.rememberNavController
 import com.cardes.feebee.ui.editspending.editSpending
 import com.cardes.feebee.ui.editspending.navigateToCreateSpending
 import com.cardes.feebee.ui.editspending.navigateToEditSpending
+import com.cardes.feebee.ui.home.home
 import com.cardes.feebee.ui.spendingdetails.navigateToSpendingDetails
 import com.cardes.feebee.ui.spendingdetails.spendingDetails
-import com.cardes.feebee.ui.spendingslist.spendingsList
 
 @Composable
 fun FeeBeeHostNav(
@@ -25,10 +25,10 @@ fun FeeBeeHostNav(
         modifier = modifier,
     ) {
         navigation(
-            startDestination = NavRoutes.Main.SpendingsList.name,
+            startDestination = NavRoutes.Main.Home.name,
             route = NavRoutes.Main.name,
         ) {
-            spendingsList(
+            home(
                 onCreateSpendingClick = {
                     navController.navigateToCreateSpending()
                 },

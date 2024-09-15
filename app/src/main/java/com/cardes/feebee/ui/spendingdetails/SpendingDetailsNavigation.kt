@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.cardes.feebee.navigation.NavRoutes
 import com.cardes.feebee.ui.common.UiSetting
 
 const val SPENDING_DETAILS_ROUTE = "spending_details_route"
@@ -19,7 +20,7 @@ fun NavController.navigateToSpendingDetails(spendingId: Long) {
 
 fun NavGraphBuilder.spendingDetails(onEditClick: (Long) -> Unit) {
     composable(
-        route = "$SPENDING_DETAILS_ROUTE/{$SPENDING_ID_ARG}",
+        route = NavRoutes.Main.SpendingDetails.name,
         arguments = listOf(
             navArgument(SPENDING_ID_ARG) { type = NavType.LongType },
         ),

@@ -8,17 +8,18 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.cardes.feebee.navigation.NavRoutes
 import com.cardes.feebee.ui.common.UiSetting
 import com.cardes.feebee.ui.spendingdetails.SPENDING_ID_ARG
 
-const val CREATE_SPENDING_ROUTE = "create_spending_route"
+const val EDIT_SPENDING_ROUTE = "edit_spending_route"
 
 fun NavController.navigateToEditSpending(spendingId: Long) {
-    navigate("${CREATE_SPENDING_ROUTE}/$spendingId")
+    navigate("${EDIT_SPENDING_ROUTE}/$spendingId")
 }
 
 fun NavController.navigateToCreateSpending() {
-    navigate("${CREATE_SPENDING_ROUTE}/0")
+    navigate("${EDIT_SPENDING_ROUTE}/0")
 }
 
 fun NavGraphBuilder.editSpending(
@@ -26,7 +27,7 @@ fun NavGraphBuilder.editSpending(
     onSpendingRemoved: () -> Unit,
 ) {
     composable(
-        route = "${CREATE_SPENDING_ROUTE}/{$SPENDING_ID_ARG}",
+        route = NavRoutes.Main.EditSpending.name,
         arguments = listOf(
             navArgument(SPENDING_ID_ARG) { type = NavType.LongType },
         ),

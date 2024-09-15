@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +23,6 @@ fun BasePage(
 ) {
     Column(
         modifier = modifier
-            .safeDrawingPadding()
             .background(color = MaterialTheme.colorScheme.background)
             .padding(horizontal = 10.dp),
     ) {
@@ -40,5 +38,4 @@ fun BasePage(
         Spacer(modifier = Modifier.height(15.dp))
         content()
     }
-
 }
