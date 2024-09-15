@@ -21,7 +21,7 @@ value class NavRouteName(private val name: String) {
         val MainRoute = NavRouteName(MAIN_ROUTE)
         val HomeRoute = NavRouteName(HOME_ROUTE)
         val SpendingsList = NavRouteName(SPENDINGS_LIST_ROUTE)
-        val EditSpendingRoute = NavRouteName(EDIT_SPENDING_ROUTE)
+        val EditSpendingRoute = NavRouteName("$EDIT_SPENDING_ROUTE/{$SPENDING_ID_ARG}")
         val SpendingDetails = NavRouteName("$SPENDING_DETAILS_ROUTE/{$SPENDING_ID_ARG}")
         val CategoriesList = NavRouteName(CATEGORIES_LIST_ROUTE)
     }
