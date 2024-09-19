@@ -52,7 +52,7 @@ fun EditSpendingRoute(
     onSpendingRemoved: () -> Unit,
     editSpendingViewModel: EditSpendingViewModel = hiltViewModel(),
 ) {
-    val editSpendingUiState by editSpendingViewModel.createSpendingUiState.collectAsStateWithLifecycle()
+    val editSpendingUiState by editSpendingViewModel.editSpendingUiState.collectAsStateWithLifecycle()
     val showDatePickerDialog by editSpendingViewModel.showDatePickerDialog.collectAsStateWithLifecycle()
     val showAddCategoryDialog by editSpendingViewModel.showAddCategoryDialog.collectAsStateWithLifecycle()
     val removeSpendingDialogShowState by editSpendingViewModel.removeSpendingDialogState.collectAsStateWithLifecycle(

@@ -49,7 +49,7 @@ class EditSpendingViewModel @Inject constructor(
         ),
     )
 
-    val createSpendingUiState = _editSpendingUiState.asStateFlow()
+    val editSpendingUiState = _editSpendingUiState.asStateFlow()
 
     private val _showDatePickerDialog = MutableStateFlow(false)
     val showDatePickerDialog = _showDatePickerDialog.asStateFlow()
