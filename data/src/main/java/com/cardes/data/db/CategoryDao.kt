@@ -21,12 +21,15 @@ interface CategoryDao {
     @Query("SELECT * FROM categories")
     fun observeCategories(): Flow<List<CategoryEntity>>
 
-    @Query("SElECT * FROM categories WHERE id=:categoryId")
+    @Query("SElECT * FROM categories WHERE id = :categoryId")
     fun observeCategory(categoryId: Long): Flow<CategoryEntity>
 
-    @Query("UPDATE categories SET name=:categoryName WHERE id=:categoryId")
+    @Query("UPDATE categories SET name=:categoryName WHERE id = :categoryId")
     suspend fun updateCategoryName(
         categoryId: Long,
         categoryName: String,
     )
+
+    @Query("DELETE FROM categories WHERE id=:categoryId")
+    suspend fun removeCategory(categoryId: Long)
 }

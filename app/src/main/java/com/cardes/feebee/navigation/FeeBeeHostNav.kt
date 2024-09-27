@@ -51,7 +51,9 @@ fun FeeBeeHostNav(
                     navController.navigateToEditSpending(spendingId = spendingId)
                 },
             )
-            editCategory()
+            editCategory(
+                onFinishRemovingCategory = navController::navigateUp,
+            )
         }
     }
 }

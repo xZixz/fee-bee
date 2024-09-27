@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
+import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCase
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
 import com.cardes.feebee.navigation.CATEGORY_ID_ARG
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,9 +20,13 @@ import javax.inject.Inject
 @HiltViewModel
 class EditCategoryViewModel @Inject constructor(
     private val updateCategoryNameUseCase: UpdateCategoryNameUseCase,
+    private val removeCategoryUseCase: RemoveCategoryUseCase,
     observeCategoryUseCase: ObserveCategoryUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+    private val _showRemoveCategoryDialog = MutableStateFlow(false)
+    val showRemoveCategoryDialog = _showRemoveCategoryDialog.asStateFlow()
+
     private val _showCategoryNameEditDialog = MutableStateFlow(false)
     val showCategoryNameEditDialog = _showCategoryNameEditDialog.asStateFlow()
 
@@ -72,6 +77,28 @@ class EditCategoryViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(500L),
         scope = viewModelScope,
     )
+
+    fun onCategoryRemoveClick() {
+        _showRemoveCategoryDialog.value = true
+    }
+
+    fun dismissCategoryRemoveDialog() {
+        _showRemoveCategoryDialog.value = false
+    }
+
+    fun removeCategory(onFinishRemovingCategory: () -> Unit) {
+        viewModelScope.launch {
+            removeCategoryUseCase
+                .invoke(categoryId = categoryId)
+                .onSuccess {
+                    dismissCategoryRemoveDialog()
+                    onFinishRemovingCategory()
+                }
+                .onFailure {
+                    // TODO: handle error case later
+                }
+        }
+    }
 }
 
 sealed class FetchingCategoryUiState {

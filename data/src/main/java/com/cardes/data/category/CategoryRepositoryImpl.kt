@@ -37,4 +37,11 @@ class CategoryRepositoryImpl @Inject constructor(
                 )
             }
         }
+
+    override suspend fun removeCategory(categoryId: Long): Result<Unit> =
+        withContext(ioDispatcher) {
+            resultWrap {
+                categoryLocalDataSource.removeCategory(categoryId = categoryId)
+            }
+        }
 }

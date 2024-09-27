@@ -14,4 +14,6 @@ interface CategoryRepository {
         categoryId: Long,
         categoryName: String,
     ): Result<Unit>
+
+    suspend fun removeCategory(categoryId: Long): Result<Unit>
 }

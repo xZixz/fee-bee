@@ -4,6 +4,7 @@ import com.cardes.data.db.CategoryDao
 import com.cardes.data.db.entity.CategoryEntity
 import com.cardes.domain.entity.Category
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -18,6 +19,8 @@ interface CategoryLocalDataSource {
         categoryId: Long,
         categoryName: String,
     )
+
+    suspend fun removeCategory(categoryId: Long)
 }
 
 class CategoryLocalDataSourceImpl @Inject constructor(
@@ -33,6 +36,7 @@ class CategoryLocalDataSourceImpl @Inject constructor(
 
     override fun observeCategory(categoryId: Long): Flow<Category> =
         categoryDao.observeCategory(categoryId = categoryId)
+            .filterNotNull()
             .map(CategoryEntity::toCategory)
 
     override suspend fun updateCategoryName(
@@ -43,6 +47,10 @@ class CategoryLocalDataSourceImpl @Inject constructor(
             categoryId = categoryId,
             categoryName = categoryName,
         )
+    }
+
+    override suspend fun removeCategory(categoryId: Long) {
+        categoryDao.removeCategory(categoryId = categoryId)
     }
 }
 

@@ -18,6 +18,8 @@ import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCaseImpl
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCaseImpl
+import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCase
+import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCaseImpl
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCaseImpl
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
@@ -64,6 +66,9 @@ interface UseCasesModule {
 
     @Binds
     fun bindObserveCategory(observeCategoryUseCase: ObserveCategoryUseCaseImpl): ObserveCategoryUseCase
+
+    @Binds
+    fun bindRemoveCategory(removeCategoryUseCase: RemoveCategoryUseCaseImpl): RemoveCategoryUseCase
 
     @Binds
     fun bindUpdateCategoryNameUseCase(updateCategoryNameUseCase: UpdateCategoryNameUseCaseImpl): UpdateCategoryNameUseCase

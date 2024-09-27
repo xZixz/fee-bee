@@ -13,13 +13,15 @@ fun NavController.navigateToEditCategory(categoryId: Long) {
     navigate("$EDIT_CATEGORY_ROUTE/$categoryId")
 }
 
-fun NavGraphBuilder.editCategory() {
+fun NavGraphBuilder.editCategory(onFinishRemovingCategory: () -> Unit) {
     composable(
         route = NavRoutes.Main.EditCategory.name,
         arguments = listOf(
             navArgument(CATEGORY_ID_ARG) { type = NavType.LongType },
         ),
     ) {
-        EditCategoryRoute()
+        EditCategoryRoute(
+            onFinishRemovingCategory = onFinishRemovingCategory,
+        )
     }
 }
