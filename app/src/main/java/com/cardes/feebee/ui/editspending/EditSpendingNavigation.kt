@@ -8,11 +8,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.cardes.feebee.navigation.EDIT_SPENDING_ROUTE
 import com.cardes.feebee.navigation.NavRoutes
+import com.cardes.feebee.navigation.SPENDING_ID_ARG
 import com.cardes.feebee.ui.common.UiSetting
-import com.cardes.feebee.ui.spendingdetails.SPENDING_ID_ARG
-
-const val EDIT_SPENDING_ROUTE = "edit_spending_route"
 
 fun NavController.navigateToEditSpending(spendingId: Long) {
     navigate("${EDIT_SPENDING_ROUTE}/$spendingId")

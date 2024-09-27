@@ -23,10 +23,12 @@ fun HomeRoute(
     onCreateSpendingClick: () -> Unit,
     onSpendingClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
+    onCategoryClick: (Long) -> Unit,
 ) {
     HomeScreen(
         onCreateSpendingClick = onCreateSpendingClick,
         onSpendingClick = onSpendingClick,
+        onCategoryClick = onCategoryClick,
         modifier = modifier,
     )
 }
@@ -37,6 +39,7 @@ fun HomeScreen(
     onSpendingClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    onCategoryClick: (Long) -> Unit,
 ) {
     Column {
         NavHost(
@@ -48,7 +51,9 @@ fun HomeScreen(
                 onCreateSpendingClick = onCreateSpendingClick,
                 onSpendingClick = onSpendingClick,
             )
-            categoriesList()
+            categoriesList(
+                onCategoryClick = onCategoryClick,
+            )
         }
         BottomNavigationBar(
             navController = navController,

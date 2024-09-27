@@ -34,15 +34,19 @@ import com.cardes.feebee.ui.editspending.CreateCategoryDialog
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable
-fun CategoriesListRoute(categoriesListViewModel: CategoriesListViewModel = hiltViewModel()) {
+fun CategoriesListRoute(
+    onCategoryClick: (Long) -> Unit,
+    categoriesListViewModel: CategoriesListViewModel = hiltViewModel(),
+) {
     val categories by categoriesListViewModel.categories.collectAsStateWithLifecycle()
     val showAddCategoryDialog by categoriesListViewModel.showDatePickerDialog.collectAsStateWithLifecycle()
     CategoriesListScreen(
         categories = categories,
         onCreateCategoryClick = categoriesListViewModel::onCreateCategoryClick,
-        onAddCategory = categoriesListViewModel::onCreateCategory,
         onAddCategoryDismiss = categoriesListViewModel::dismissNewCategoryDialog,
+        onAddCategory = categoriesListViewModel::onCreateCategory,
         showAddCategoryDialog = showAddCategoryDialog,
+        onCategoryClick = onCategoryClick,
     )
 }
 
@@ -53,6 +57,7 @@ fun CategoriesListScreen(
     onAddCategoryDismiss: () -> Unit,
     onAddCategory: (String) -> Unit,
     showAddCategoryDialog: Boolean,
+    onCategoryClick: (Long) -> Unit,
 ) {
     BasePage(
         title = stringResource(id = R.string.categories),
@@ -80,7 +85,10 @@ fun CategoriesListScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(categories) { category ->
-                CategoryItem(category = category)
+                CategoryItem(
+                    category = category,
+                    onCategoryClick = onCategoryClick,
+                )
             }
         }
     }
@@ -108,9 +116,10 @@ private fun CategoriesListPreview(
             CategoriesListScreen(
                 categories = categories,
                 onCreateCategoryClick = {},
-                onAddCategory = {},
                 onAddCategoryDismiss = {},
+                onAddCategory = {},
                 showAddCategoryDialog = false,
+                onCategoryClick = {},
             )
         }
     }
@@ -119,9 +128,13 @@ private fun CategoriesListPreview(
 @Composable
 fun CategoryItem(
     category: Category,
+    onCategoryClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
+        modifier = Modifier.clickable {
+            onCategoryClick(category.id)
+        },
         shape = RectangleShape,
     ) {
         Row(
@@ -151,6 +164,9 @@ fun CategoryItem(
 @Composable
 private fun CategoryItemPreview() {
     FeeBeeTheme {
-        CategoryItem(category = Fake.categories.first())
+        CategoryItem(
+            category = Fake.categories.first(),
+            onCategoryClick = {},
+        )
     }
 }

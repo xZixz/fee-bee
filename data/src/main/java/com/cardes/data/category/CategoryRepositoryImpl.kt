@@ -22,4 +22,19 @@ class CategoryRepositoryImpl @Inject constructor(
                 categoryLocalDataSource.createCategory(name)
             }
         }
+
+    override fun observeCategory(categoryId: Long): Flow<Category> = categoryLocalDataSource.observeCategory(categoryId = categoryId)
+
+    override suspend fun updateCategoryName(
+        categoryId: Long,
+        categoryName: String,
+    ): Result<Unit> =
+        withContext(ioDispatcher) {
+            resultWrap {
+                categoryLocalDataSource.updateCategoryName(
+                    categoryId = categoryId,
+                    categoryName = categoryName,
+                )
+            }
+        }
 }

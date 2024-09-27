@@ -11,6 +11,13 @@ interface CategoryLocalDataSource {
     fun observeCategories(): Flow<List<Category>>
 
     suspend fun createCategory(name: String)
+
+    fun observeCategory(categoryId: Long): Flow<Category>
+
+    suspend fun updateCategoryName(
+        categoryId: Long,
+        categoryName: String,
+    )
 }
 
 class CategoryLocalDataSourceImpl @Inject constructor(
@@ -22,6 +29,20 @@ class CategoryLocalDataSourceImpl @Inject constructor(
 
     override suspend fun createCategory(name: String) {
         categoryDao.createCategory(CategoryEntity(id = 0, name = name))
+    }
+
+    override fun observeCategory(categoryId: Long): Flow<Category> =
+        categoryDao.observeCategory(categoryId = categoryId)
+            .map(CategoryEntity::toCategory)
+
+    override suspend fun updateCategoryName(
+        categoryId: Long,
+        categoryName: String,
+    ) {
+        categoryDao.updateCategoryName(
+            categoryId = categoryId,
+            categoryName = categoryName,
+        )
     }
 }
 

@@ -14,10 +14,14 @@ import com.cardes.domain.usecase.getspendings.ObserveSpendingsUseCase
 import com.cardes.domain.usecase.getspendings.ObserveSpendingsUseCaseImpl
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCaseImpl
+import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
+import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCaseImpl
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCaseImpl
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCaseImpl
+import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
+import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCaseImpl
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCaseImpl
 import dagger.Binds
@@ -57,4 +61,10 @@ interface UseCasesModule {
 
     @Binds
     fun bindObserveSpending(observeSpendingUseCase: ObserveSpendingUseCaseImpl): ObserveSpendingUseCase
+
+    @Binds
+    fun bindObserveCategory(observeCategoryUseCase: ObserveCategoryUseCaseImpl): ObserveCategoryUseCase
+
+    @Binds
+    fun bindUpdateCategoryNameUseCase(updateCategoryNameUseCase: UpdateCategoryNameUseCaseImpl): UpdateCategoryNameUseCase
 }

@@ -9,10 +9,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.cardes.feebee.navigation.NavRoutes
+import com.cardes.feebee.navigation.SPENDING_DETAILS_ROUTE
+import com.cardes.feebee.navigation.SPENDING_ID_ARG
 import com.cardes.feebee.ui.common.UiSetting
-
-const val SPENDING_DETAILS_ROUTE = "spending_details_route"
-const val SPENDING_ID_ARG = "spending_id_arg"
 
 fun NavController.navigateToSpendingDetails(spendingId: Long) {
     navigate("${SPENDING_DETAILS_ROUTE}/$spendingId")

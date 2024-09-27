@@ -6,8 +6,8 @@ import com.cardes.feebee.navigation.BottomNavItem
 
 const val CATEGORIES_LIST_ROUTE = "categories_list_route"
 
-fun NavGraphBuilder.categoriesList() {
+fun NavGraphBuilder.categoriesList(onCategoryClick: (Long) -> Unit) {
     composable(BottomNavItem.CATEGORIES_LIST.route) {
-        CategoriesListRoute()
+        CategoriesListRoute(onCategoryClick = onCategoryClick)
     }
 }

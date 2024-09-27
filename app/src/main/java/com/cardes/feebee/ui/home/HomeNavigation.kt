@@ -11,6 +11,7 @@ const val HOME_ROUTE = "home_route"
 fun NavGraphBuilder.home(
     onCreateSpendingClick: () -> Unit,
     onSpendingClick: (Long) -> Unit,
+    onCategoryClick: (Long) -> Unit,
 ) {
     composable(
         route = HOME_ROUTE,
@@ -30,6 +31,7 @@ fun NavGraphBuilder.home(
         HomeRoute(
             onCreateSpendingClick = onCreateSpendingClick,
             onSpendingClick = onSpendingClick,
+            onCategoryClick = onCategoryClick,
         )
     }
 }

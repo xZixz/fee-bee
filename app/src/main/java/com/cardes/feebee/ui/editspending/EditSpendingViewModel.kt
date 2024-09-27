@@ -10,8 +10,8 @@ import com.cardes.domain.usecase.getspending.GetSpendingUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
+import com.cardes.feebee.navigation.SPENDING_ID_ARG
 import com.cardes.feebee.ui.common.StringUtil
-import com.cardes.feebee.ui.spendingdetails.SPENDING_ID_ARG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
