@@ -18,6 +18,8 @@ subprojects {
         ignoreFailures = false
         reporters {
             reporter(ReporterType.HTML)
+            reporter(ReporterType.CHECKSTYLE)
+            reporter(ReporterType.JSON)
         }
     }
 }
