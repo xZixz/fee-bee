@@ -4,7 +4,9 @@ import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Dispatcher(val feeBeeDispatcher: FeeBeeDispatcher)
+annotation class Dispatcher(
+    val feeBeeDispatcher: FeeBeeDispatcher,
+)
 
 enum class FeeBeeDispatcher {
     IO,

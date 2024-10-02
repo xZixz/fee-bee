@@ -76,8 +76,7 @@ fun CategoryChip(
             .background(
                 shape = RoundedCornerShape(50),
                 color = MaterialTheme.colorScheme.tertiaryContainer,
-            )
-            .padding(5.dp),
+            ).padding(5.dp),
     ) {
         Text(
             text = text,

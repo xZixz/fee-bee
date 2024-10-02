@@ -21,9 +21,7 @@ fun SpendingDatePicker(
     val dateState = rememberDatePickerState(
         initialSelectedDateMillis = Calendar.getInstance().timeInMillis,
         selectableDates = object : SelectableDates {
-            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                return utcTimeMillis < Calendar.getInstance().timeInMillis
-            }
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean = utcTimeMillis < Calendar.getInstance().timeInMillis
         },
     )
 

@@ -32,4 +32,3 @@ class UpdateSpendingUseCaseImpl @Inject constructor(
             categoryIds = categoryIds,
         )
 }
-

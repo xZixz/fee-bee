@@ -27,7 +27,8 @@ class CategoryLocalDataSourceImpl @Inject constructor(
     private val categoryDao: CategoryDao,
 ) : CategoryLocalDataSource {
     override fun observeCategories(): Flow<List<Category>> =
-        categoryDao.observeCategories()
+        categoryDao
+            .observeCategories()
             .map { categories -> categories.map { category -> category.toCategory() } }
 
     override suspend fun createCategory(name: String) {
@@ -35,7 +36,8 @@ class CategoryLocalDataSourceImpl @Inject constructor(
     }
 
     override fun observeCategory(categoryId: Long): Flow<Category> =
-        categoryDao.observeCategory(categoryId = categoryId)
+        categoryDao
+            .observeCategory(categoryId = categoryId)
             .filterNotNull()
             .map(CategoryEntity::toCategory)
 

@@ -17,4 +17,3 @@ class SpendingDetailsUiStatePreviewParameter : PreviewParameterProvider<Spending
             },
         )
 }
-

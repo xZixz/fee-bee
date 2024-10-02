@@ -19,11 +19,12 @@ class DatabaseModule {
     fun provideFeeBeeDatabase(
         @ApplicationContext context: Context,
     ): FeeBeeDatabase =
-        Room.databaseBuilder(
-            context = context,
-            klass = FeeBeeDatabase::class.java,
-            name = FEE_BEE_DATABASE_NAME,
-        ).build()
+        Room
+            .databaseBuilder(
+                context = context,
+                klass = FeeBeeDatabase::class.java,
+                name = FEE_BEE_DATABASE_NAME,
+            ).build()
 
     @Provides
     fun provideSpendingDao(feeBeeDatabase: FeeBeeDatabase) = feeBeeDatabase.spendingDao()

@@ -13,9 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="createAndReadCategories()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="createSpendingWithCategories()">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2024-07-04T05:50:45.913690Z">

@@ -81,11 +81,10 @@ class SpendingRepositoryImpl @Inject constructor(
     }
 }
 
-suspend fun <T> resultWrap(block: suspend () -> T): Result<T> {
-    return try {
+suspend fun <T> resultWrap(block: suspend () -> T): Result<T> =
+    try {
         val result = block()
         Result.success(result)
     } catch (exception: Exception) {
         Result.failure(exception)
     }
-}

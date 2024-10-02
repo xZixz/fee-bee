@@ -62,14 +62,16 @@ class EditSpendingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            observeCategoriesUseCase.invoke()
+            observeCategoriesUseCase
+                .invoke()
                 .collect { categories ->
                     _editSpendingUiState.update { it.copy(categories = categories) }
                 }
         }
 
         viewModelScope.launch {
-            getSpendingUseCase.invoke(spendingId)
+            getSpendingUseCase
+                .invoke(spendingId)
                 .onSuccess { spending ->
                     _editSpendingUiState.update {
                         it.copy(
@@ -79,8 +81,7 @@ class EditSpendingViewModel @Inject constructor(
                             selectedCategoryIds = spending.categories.map(Category::id),
                         )
                     }
-                }
-                .onFailure {
+                }.onFailure {
                     // TODO handle error state later
                 }
         }
@@ -98,18 +99,19 @@ class EditSpendingViewModel @Inject constructor(
 
     private fun createSpending(onFinishUpdating: () -> Unit) {
         viewModelScope.launch {
-            _editSpendingUiState.value.run {
-                createSpendingUseCase.invoke(
-                    content = description,
-                    amount = StringUtil.parseBigDecimalString(amount),
-                    time = spendingDateDisplayFormat.parse(date)?.time ?: 0L,
-                    categoryIds = selectedCategoryIds,
-                )
-            }.onSuccess {
-                onFinishUpdating()
-            }.onFailure {
-                // TODO: error handling later
-            }
+            _editSpendingUiState.value
+                .run {
+                    createSpendingUseCase.invoke(
+                        content = description,
+                        amount = StringUtil.parseBigDecimalString(amount),
+                        time = spendingDateDisplayFormat.parse(date)?.time ?: 0L,
+                        categoryIds = selectedCategoryIds,
+                    )
+                }.onSuccess {
+                    onFinishUpdating()
+                }.onFailure {
+                    // TODO: error handling later
+                }
         }
     }
 
@@ -123,17 +125,18 @@ class EditSpendingViewModel @Inject constructor(
     private fun updateSpending(onFinishUpdating: () -> Unit) {
         viewModelScope.launch {
             _editSpendingUiState.value.run {
-                updateSpendingUseCase.invoke(
-                    id = spendingId,
-                    content = description,
-                    amount = StringUtil.parseBigDecimalString(amount),
-                    time = spendingDateDisplayFormat.parse(date)?.time ?: 0L,
-                    categoryIds = selectedCategoryIds,
-                ).onSuccess {
-                    onFinishUpdating()
-                }.onFailure {
-                    // TODO: error handling later
-                }
+                updateSpendingUseCase
+                    .invoke(
+                        id = spendingId,
+                        content = description,
+                        amount = StringUtil.parseBigDecimalString(amount),
+                        time = spendingDateDisplayFormat.parse(date)?.time ?: 0L,
+                        categoryIds = selectedCategoryIds,
+                    ).onSuccess {
+                        onFinishUpdating()
+                    }.onFailure {
+                        // TODO: error handling later
+                    }
             }
         }
     }
@@ -186,12 +189,12 @@ class EditSpendingViewModel @Inject constructor(
 
     fun removeSpending(onSpendingRemoved: () -> Unit) {
         viewModelScope.launch {
-            removeSpendingUseCase.invoke(spendingId)
+            removeSpendingUseCase
+                .invoke(spendingId)
                 .onSuccess {
                     closeRemoveSpendingDialog()
                     onSpendingRemoved()
-                }
-                .onFailure {
+                }.onFailure {
                     // TODO Handle error later
                 }
         }

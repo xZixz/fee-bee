@@ -93,8 +93,7 @@ class EditCategoryViewModel @Inject constructor(
                 .onSuccess {
                     dismissCategoryRemoveDialog()
                     onFinishRemovingCategory()
-                }
-                .onFailure {
+                }.onFailure {
                     // TODO: handle error case later
                 }
         }

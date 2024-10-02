@@ -21,12 +21,11 @@ class CreateSpendingUseCaseImpl @Inject constructor(
         content: String,
         amount: BigDecimal,
         categoryIds: List<Long>,
-    ): Result<Unit> {
-        return spendingRepository.createSpending(
+    ): Result<Unit> =
+        spendingRepository.createSpending(
             time,
             content,
             amount,
             categoryIds,
         )
-    }
 }

@@ -34,8 +34,7 @@ class SpendingsListViewModel @Inject constructor(
         observeSpendingsUseCase()
             .map { spendings ->
                 SpendingsListUiState.Success(spendings = spendings)
-            }
-            .stateIn(
+            }.stateIn(
                 scope = viewModelScope,
                 initialValue = SpendingsListUiState.Loading,
                 started = SharingStarted.WhileSubscribed(5_000),

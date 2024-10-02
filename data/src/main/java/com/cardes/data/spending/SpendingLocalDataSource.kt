@@ -83,11 +83,13 @@ class SpendingLocalDataSourceImpl @Inject constructor(
     }
 
     override fun getSpendings(): Flow<List<Spending>> =
-        spendingDao.getAllSpendings()
+        spendingDao
+            .getAllSpendings()
             .map { spendingEntities -> spendingEntities.map { spendingEntity -> spendingEntity.toSpending() } }
 
     override fun observeSpending(spendingId: Long): Flow<Spending> =
-        spendingDao.observeSpending(spendingId)
+        spendingDao
+            .observeSpending(spendingId)
             .filterNotNull()
             .map { spendingEntity -> spendingEntity.toSpending() }
 

@@ -18,7 +18,9 @@ const val SPENDING_ID_ARG = "spending_id_arg"
 const val EDIT_SPENDING_ROUTE = "edit_spending_route"
 
 @JvmInline
-value class NavRouteName(private val name: String) {
+value class NavRouteName(
+    private val name: String,
+) {
     companion object {
         val MainRoute = NavRouteName(MAIN_ROUTE)
         val HomeRoute = NavRouteName(HOME_ROUTE)
@@ -35,7 +37,9 @@ value class NavRouteName(private val name: String) {
     ): String = name
 }
 
-sealed class NavRoute(routeName: NavRouteName) {
+sealed class NavRoute(
+    routeName: NavRouteName,
+) {
     val name: String by routeName
 }
 

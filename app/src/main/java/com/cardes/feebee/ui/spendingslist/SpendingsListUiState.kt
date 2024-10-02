@@ -9,4 +9,3 @@ sealed interface SpendingsListUiState {
         val spendings: List<Spending>,
     ) : SpendingsListUiState
 }
-

@@ -18,7 +18,8 @@ class SpendingDetailsViewModel @Inject constructor(
     observeSpendingUseCase: ObserveSpendingUseCase,
 ) : ViewModel() {
     private val spendingId: Long = checkNotNull(savedStateHandle[SPENDING_ID_ARG])
-    val spendingUiState = observeSpendingUseCase.invoke(spendingId)
+    val spendingUiState = observeSpendingUseCase
+        .invoke(spendingId)
         .map { spending ->
             SpendingUiState.Success(
                 description = spending.content,
@@ -26,8 +27,7 @@ class SpendingDetailsViewModel @Inject constructor(
                 categories = spending.categories,
                 cost = spending.amount.toString(),
             )
-        }
-        .stateIn(
+        }.stateIn(
             initialValue = SpendingUiState.Loading,
             started = SharingStarted.WhileSubscribed(500L),
             scope = viewModelScope,

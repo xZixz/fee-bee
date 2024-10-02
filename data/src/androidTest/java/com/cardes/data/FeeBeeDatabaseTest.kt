@@ -26,7 +26,8 @@ class FeeBeeDatabaseTest {
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(context, FeeBeeDatabase::class.java)
+        db = Room
+            .inMemoryDatabaseBuilder(context, FeeBeeDatabase::class.java)
             .build()
         spendingsDao = db.spendingDao()
         categoriesDao = db.categoryDao()
