@@ -41,7 +41,7 @@ fun FeeBeeHostNav(
                 onNavUp = navController::navigateUp,
                 onSpendingRemoved = {
                     navController.popBackStack(
-                        NavRoutes.Main.SpendingsList.name,
+                        NavRoutes.Main.Home.name,
                         inclusive = false,
                     )
                 },

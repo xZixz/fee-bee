@@ -9,6 +9,7 @@ import com.cardes.data.fake.Fake
 import com.cardes.domain.entity.Category
 import com.cardes.domain.entity.Spending
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -87,6 +88,7 @@ class SpendingLocalDataSourceImpl @Inject constructor(
 
     override fun observeSpending(spendingId: Long): Flow<Spending> =
         spendingDao.observeSpending(spendingId)
+            .filterNotNull()
             .map { spendingEntity -> spendingEntity.toSpending() }
 
     override suspend fun getSpending(spendingId: Long): Spending = spendingDao.getSpending(spendingId).toSpending()
