@@ -47,6 +47,7 @@ abstract class SpendingDao {
     @Query(value = "SELECT * FROM spendings")
     abstract fun getAllSpendings(): Flow<List<SpendingWithCategories>>
 
+    @Transaction
     @Query(value = "SELECT * FROM spendings where id=:spendingId")
     abstract suspend fun getSpending(spendingId: Long): SpendingWithCategories
 
@@ -71,6 +72,7 @@ abstract class SpendingDao {
         )
     }
 
+    @Transaction
     @Query(value = "SELECT * FROM spendings where id=:spendingId")
     abstract fun observeSpending(spendingId: Long): Flow<SpendingWithCategories>
 }
