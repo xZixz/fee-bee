@@ -13,9 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="createAndReadCategory()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="createAndReadCategories()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
