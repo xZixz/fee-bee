@@ -50,6 +50,8 @@ google-truth = { group = "com.google.truth", name = "truth", version.ref = "goog
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 com-squareup-javapoet = { group = "com.squareup", name = "javapoet", version.ref = "javapoet" }
+androidx-material-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
+androidx-material-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 
 [plugins]
 kotlinComposeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

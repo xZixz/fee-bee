@@ -3,27 +3,28 @@ package com.cardes.feebee.ui.spendingslist
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -135,63 +136,52 @@ fun SpendingsList(
             )
         },
     ) {
-        LazyColumn(
-            modifier = Modifier.weight(1.0f),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-        ) {
-            items(spendings) { spending ->
-                Spending(
-                    modifier = Modifier.clickable {
-                        onSpendingClick(spending.id)
-                    },
-                    spending = spending,
-                )
+        Box(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                items(spendings) { spending ->
+                    Spending(
+                        modifier = Modifier.clickable {
+                            onSpendingClick(spending.id)
+                        },
+                        spending = spending,
+                    )
+                }
             }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 10.dp),
-        ) {
-            Spacer(modifier = Modifier.weight(1.0f))
-            Row {
-                ExtendedFloatingActionButton(
-                    modifier = Modifier
-                        .weight(1.0f, false)
-                        .wrapContentWidth(),
-                    onClick = {
-                        onAddSamplesClick()
-                    },
-                    icon = {
-                        Icon(imageVector = Icons.Filled.Add, contentDescription = "Add 3")
-                    },
-                    text = {
-                        Text(
-                            text = "Add samples",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    },
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                ExtendedFloatingActionButton(
-                    modifier = Modifier
-                        .weight(1.0f, false)
-                        .wrapContentWidth(),
-                    onClick = {
-                        onDeleteAllSpendingsClick()
-                    },
-                    icon = {
-                        Icon(imageVector = Icons.Filled.Clear, contentDescription = "Remove all")
-                    },
-                    text = {
-                        Text(
-                            text = "Remove all",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    },
-                )
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp),
+            ) {
+                Row {
+                    FloatingActionButton(
+                        shape = CircleShape,
+                        modifier = Modifier
+                            .weight(1.0f, false)
+                            .wrapContentWidth(),
+                        onClick = {
+                            onAddSamplesClick()
+                        },
+                        content = {
+                            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add 3")
+                        },
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    FloatingActionButton(
+                        shape = CircleShape,
+                        modifier = Modifier
+                            .weight(1.0f, false)
+                            .wrapContentWidth(),
+                        onClick = {
+                            onDeleteAllSpendingsClick()
+                        },
+                        content = {
+                            Icon(imageVector = Icons.Filled.Clear, contentDescription = "Remove all")
+                        },
+                    )
+                }
             }
         }
     }

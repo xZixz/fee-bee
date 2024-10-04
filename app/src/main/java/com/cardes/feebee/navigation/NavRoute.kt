@@ -1,11 +1,11 @@
 package com.cardes.feebee.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DataUsage
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.cardes.feebee.R
-import com.cardes.feebee.ui.categorieslist.CATEGORIES_LIST_ROUTE
 import com.cardes.feebee.ui.home.HOME_ROUTE
 import com.cardes.feebee.ui.spendingslist.SPENDINGS_LIST_ROUTE
 import kotlin.reflect.KProperty
@@ -15,7 +15,9 @@ const val EDIT_CATEGORY_ROUTE = "edit_category_route"
 const val CATEGORY_ID_ARG = "category_id_arg"
 const val SPENDING_DETAILS_ROUTE = "spending_details_route"
 const val SPENDING_ID_ARG = "spending_id_arg"
+const val CATEGORIES_LIST_ROUTE = "categories_list_route"
 const val EDIT_SPENDING_ROUTE = "edit_spending_route"
+const val ANALYTICS_ROUTE = "analytics_route"
 
 @JvmInline
 value class NavRouteName(
@@ -29,6 +31,7 @@ value class NavRouteName(
         val SpendingDetails = NavRouteName("$SPENDING_DETAILS_ROUTE/{$SPENDING_ID_ARG}")
         val CategoriesList = NavRouteName(CATEGORIES_LIST_ROUTE)
         val EditCategory = NavRouteName("$EDIT_CATEGORY_ROUTE/{$CATEGORY_ID_ARG}")
+        val Analytics = NavRouteName(ANALYTICS_ROUTE)
     }
 
     operator fun getValue(
@@ -56,6 +59,8 @@ object NavRoutes {
         data object EditSpending : NavRoute(routeName = NavRouteName.EditSpendingRoute)
 
         data object EditCategory : NavRoute(routeName = NavRouteName.EditCategory)
+
+        data object Analytics : NavRoute(routeName = NavRouteName.Analytics)
     }
 }
 
@@ -74,5 +79,10 @@ enum class BottomNavItem(
         route = NavRoutes.Main.CategoriesList.name,
         icon = Icons.Default.Settings,
         labelResourceId = R.string.categories,
+    ),
+    ANALYTICS(
+        route = NavRoutes.Main.Analytics.name,
+        icon = Icons.Default.DataUsage,
+        labelResourceId = R.string.analytics,
     ),
 }

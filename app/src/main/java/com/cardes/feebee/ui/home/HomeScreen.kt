@@ -1,5 +1,6 @@
 package com.cardes.feebee.ui.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -15,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cardes.feebee.navigation.BottomNavItem
+import com.cardes.feebee.ui.analytics.analytics
 import com.cardes.feebee.ui.categorieslist.categoriesList
 import com.cardes.feebee.ui.spendingslist.spendingsList
 
@@ -42,18 +44,20 @@ fun HomeScreen(
     onCategoryClick: (Long) -> Unit,
 ) {
     Column {
-        NavHost(
-            modifier = modifier.weight(1.0f),
-            navController = navController,
-            startDestination = BottomNavItem.SPENDINGS_LIST.route,
-        ) {
-            spendingsList(
-                onCreateSpendingClick = onCreateSpendingClick,
-                onSpendingClick = onSpendingClick,
-            )
-            categoriesList(
-                onCategoryClick = onCategoryClick,
-            )
+        Box(modifier = modifier.weight(1.0f)) {
+            NavHost(
+                navController = navController,
+                startDestination = BottomNavItem.SPENDINGS_LIST.route,
+            ) {
+                spendingsList(
+                    onCreateSpendingClick = onCreateSpendingClick,
+                    onSpendingClick = onSpendingClick,
+                )
+                categoriesList(
+                    onCategoryClick = onCategoryClick,
+                )
+                analytics()
+            }
         }
         BottomNavigationBar(
             navController = navController,
@@ -79,7 +83,12 @@ fun BottomNavigationBar(
                         launchSingleTop = true
                     }
                 },
-                icon = { Icon(imageVector = navItem.icon, contentDescription = navItem.route) },
+                icon = {
+                    Icon(
+                        imageVector = navItem.icon,
+                        contentDescription = navItem.route,
+                    )
+                },
                 label = { Text(text = stringResource(id = navItem.labelResourceId)) },
             )
         }
