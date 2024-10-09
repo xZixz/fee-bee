@@ -21,6 +21,7 @@ androidxHiltNavigationCompose = "1.2.0"
 androidxLifecycle = "2.8.6"
 javapoet = "1.13.0"
 ktlintGradle = "12.1.1"
+aayChart = "Beta-0.0.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +53,7 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 com-squareup-javapoet = { group = "com.squareup", name = "javapoet", version.ref = "javapoet" }
 androidx-material-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-material-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+aayChart = { group = "io.github.thechance101", name = "chart", version.ref = "aayChart" }
 
 [plugins]
 kotlinComposeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

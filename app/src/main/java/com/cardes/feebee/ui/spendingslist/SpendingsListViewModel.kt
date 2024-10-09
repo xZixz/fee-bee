@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cardes.domain.usecase.addsamples.AddSamplesUseCase
 import com.cardes.domain.usecase.deleteallspendings.DeleteAllSpendingsUseCase
-import com.cardes.domain.usecase.getspendings.ObserveSpendingsUseCase
+import com.cardes.domain.usecase.observespendings.ObserveSpendingsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map

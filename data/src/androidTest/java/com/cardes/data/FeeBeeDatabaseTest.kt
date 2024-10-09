@@ -35,6 +35,7 @@ class FeeBeeDatabaseTest {
 
     @After
     fun closeDb() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -45,8 +46,8 @@ class FeeBeeDatabaseTest {
             val categories = TestUtil.createCategories(2)
 
             // When
-            categoriesDao.createCategory(categories[0].copy(id = 0))
-            categoriesDao.createCategory(categories[1].copy(id = 0))
+            categoriesDao.createCategory(categories[0].copy(categoryId = 0))
+            categoriesDao.createCategory(categories[1].copy(categoryId = 0))
 
             // Then
             assertThat(categoriesDao.getAllCategories()).isEqualTo(categories)
@@ -67,16 +68,43 @@ class FeeBeeDatabaseTest {
             // When
             categoriesDao.createCategory(categories[0])
             categoriesDao.createCategory(categories[1])
-            spendingsDao.addSpendingWithCategories(spending, categories.map { categoryEntity -> categoryEntity.id })
+            spendingsDao.addSpendingWithCategories(spending, categories.map { categoryEntity -> categoryEntity.categoryId })
 
             // Then
-            val spendings = spendingsDao.getAllSpendings().first()
+            val spendings = spendingsDao.observeAllSpendings().first()
             assertThat(spendings).containsExactly(
                 SpendingWithCategories(
                     spending = spending.copy(id = 1),
                     categories = categories,
                 ),
             )
+        }
+    }
+
+    @Test
+    fun testQuerySpendingsByCategories() {
+        runBlocking {
+            // Given
+            val categories = TestUtil.createCategories(2)
+            categoriesDao.createCategories(categories)
+            (1..6).map { index ->
+                val spending = TestUtil.createSpending(
+                    id = index.toLong(),
+                    content = "Spending num #$index",
+                )
+                val categoryId = when {
+                    index <= 3 -> categories[0].categoryId
+                    else -> categories[1].categoryId
+                }
+                spendingsDao.addSpendingWithCategories(spending, listOf(categoryId))
+            }
+
+            // When
+            val spendingsWithCategory1 = spendingsDao.getSpendingsByCategoryIds(listOf(categories[0].categoryId))
+
+            // Then
+            assertThat(spendingsWithCategory1.map { spendingEntity -> spendingEntity.spending.id })
+                .isEqualTo(listOf(1L, 2L, 3L))
         }
     }
 }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0683204c99b29416bb893e9117d5ad60",
+    "identityHash": "fcab0b5c3c66dbf91cd62b1484788641",
     "entities": [
       {
         "tableName": "spendings",
@@ -44,11 +44,11 @@
       },
       {
         "tableName": "categories",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -62,7 +62,7 @@
         "primaryKey": {
           "autoGenerate": true,
           "columnNames": [
-            "id"
+            "categoryId"
           ]
         },
         "indices": [],
@@ -70,7 +70,7 @@
       },
       {
         "tableName": "SpendingCategoryCrossRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`spendingId` INTEGER NOT NULL, `categoryId` INTEGER NOT NULL, PRIMARY KEY(`spendingId`, `categoryId`), FOREIGN KEY(`spendingId`) REFERENCES `spendings`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`categoryId`) REFERENCES `categories`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`spendingId` INTEGER NOT NULL, `categoryId` INTEGER NOT NULL, PRIMARY KEY(`spendingId`, `categoryId`), FOREIGN KEY(`spendingId`) REFERENCES `spendings`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`categoryId`) REFERENCES `categories`(`categoryId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "spendingId",
@@ -132,7 +132,7 @@
               "categoryId"
             ],
             "referencedColumns": [
-              "id"
+              "categoryId"
             ]
           }
         ]
@@ -141,7 +141,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0683204c99b29416bb893e9117d5ad60')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fcab0b5c3c66dbf91cd62b1484788641')"
     ]
   }
 }

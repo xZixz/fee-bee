@@ -45,7 +45,7 @@ abstract class SpendingDao {
 
     @Transaction
     @Query(value = "SELECT * FROM spendings")
-    abstract fun getAllSpendings(): Flow<List<SpendingWithCategories>>
+    abstract fun observeAllSpendings(): Flow<List<SpendingWithCategories>>
 
     @Transaction
     @Query(value = "SELECT * FROM spendings where id=:spendingId")
@@ -75,4 +75,15 @@ abstract class SpendingDao {
     @Transaction
     @Query(value = "SELECT * FROM spendings where id=:spendingId")
     abstract fun observeSpending(spendingId: Long): Flow<SpendingWithCategories>
+
+    @Query(
+        value = "SELECT * FROM spendings " +
+            "inner join SpendingCategoryCrossRef on spendings.id = SpendingCategoryCrossRef.spendingId " +
+            "inner join  categories on SpendingCategoryCrossRef.categoryId = categories.categoryId " +
+            "where categories.categoryId IN (:categoryIds)",
+    )
+    abstract fun getSpendingsByCategoryIds(categoryIds: List<Long>): List<SpendingWithCategories>
+
+    @Query(value = "SELECT * FROM spendings")
+    abstract fun getAllSpendings(): List<SpendingWithCategories>
 }

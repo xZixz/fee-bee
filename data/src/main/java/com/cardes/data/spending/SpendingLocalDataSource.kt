@@ -41,6 +41,10 @@ interface SpendingLocalDataSource {
     )
 
     fun observeSpending(spendingId: Long): Flow<Spending>
+
+    suspend fun getSpendingsByCategoryIds(categoryIds: List<Long>): List<Spending>
+
+    suspend fun getAllSpendings(): List<Spending>
 }
 
 class SpendingLocalDataSourceImpl @Inject constructor(
@@ -84,7 +88,7 @@ class SpendingLocalDataSourceImpl @Inject constructor(
 
     override fun getSpendings(): Flow<List<Spending>> =
         spendingDao
-            .getAllSpendings()
+            .observeAllSpendings()
             .map { spendingEntities -> spendingEntities.map { spendingEntity -> spendingEntity.toSpending() } }
 
     override fun observeSpending(spendingId: Long): Flow<Spending> =
@@ -92,6 +96,16 @@ class SpendingLocalDataSourceImpl @Inject constructor(
             .observeSpending(spendingId)
             .filterNotNull()
             .map { spendingEntity -> spendingEntity.toSpending() }
+
+    override suspend fun getSpendingsByCategoryIds(categoryIds: List<Long>): List<Spending> =
+        spendingDao
+            .getSpendingsByCategoryIds(categoryIds)
+            .map { spendingEntity -> spendingEntity.toSpending() }
+
+    override suspend fun getAllSpendings(): List<Spending> =
+        spendingDao
+            .getAllSpendings()
+            .map { spendingWithCategories -> spendingWithCategories.toSpending() }
 
     override suspend fun getSpending(spendingId: Long): Spending = spendingDao.getSpending(spendingId).toSpending()
 
@@ -121,15 +135,24 @@ private fun SpendingWithCategories.toSpending() =
         categories = categories.map { it.toCategory() },
     )
 
+private fun SpendingEntity.toSpending() =
+    Spending(
+        id = id,
+        content = content,
+        amount = amount,
+        time = time,
+        categories = listOf(),
+    )
+
 private fun Category.toCategoryEntity(id: Long = this.id) =
     CategoryEntity(
-        id = id,
+        categoryId = id,
         name = name,
     )
 
 private fun CategoryEntity.toCategory() =
     Category(
-        id = id,
+        id = categoryId,
         name = name,
     )
 

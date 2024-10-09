@@ -8,16 +8,20 @@ import com.cardes.domain.usecase.createspending.CreateSpendingUseCase
 import com.cardes.domain.usecase.createspending.CreateSpendingUseCaseImpl
 import com.cardes.domain.usecase.deleteallspendings.DeleteAllSpendingsUseCase
 import com.cardes.domain.usecase.deleteallspendings.DeleteAllSpendingsUseCaseImpl
+import com.cardes.domain.usecase.getallspendings.GetAllSpendingsUseCase
+import com.cardes.domain.usecase.getallspendings.GetAllSpendingsUseCaseImpl
 import com.cardes.domain.usecase.getspending.GetSpendingUseCase
 import com.cardes.domain.usecase.getspending.GetSpendingUseCaseImpl
-import com.cardes.domain.usecase.getspendings.ObserveSpendingsUseCase
-import com.cardes.domain.usecase.getspendings.ObserveSpendingsUseCaseImpl
+import com.cardes.domain.usecase.getspendingsbycategories.GetSpendingsByCategoriesUseCase
+import com.cardes.domain.usecase.getspendingsbycategories.GetSpendingsByCategoriesUseCaseImpl
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCaseImpl
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCaseImpl
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCaseImpl
+import com.cardes.domain.usecase.observespendings.ObserveSpendingsUseCase
+import com.cardes.domain.usecase.observespendings.ObserveSpendingsUseCaseImpl
 import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCase
 import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCaseImpl
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
@@ -66,6 +70,12 @@ interface UseCasesModule {
 
     @Binds
     fun bindObserveCategory(observeCategoryUseCase: ObserveCategoryUseCaseImpl): ObserveCategoryUseCase
+
+    @Binds
+    fun bindGetSpendingByCategories(getSpendingsByCategoriesUseCase: GetSpendingsByCategoriesUseCaseImpl): GetSpendingsByCategoriesUseCase
+
+    @Binds
+    fun bindGetAllSpendings(getAllSpendingsUseCase: GetAllSpendingsUseCaseImpl): GetAllSpendingsUseCase
 
     @Binds
     fun bindRemoveCategory(removeCategoryUseCase: RemoveCategoryUseCaseImpl): RemoveCategoryUseCase

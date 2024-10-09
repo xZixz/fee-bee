@@ -31,4 +31,8 @@ interface SpendingRepository {
     ): Result<Unit>
 
     fun observeSpending(spendingId: Long): Flow<Spending>
+
+    suspend fun getSpendingsByCategoryIds(categoryIds: List<Long>): Result<List<Spending>>
+
+    suspend fun getAllSpendings(): Result<List<Spending>>
 }

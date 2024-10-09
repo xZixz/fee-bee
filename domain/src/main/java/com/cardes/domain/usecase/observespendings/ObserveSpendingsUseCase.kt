@@ -1,4 +1,4 @@
-package com.cardes.domain.usecase.getspendings
+package com.cardes.domain.usecase.observespendings
 
 import com.cardes.domain.entity.Spending
 import com.cardes.domain.repository.SpendingRepository

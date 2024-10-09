@@ -9,7 +9,7 @@ data class SpendingWithCategories(
     @Relation(
         parentColumn = "id",
         entity = CategoryEntity::class,
-        entityColumn = "id",
+        entityColumn = "categoryId",
         associateBy = Junction(
             SpendingCategoryCrossRef::class,
             parentColumn = "spendingId",

@@ -32,7 +32,7 @@ class CategoryLocalDataSourceImpl @Inject constructor(
             .map { categories -> categories.map { category -> category.toCategory() } }
 
     override suspend fun createCategory(name: String) {
-        categoryDao.createCategory(CategoryEntity(id = 0, name = name))
+        categoryDao.createCategory(CategoryEntity(categoryId = 0, name = name))
     }
 
     override fun observeCategory(categoryId: Long): Flow<Category> =
@@ -58,6 +58,6 @@ class CategoryLocalDataSourceImpl @Inject constructor(
 
 private fun CategoryEntity.toCategory() =
     Category(
-        id = id,
+        id = categoryId,
         name = name,
     )

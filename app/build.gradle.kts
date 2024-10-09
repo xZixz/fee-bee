@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewModel.compose)
     implementation(libs.com.squareup.javapoet)
+    implementation(libs.aayChart)
 
     // Hilt
     implementation(libs.hilt.android)
