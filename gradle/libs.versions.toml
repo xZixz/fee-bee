@@ -22,6 +22,7 @@ androidxLifecycle = "2.8.6"
 javapoet = "1.13.0"
 ktlintGradle = "12.1.1"
 aayChart = "Beta-0.0.5"
+vico = "2.0.0-beta.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +55,20 @@ com-squareup-javapoet = { group = "com.squareup", name = "javapoet", version.ref
 androidx-material-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-material-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 aayChart = { group = "io.github.thechance101", name = "chart", version.ref = "aayChart" }
+# For Jetpack Compose.
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+
+# For `compose`. Creates a `ChartStyle` based on an M2 Material Theme.
+vico-compose-m2 = { group = "com.patrykandpatrick.vico", name = "compose-m2", version.ref = "vico" }
+
+# For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+
+# Houses the core logic for charts and other elements. Included in all other modules.
+vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
+
+# For the view system.
+vico-views = { group = "com.patrykandpatrick.vico", name = "views", version.ref = "vico" }
 
 [plugins]
 kotlinComposeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

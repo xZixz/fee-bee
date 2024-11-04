@@ -72,6 +72,13 @@ dependencies {
     implementation(libs.com.squareup.javapoet)
     implementation(libs.aayChart)
 
+    // Vico
+    implementation(libs.vico.core)
+    implementation(libs.vico.compose)
+    implementation(libs.vico.compose.m2)
+    implementation(libs.vico.compose.m3)
+    implementation(libs.vico.views)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compliler)

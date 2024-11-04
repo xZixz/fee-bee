@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.cardes.domain.entity.Spending
 import com.cardes.domain.usecase.getallspendings.GetAllSpendingsUseCase
 import com.cardes.domain.usecase.getspendingsbycategories.GetSpendingsByCategoriesUseCase
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
+import com.patrykandpatrick.vico.core.cartesian.data.columnSeries
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,6 +24,8 @@ class TotalSpentViewModel @Inject constructor(
     private val spendingList = MutableStateFlow(listOf<Spending>())
     private val selectedYear = MutableStateFlow(Calendar.getInstance().get(Calendar.YEAR))
 
+    val spendingsChartModelProducer = CartesianChartModelProducer()
+
     val spendingsByMonthData = combine(spendingList, selectedYear) { spendings, selectedYear ->
         spendings
             .filter { spending ->
@@ -36,6 +40,15 @@ class TotalSpentViewModel @Inject constructor(
                     }
             }.mapValues { element ->
                 element.value.sumOf { it.amount }
+            }.also {
+                spendingsChartModelProducer.runTransaction {
+                    columnSeries {
+                        series(
+                            x = it.keys,
+                            y = it.values,
+                        )
+                    }
+                }
             }
     }.stateIn(
         initialValue = hashMapOf(),
