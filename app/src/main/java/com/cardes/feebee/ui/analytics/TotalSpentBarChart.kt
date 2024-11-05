@@ -26,6 +26,7 @@ import com.patrykandpatrick.vico.compose.common.component.rememberLineComponent
 import com.patrykandpatrick.vico.compose.common.component.rememberShapeComponent
 import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
 import com.patrykandpatrick.vico.compose.common.component.shadow
+import com.patrykandpatrick.vico.compose.common.data.rememberExtraLambda
 import com.patrykandpatrick.vico.compose.common.dimensions
 import com.patrykandpatrick.vico.compose.common.shape.markerCorneredShape
 import com.patrykandpatrick.vico.compose.common.shape.rounded
@@ -57,6 +58,21 @@ private fun TotalSpentBarChart(
                 currentContext.getString(fromIntToMonthStringResourceId(x.toInt()))
             }
         }
+        val marker = rememberDefaultCartesianMarker(
+            label = rememberTextComponent(
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlignment = Layout.Alignment.ALIGN_CENTER,
+                padding = dimensions(8.dp, 4.dp),
+                background =
+                    rememberShapeComponent(
+                        color = MaterialTheme.colorScheme.surfaceBright,
+                        shape = markerCorneredShape(Corner.FullyRounded),
+                        shadow =
+                            shadow(radius = LABEL_BACKGROUND_SHADOW_RADIUS_DP.dp, dy = LABEL_BACKGROUND_SHADOW_DY_DP.dp),
+                    ),
+                minWidth = TextComponent.MinWidth.fixed(40.dp),
+            ),
+        )
         val chart = rememberCartesianChart(
             rememberColumnCartesianLayer(
                 ColumnCartesianLayer.ColumnProvider.series(
@@ -79,21 +95,12 @@ private fun TotalSpentBarChart(
                 valueFormatter = valueFormatter,
                 itemPlacer = remember { HorizontalAxis.ItemPlacer.segmented() },
             ),
-            marker = rememberDefaultCartesianMarker(
-                label = rememberTextComponent(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlignment = Layout.Alignment.ALIGN_CENTER,
-                    padding = dimensions(8.dp, 4.dp),
-                    background =
-                        rememberShapeComponent(
-                            color = MaterialTheme.colorScheme.surfaceBright,
-                            shape = markerCorneredShape(Corner.FullyRounded),
-                            shadow =
-                                shadow(radius = LABEL_BACKGROUND_SHADOW_RADIUS_DP.dp, dy = LABEL_BACKGROUND_SHADOW_DY_DP.dp),
-                        ),
-                    minWidth = TextComponent.MinWidth.fixed(40.dp),
-                ),
-            ),
+            marker = marker,
+            persistentMarkers = rememberExtraLambda(marker) {
+                (0..11).onEach {
+                    marker at it
+                }
+            },
             layerPadding = cartesianLayerPadding(
                 scalableStartPadding = 16.dp,
                 scalableEndPadding = 16.dp,
