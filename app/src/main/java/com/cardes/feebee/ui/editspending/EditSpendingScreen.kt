@@ -208,7 +208,7 @@ fun EditSpendingScreen(
                             label = {
                                 Text(text = category.name)
                             },
-                            interactionSource = NoRippleInteractionSource(),
+                            interactionSource = remember { NoRippleInteractionSource() },
                         )
                     }
                     Button(

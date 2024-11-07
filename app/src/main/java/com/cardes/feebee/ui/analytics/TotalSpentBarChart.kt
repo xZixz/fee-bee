@@ -25,7 +25,6 @@ import com.patrykandpatrick.vico.compose.common.component.fixed
 import com.patrykandpatrick.vico.compose.common.component.rememberLineComponent
 import com.patrykandpatrick.vico.compose.common.component.rememberShapeComponent
 import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
-import com.patrykandpatrick.vico.compose.common.component.shadow
 import com.patrykandpatrick.vico.compose.common.data.rememberExtraLambda
 import com.patrykandpatrick.vico.compose.common.dimensions
 import com.patrykandpatrick.vico.compose.common.shape.markerCorneredShape
@@ -38,12 +37,10 @@ import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
 import com.patrykandpatrick.vico.core.cartesian.data.ColumnCartesianLayerModel
 import com.patrykandpatrick.vico.core.cartesian.layer.ColumnCartesianLayer
+import com.patrykandpatrick.vico.core.cartesian.marker.DefaultCartesianMarker
 import com.patrykandpatrick.vico.core.common.component.TextComponent
 import com.patrykandpatrick.vico.core.common.shape.Corner
 import com.patrykandpatrick.vico.core.common.shape.CorneredShape
-
-private const val LABEL_BACKGROUND_SHADOW_RADIUS_DP = 4f
-private const val LABEL_BACKGROUND_SHADOW_DY_DP = 2f
 
 @Composable
 private fun TotalSpentBarChart(
@@ -59,16 +56,19 @@ private fun TotalSpentBarChart(
             }
         }
         val marker = rememberDefaultCartesianMarker(
+            labelPosition = DefaultCartesianMarker.LabelPosition.AbovePoint,
             label = rememberTextComponent(
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlignment = Layout.Alignment.ALIGN_CENTER,
-                padding = dimensions(8.dp, 4.dp),
+                margins = dimensions(bottom = 5.dp),
+                padding = dimensions(4.dp, 4.dp),
                 background =
                     rememberShapeComponent(
-                        color = MaterialTheme.colorScheme.surfaceBright,
-                        shape = markerCorneredShape(Corner.FullyRounded),
-                        shadow =
-                            shadow(radius = LABEL_BACKGROUND_SHADOW_RADIUS_DP.dp, dy = LABEL_BACKGROUND_SHADOW_DY_DP.dp),
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        shape = markerCorneredShape(
+                            all = Corner.FullyRounded,
+                            tickSizeDp = 0.dp,
+                        ),
                     ),
                 minWidth = TextComponent.MinWidth.fixed(40.dp),
             ),

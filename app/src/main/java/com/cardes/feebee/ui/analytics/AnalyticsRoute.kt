@@ -8,6 +8,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.PieChart
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -36,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.feebee.R
+import com.cardes.feebee.ui.editspending.NoRippleInteractionSource
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable
@@ -148,6 +152,7 @@ fun TotalSpentScreen(
 ) {
     val spendingsData by viewModel.spendingsByMonthData.collectAsStateWithLifecycle()
     val spendingsChartModelProducer = viewModel.spendingsChartModelProducer
+    val selectCategoryViewStates by viewModel.selectCategoryViewStates.collectAsStateWithLifecycle()
     when {
         spendingsData.isEmpty() -> {
             Box(modifier = modifier.fillMaxSize()) {
@@ -159,9 +164,49 @@ fun TotalSpentScreen(
         }
 
         else -> {
-            TotalSpentBarChart(
-                modifier = modifier.padding(10.dp),
-                spendingsChartModelProducer = spendingsChartModelProducer,
+            Column(modifier = modifier) {
+                TotalSpentBarChart(
+                    modifier = Modifier.padding(10.dp),
+                    spendingsChartModelProducer = spendingsChartModelProducer,
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    modifier = Modifier.padding(horizontal = 10.dp),
+                    text = stringResource(R.string.categories),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                CategoryFilters(
+                    modifier = Modifier.padding(horizontal = 10.dp),
+                    onCategoryClick = viewModel::onCategoryClick,
+                    selectCategoryViewStates = selectCategoryViewStates,
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun CategoryFilters(
+    onCategoryClick: (Long) -> Unit,
+    selectCategoryViewStates: List<SelectCategoryViewState>,
+    modifier: Modifier = Modifier,
+) {
+    FlowRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        selectCategoryViewStates.forEach { categoryViewState ->
+            FilterChip(
+                selected = categoryViewState.isSelected,
+                onClick = {
+                    onCategoryClick(categoryViewState.category.id)
+                },
+                label = {
+                    Text(categoryViewState.category.name)
+                },
+                interactionSource = remember { NoRippleInteractionSource() },
             )
         }
     }

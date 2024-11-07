@@ -44,7 +44,7 @@ class CategoriesListViewModel @Inject constructor(
         .invoke()
         .stateIn(
             initialValue = listOf(),
-            started = SharingStarted.WhileSubscribed(500),
+            started = SharingStarted.WhileSubscribed(500L),
             scope = viewModelScope,
         )
 }
