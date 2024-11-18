@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
 import com.cardes.feebee.navigation.SPENDING_ID_ARG
-import com.cardes.feebee.ui.editspending.spendingDateDisplayFormat
+import com.cardes.feebee.ui.common.spendingDateDisplayFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map

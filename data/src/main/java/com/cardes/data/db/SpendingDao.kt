@@ -41,7 +41,7 @@ abstract class SpendingDao {
     abstract suspend fun addSpendingCategoriesCrossRef(crossRef: List<SpendingCategoryCrossRef>)
 
     @Query(value = "DELETE FROM SpendingCategoryCrossRef where spendingId=:spendingId")
-    abstract fun removeSpendingCategoryCrossRef(spendingId: Long)
+    abstract suspend fun removeSpendingCategoryCrossRef(spendingId: Long)
 
     @Transaction
     @Query(value = "SELECT * FROM spendings")
@@ -78,12 +78,30 @@ abstract class SpendingDao {
 
     @Query(
         value = "SELECT * FROM spendings " +
-            "inner join SpendingCategoryCrossRef on spendings.id = SpendingCategoryCrossRef.spendingId " +
-            "inner join  categories on SpendingCategoryCrossRef.categoryId = categories.categoryId " +
-            "where categories.categoryId IN (:categoryIds)",
+            "INNER JOIN SpendingCategoryCrossRef ON spendings.id = SpendingCategoryCrossRef.spendingId " +
+            "INNER JOIN  categories ON SpendingCategoryCrossRef.categoryId = categories.categoryId " +
+            "WHERE categories.categoryId IN (:categoryIds)",
     )
-    abstract fun getSpendingsByCategoryIds(categoryIds: List<Long>): List<SpendingWithCategories>
+    abstract suspend fun getSpendingsByCategoryIds(categoryIds: List<Long>): List<SpendingWithCategories>
+
+    @Query(
+        value = "SELECT * FROM spendings " +
+            "INNER JOIN SpendingCategoryCrossRef ON spendings.id = SpendingCategoryCrossRef.spendingId " +
+            "INNER JOIN  categories ON SpendingCategoryCrossRef.categoryId = categories.categoryId " +
+            "WHERE categories.categoryId IN (:categoryIds) AND spendings.time BETWEEN :from AND :to",
+    )
+    abstract suspend fun getSpendingsByCategoryIdsByDateRange(
+        categoryIds: List<Long>,
+        from: Long,
+        to: Long,
+    ): List<SpendingWithCategories>
 
     @Query(value = "SELECT * FROM spendings")
-    abstract fun getAllSpendings(): List<SpendingWithCategories>
+    abstract suspend fun getAllSpendings(): List<SpendingWithCategories>
+
+    @Query(value = "SELECT * FROM spendings WHERE time BETWEEN :from AND :to")
+    abstract suspend fun getSpendingsByTimeRange(
+        from: Long,
+        to: Long,
+    ): List<SpendingWithCategories>
 }

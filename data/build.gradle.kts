@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.javax.inject)
+    implementation(libs.coroutines.core)
 
     // Room
     ksp(libs.androidx.room)
@@ -49,6 +50,7 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.google.truth)
+    androidTestImplementation(libs.coroutines.test)
     androidTestImplementation(libs.google.truth)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

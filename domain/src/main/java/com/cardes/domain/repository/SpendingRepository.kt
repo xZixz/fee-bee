@@ -35,4 +35,15 @@ interface SpendingRepository {
     suspend fun getSpendingsByCategoryIds(categoryIds: List<Long>): Result<List<Spending>>
 
     suspend fun getAllSpendings(): Result<List<Spending>>
+
+    suspend fun getSpendingsByDateRage(
+        from: Long,
+        to: Long,
+    ): Result<List<Spending>>
+
+    suspend fun getSpendingsByCategoriesByDateRange(
+        categoryIds: List<Long>,
+        from: Long,
+        to: Long,
+    ): Result<List<Spending>>
 }

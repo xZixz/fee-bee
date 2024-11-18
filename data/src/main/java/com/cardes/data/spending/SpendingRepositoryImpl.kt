@@ -73,6 +73,34 @@ class SpendingRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun getSpendingsByDateRage(
+        from: Long,
+        to: Long,
+    ): Result<List<Spending>> =
+        withContext(ioDispatcher) {
+            resultWrap {
+                spendingLocalDataSource.getSpendingsByDateRange(
+                    from = from,
+                    to = to,
+                )
+            }
+        }
+
+    override suspend fun getSpendingsByCategoriesByDateRange(
+        categoryIds: List<Long>,
+        from: Long,
+        to: Long,
+    ): Result<List<Spending>> =
+        withContext(ioDispatcher) {
+            resultWrap {
+                spendingLocalDataSource.getSpendingsByCategoriesByDateRange(
+                    categoryIds = categoryIds,
+                    from = from,
+                    to = to,
+                )
+            }
+        }
+
     override fun observeSpending(spendingId: Long): Flow<Spending> = spendingLocalDataSource.observeSpending(spendingId)
 
     override suspend fun removeSpending(spendingId: Long): Result<Unit> =

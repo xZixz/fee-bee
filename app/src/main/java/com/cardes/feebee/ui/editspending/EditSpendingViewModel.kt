@@ -12,18 +12,14 @@ import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
 import com.cardes.feebee.navigation.SPENDING_ID_ARG
 import com.cardes.feebee.ui.common.StringUtil
+import com.cardes.feebee.ui.common.nonBigDecimalCharRegex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 import javax.inject.Inject
-
-val nonBigDecimalCharRegex = "[^0-9,.]".toRegex()
-val spendingDateDisplayFormat = SimpleDateFormat("EEEE, MMMM dd, yyyy", Locale.US)
 
 @HiltViewModel
 class EditSpendingViewModel @Inject constructor(
@@ -43,16 +39,13 @@ class EditSpendingViewModel @Inject constructor(
         EditSpendingUiState(
             description = "",
             amount = "",
-            date = spendingDateDisplayFormat.format(Calendar.getInstance().time),
+            date = Calendar.getInstance().timeInMillis,
             categories = listOf(),
             selectedCategoryIds = listOf(),
         ),
     )
 
     val editSpendingUiState = _editSpendingUiState.asStateFlow()
-
-    private val _showDatePickerDialog = MutableStateFlow(false)
-    val showDatePickerDialog = _showDatePickerDialog.asStateFlow()
 
     private val _showAddCategoryDialog = MutableStateFlow(false)
     val showAddCategoryDialog = _showAddCategoryDialog.asStateFlow()
@@ -77,7 +70,7 @@ class EditSpendingViewModel @Inject constructor(
                         it.copy(
                             description = spending.content,
                             amount = spending.amount.toString(),
-                            date = spendingDateDisplayFormat.format(spending.time),
+                            date = spending.time,
                             selectedCategoryIds = spending.categories.map(Category::id),
                         )
                     }
@@ -104,7 +97,7 @@ class EditSpendingViewModel @Inject constructor(
                     createSpendingUseCase.invoke(
                         content = description,
                         amount = StringUtil.parseBigDecimalString(amount),
-                        time = spendingDateDisplayFormat.parse(date)?.time ?: 0L,
+                        time = date,
                         categoryIds = selectedCategoryIds,
                     )
                 }.onSuccess {
@@ -130,7 +123,7 @@ class EditSpendingViewModel @Inject constructor(
                         id = spendingId,
                         content = description,
                         amount = StringUtil.parseBigDecimalString(amount),
-                        time = spendingDateDisplayFormat.parse(date)?.time ?: 0L,
+                        time = date,
                         categoryIds = selectedCategoryIds,
                     ).onSuccess {
                         onFinishUpdating()
@@ -141,18 +134,8 @@ class EditSpendingViewModel @Inject constructor(
         }
     }
 
-    fun showDatePickerDialog() {
-        _showDatePickerDialog.update { true }
-    }
-
-    fun hideDatePickerDialog() {
-        _showDatePickerDialog.update { false }
-    }
-
     fun onDatePicked(timeInMillis: Long) {
-        val pickedDate = Calendar.getInstance().apply { this.timeInMillis = timeInMillis }.time
-        _editSpendingUiState.update { it.copy(date = spendingDateDisplayFormat.format(pickedDate)) }
-        hideDatePickerDialog()
+        _editSpendingUiState.update { it.copy(date = timeInMillis) }
     }
 
     fun onCategoryClick(categoryId: Long) {

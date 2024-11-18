@@ -1,5 +1,7 @@
 package com.cardes.feebee.di
 
+import com.cardes.domain.usecase.GetSpendingsByCategoriesByDateRange
+import com.cardes.domain.usecase.GetSpendingsByCategoriesByDateRangeImpl
 import com.cardes.domain.usecase.addcategory.AddCategoryUseCase
 import com.cardes.domain.usecase.addcategory.AddCategoryUseCaseImpl
 import com.cardes.domain.usecase.addsamples.AddSamplesUseCase
@@ -14,6 +16,8 @@ import com.cardes.domain.usecase.getspending.GetSpendingUseCase
 import com.cardes.domain.usecase.getspending.GetSpendingUseCaseImpl
 import com.cardes.domain.usecase.getspendingsbycategories.GetSpendingsByCategoriesUseCase
 import com.cardes.domain.usecase.getspendingsbycategories.GetSpendingsByCategoriesUseCaseImpl
+import com.cardes.domain.usecase.getspendingsbydaterange.GetSpendingsByDateRange
+import com.cardes.domain.usecase.getspendingsbydaterange.GetSpendingsByDateRangeImpl
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCaseImpl
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
@@ -82,4 +86,10 @@ interface UseCasesModule {
 
     @Binds
     fun bindUpdateCategoryNameUseCase(updateCategoryNameUseCase: UpdateCategoryNameUseCaseImpl): UpdateCategoryNameUseCase
+
+    @Binds
+    fun bindGetSpendingsByDateRange(getSpendingsByDateRange: GetSpendingsByDateRangeImpl): GetSpendingsByDateRange
+
+    @Binds
+    fun bindGetSpendingsByCategoriesByDateRange(getSpendingsByCategoriesByDateRange: GetSpendingsByCategoriesByDateRangeImpl): GetSpendingsByCategoriesByDateRange
 }

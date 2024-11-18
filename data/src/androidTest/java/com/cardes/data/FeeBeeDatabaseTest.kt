@@ -1,5 +1,6 @@
 package com.cardes.data
 
+import android.icu.util.Calendar
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -11,6 +12,7 @@ import com.cardes.data.db.entity.SpendingWithCategories
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -82,8 +84,8 @@ class FeeBeeDatabaseTest {
     }
 
     @Test
-    fun testQuerySpendingsByCategories() {
-        runBlocking {
+    fun testQuerySpendingsByCategories() =
+        runTest {
             // Given
             val categories = TestUtil.createCategories(2)
             categoriesDao.createCategories(categories)
@@ -106,5 +108,62 @@ class FeeBeeDatabaseTest {
             assertThat(spendingsWithCategory1.map { spendingEntity -> spendingEntity.spending.id })
                 .isEqualTo(listOf(1L, 2L, 3L))
         }
-    }
+
+    @Test
+    fun testQuerySpendingsByCategoriesAndByDateRange() =
+        runTest {
+            // Given
+            val categories = TestUtil.createCategories(2)
+            categoriesDao.createCategories(categories)
+
+            val spendingOnMayCategory1 = TestUtil.createSpending(
+                id = 1,
+                content = "Spending on May",
+                time = Calendar
+                    .getInstance()
+                    .apply {
+                        set(Calendar.MONTH, 4)
+                        set(Calendar.DAY_OF_MONTH, 1)
+                    }.timeInMillis,
+            )
+            spendingsDao.addSpendingWithCategories(spendingOnMayCategory1, listOf(categories[0].categoryId))
+
+            val spendingsOnJunWithCategory2 =
+                (2..3).map { index ->
+                    TestUtil.createSpending(
+                        id = index.toLong(),
+                        content = "Spending num #$index",
+                        time = Calendar
+                            .getInstance()
+                            .apply {
+                                set(Calendar.MONTH, 5)
+                                set(Calendar.DAY_OF_MONTH, 1)
+                            }.timeInMillis,
+                    )
+                }
+            spendingsDao.addSpendingsWithCategories(
+                spendingsOnJunWithCategory2.map { spending -> Pair(spending, listOf(categories[1].categoryId)) },
+            )
+
+            // When
+            val aprilTime = TestUtil.timeOfFirstDayOfMonthInMilliseconds(4)
+            val mayTime = TestUtil.timeOfFirstDayOfMonthInMilliseconds(5)
+            val junTime = TestUtil.timeOfFirstDayOfMonthInMilliseconds(6)
+            val julyTime = TestUtil.timeOfFirstDayOfMonthInMilliseconds(7)
+            val spendingsOfMay = spendingsDao
+                .getSpendingsByCategoryIdsByDateRange(
+                    listOf(categories[0].categoryId),
+                    from = aprilTime,
+                    to = junTime,
+                )
+            assertThat(spendingsOfMay.map { it.spending.id }).isEqualTo(listOf(1L))
+
+            val spendingsOfJun = spendingsDao
+                .getSpendingsByCategoryIdsByDateRange(
+                    listOf(categories[1].categoryId),
+                    from = mayTime,
+                    to = julyTime,
+                )
+            assertThat(spendingsOfJun.map { it.spending.id }).isEqualTo(listOf(2L, 3L))
+        }
 }

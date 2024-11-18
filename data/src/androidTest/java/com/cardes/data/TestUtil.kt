@@ -1,5 +1,6 @@
 package com.cardes.data
 
+import android.icu.util.Calendar
 import com.cardes.data.db.entity.CategoryEntity
 import com.cardes.data.db.entity.SpendingEntity
 import java.math.BigDecimal
@@ -24,4 +25,16 @@ object TestUtil {
         content = content,
         time = time,
     )
+
+    fun timeOfFirstDayOfMonthInMilliseconds(month: Int): Long =
+        Calendar
+            .getInstance()
+            .apply {
+                set(Calendar.MONTH, month - 1)
+                set(Calendar.DAY_OF_MONTH, 1)
+                set(Calendar.HOUR, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.timeInMillis
 }

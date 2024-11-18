@@ -14,17 +14,18 @@ import com.cardes.feebee.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SpendingDatePicker(
+fun FeeBeeDatePicker(
     onDatePickerDismiss: () -> Unit,
     onDatePickerConfirmed: (Long) -> Unit,
+    initialDate: Long = Calendar.getInstance().timeInMillis,
+    lastSelectableDate: Long = Calendar.getInstance().timeInMillis,
 ) {
     val dateState = rememberDatePickerState(
-        initialSelectedDateMillis = Calendar.getInstance().timeInMillis,
+        initialSelectedDateMillis = initialDate,
         selectableDates = object : SelectableDates {
-            override fun isSelectableDate(utcTimeMillis: Long): Boolean = utcTimeMillis < Calendar.getInstance().timeInMillis
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean = utcTimeMillis < lastSelectableDate
         },
     )
-
     DatePickerDialog(
         onDismissRequest = {
             onDatePickerDismiss()

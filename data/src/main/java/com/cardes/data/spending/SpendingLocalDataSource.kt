@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.math.BigDecimal
+import java.util.Calendar
 import javax.inject.Inject
 
 interface SpendingLocalDataSource {
@@ -45,6 +46,17 @@ interface SpendingLocalDataSource {
     suspend fun getSpendingsByCategoryIds(categoryIds: List<Long>): List<Spending>
 
     suspend fun getAllSpendings(): List<Spending>
+
+    suspend fun getSpendingsByDateRange(
+        from: Long,
+        to: Long,
+    ): List<Spending>
+
+    suspend fun getSpendingsByCategoriesByDateRange(
+        categoryIds: List<Long>,
+        from: Long,
+        to: Long,
+    ): List<Spending>
 }
 
 class SpendingLocalDataSourceImpl @Inject constructor(
@@ -86,6 +98,18 @@ class SpendingLocalDataSourceImpl @Inject constructor(
         )
     }
 
+    override suspend fun getSpendingsByCategoriesByDateRange(
+        categoryIds: List<Long>,
+        from: Long,
+        to: Long,
+    ): List<Spending> =
+        spendingDao
+            .getSpendingsByCategoryIdsByDateRange(
+                categoryIds = categoryIds,
+                from = from,
+                to = to,
+            ).map(SpendingWithCategories::toSpending)
+
     override fun getSpendings(): Flow<List<Spending>> =
         spendingDao
             .observeAllSpendings()
@@ -106,6 +130,35 @@ class SpendingLocalDataSourceImpl @Inject constructor(
         spendingDao
             .getAllSpendings()
             .map { spendingWithCategories -> spendingWithCategories.toSpending() }
+
+    override suspend fun getSpendingsByDateRange(
+        from: Long,
+        to: Long,
+    ): List<Spending> {
+        val startOfTheFromDate = Calendar
+            .getInstance()
+            .apply {
+                timeInMillis = from
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.timeInMillis
+        val endOfTheToDate = Calendar
+            .getInstance()
+            .apply {
+                timeInMillis = to
+                set(Calendar.HOUR_OF_DAY, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+                set(Calendar.MILLISECOND, 999)
+            }.timeInMillis
+        return spendingDao
+            .getSpendingsByTimeRange(
+                from = startOfTheFromDate,
+                to = endOfTheToDate,
+            ).map { spendingEntity -> spendingEntity.toSpending() }
+    }
 
     override suspend fun getSpending(spendingId: Long): Spending = spendingDao.getSpending(spendingId).toSpending()
 

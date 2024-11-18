@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -29,8 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -40,6 +37,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.BasePage
+import com.cardes.feebee.ui.design.component.FeeBeeDateInput
 import com.cardes.feebee.ui.design.component.FeeBeeTextInput
 import com.cardes.feebee.ui.spendingdetails.DeleteSpendingDialog
 import com.cardes.feebee.ui.theme.FeeBeeTheme
@@ -53,7 +51,6 @@ fun EditSpendingRoute(
     editSpendingViewModel: EditSpendingViewModel = hiltViewModel(),
 ) {
     val editSpendingUiState by editSpendingViewModel.editSpendingUiState.collectAsStateWithLifecycle()
-    val showDatePickerDialog by editSpendingViewModel.showDatePickerDialog.collectAsStateWithLifecycle()
     val showAddCategoryDialog by editSpendingViewModel.showAddCategoryDialog.collectAsStateWithLifecycle()
     val removeSpendingDialogShowState by editSpendingViewModel.removeSpendingDialogState.collectAsStateWithLifecycle(
         minActiveState = Lifecycle.State.CREATED,
@@ -63,15 +60,12 @@ fun EditSpendingRoute(
         removeSpendingDialogShowState = removeSpendingDialogShowState,
         editMode = editSpendingViewModel.editMode,
         editSpendingUiState = editSpendingUiState,
-        showDatePickerDialog = showDatePickerDialog,
         showAddCategoryDialog = showAddCategoryDialog,
         onDescriptionChanged = editSpendingViewModel::onDescriptionChanged,
         onCostChanged = editSpendingViewModel::onCostChanged,
         onCtaButtonClick = {
             editSpendingViewModel.onCtaButtonClick(onFinishedCreating = onNavUp)
         },
-        onCalendarClick = editSpendingViewModel::showDatePickerDialog,
-        onDatePickerDismiss = editSpendingViewModel::hideDatePickerDialog,
         onDatePickerConfirmed = editSpendingViewModel::onDatePicked,
         onCategoryClick = editSpendingViewModel::onCategoryClick,
         onAddCategoryClick = editSpendingViewModel::onAddCategoryClick,
@@ -93,14 +87,11 @@ fun EditSpendingScreen(
     removeSpending: () -> Unit,
     editMode: EditMode,
     editSpendingUiState: EditSpendingUiState,
-    showDatePickerDialog: Boolean,
     showAddCategoryDialog: Boolean,
     onDescriptionChanged: (String) -> Unit,
     onCostChanged: (String) -> Unit,
     onCtaButtonClick: () -> Unit,
     onRemoveSpendingClick: () -> Unit,
-    onCalendarClick: () -> Unit,
-    onDatePickerDismiss: () -> Unit,
     onDatePickerConfirmed: (Long) -> Unit,
     onCategoryClick: (Long) -> Unit,
     onAddCategoryClick: () -> Unit,
@@ -111,13 +102,6 @@ fun EditSpendingScreen(
         DeleteSpendingDialog(
             onDismissRemoveDialog = onDismissRemoveSpendingDialog,
             onRemoveSpending = removeSpending,
-        )
-    }
-
-    if (showDatePickerDialog) {
-        SpendingDatePicker(
-            onDatePickerDismiss = onDatePickerDismiss,
-            onDatePickerConfirmed = onDatePickerConfirmed,
         )
     }
 
@@ -167,31 +151,10 @@ fun EditSpendingScreen(
                     },
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                val focusRequester = remember { FocusRequester() }
-                val interactionSource = remember { MutableInteractionSource() }
-                Box {
-                    FeeBeeTextInput(
-                        title = stringResource(id = R.string.date),
-                        text = editSpendingUiState.date,
-                        onTextChanged = {},
-                        readOnly = true,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .focusRequester(focusRequester),
-                    )
-                    Box(
-                        Modifier
-                            .matchParentSize()
-                            .clickable(
-                                onClick = {
-                                    onCalendarClick()
-                                    focusRequester.requestFocus()
-                                },
-                                interactionSource = interactionSource,
-                                indication = null,
-                            ),
-                    ) { }
-                }
+                FeeBeeDateInput(
+                    time = editSpendingUiState.date,
+                    onDatePicked = onDatePickerConfirmed,
+                )
                 // Categories
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(text = stringResource(R.string.categories))
@@ -266,12 +229,9 @@ private fun EditSpendingScreenPreview(
             EditSpendingScreen(
                 editMode = editSpendingPreviewParam.editMode,
                 editSpendingUiState = editSpendingPreviewParam.editSpendingUiState,
-                showDatePickerDialog = false,
                 onDescriptionChanged = {},
                 onCostChanged = {},
                 onCtaButtonClick = {},
-                onCalendarClick = {},
-                onDatePickerDismiss = {},
                 onDatePickerConfirmed = {},
                 onCategoryClick = {},
                 onAddCategoryClick = {},

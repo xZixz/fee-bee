@@ -38,4 +38,6 @@
     <string name="december_abbr">Dec</string>
     <string name="empty" translatable="false" />
     <string name="no_data">No Data</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 </resources>
