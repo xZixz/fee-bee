@@ -78,9 +78,11 @@ fun BottomNavigationBar(
             NavigationBarItem(
                 selected = navItem.route == currentRoute,
                 onClick = {
-                    navController.navigate(navItem.route) {
-                        popUpTo(navController.graph.startDestinationId)
-                        launchSingleTop = true
+                    if (navItem.route != currentRoute) {
+                        navController.navigate(navItem.route) {
+                            popUpTo(navController.graph.startDestinationId)
+                            launchSingleTop = true
+                        }
                     }
                 },
                 icon = {
