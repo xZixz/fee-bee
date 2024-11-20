@@ -70,7 +70,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewModel.compose)
     implementation(libs.com.squareup.javapoet)
-    implementation(libs.aayChart)
 
     // Vico
     implementation(libs.vico.core)
@@ -78,6 +77,9 @@ dependencies {
     implementation(libs.vico.compose.m2)
     implementation(libs.vico.compose.m3)
     implementation(libs.vico.views)
+
+    // Number Picker
+    implementation(libs.numberPicker)
 
     // Hilt
     implementation(libs.hilt.android)

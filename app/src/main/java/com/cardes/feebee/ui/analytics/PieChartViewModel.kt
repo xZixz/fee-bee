@@ -1,5 +1,6 @@
 package com.cardes.feebee.ui.analytics
 
+import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cardes.domain.entity.Category
@@ -18,38 +19,63 @@ class PieChartViewModel @Inject constructor(
     observeCategoriesUseCase: ObserveCategoriesUseCase,
 ) : ViewModel() {
 
+    private val selectedMonth = MutableStateFlow(
+        MonthYear(
+            month = Calendar.getInstance().get(Calendar.MONTH) + 1,
+            year = Calendar.getInstance().get(Calendar.YEAR),
+        ),
+    )
+
     private val selectedCategoryId = MutableStateFlow<Long?>(null)
     val pieChartViewState = combine(
         observeCategoriesUseCase.invoke(),
+        selectedMonth,
         selectedCategoryId,
-    ) { categories, selectedCategoryId ->
+    ) { categories, selectedMonth, selectedCategoryId ->
         val selectedId = when {
             categories.isEmpty() -> 0L
             selectedCategoryId == null -> categories.first().id
             else -> selectedCategoryId
         }
         PieChartViewState(
-            selectedCategoryId = selectedId,
-            categories = categories,
-            selectedMonthTime = 0,
+            selectCategoryViewState = PieChartViewState.SelectCategoryViewState(
+                selectedCategoryId = selectedId,
+                categories = categories,
+            ),
+            selectedMonth = selectedMonth,
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(500L),
         initialValue = PieChartViewState(
-            selectedCategoryId = 0,
-            categories = listOf(),
-            selectedMonthTime = 0,
+            selectCategoryViewState = PieChartViewState.SelectCategoryViewState(
+                selectedCategoryId = 0,
+                categories = listOf(),
+            ),
+            selectedMonth = selectedMonth.value,
         ),
     )
 
     fun onCategoryClick(categoryId: Long) {
         selectedCategoryId.value = categoryId
     }
+
+    fun onMonthPicked(month: Int, year: Int) {
+        selectedMonth.value = MonthYear(month, year)
+    }
 }
 
 data class PieChartViewState(
-    val selectedCategoryId: Long,
-    val categories: List<Category>,
-    val selectedMonthTime: Long,
+    val selectedMonth: MonthYear,
+    val selectCategoryViewState: SelectCategoryViewState,
+) {
+    data class SelectCategoryViewState(
+        val selectedCategoryId: Long,
+        val categories: List<Category>,
+    )
+}
+
+data class MonthYear(
+    val month: Int,
+    val year: Int,
 )

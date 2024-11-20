@@ -1,6 +1,5 @@
 package com.cardes.feebee.ui.design.component
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -21,17 +20,16 @@ fun FeeBeeTextInput(
     enabled: Boolean = true,
 ) {
     val focusManager = LocalFocusManager.current
-    Column(modifier = modifier) {
-        OutlinedTextField(
-            enabled = enabled,
-            value = text,
-            label = {
-                Text(text = title)
-            },
-            onValueChange = onTextChanged,
-            readOnly = readOnly,
-            keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        )
-    }
+    OutlinedTextField(
+        modifier = modifier,
+        enabled = enabled,
+        value = text,
+        label = {
+            Text(text = title)
+        },
+        onValueChange = onTextChanged,
+        readOnly = readOnly,
+        keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+    )
 }
