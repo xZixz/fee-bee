@@ -23,6 +23,8 @@ javapoet = "1.13.0"
 ktlintGradle = "12.1.1"
 vico = "2.0.0-beta.1"
 numberPicker = "1.0.3"
+pieChart = "0.0.18"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +58,7 @@ com-squareup-javapoet = { group = "com.squareup", name = "javapoet", version.ref
 androidx-material-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-material-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 numberPicker = { group = "com.chargemap.compose", name = "numberpicker", version.ref = "numberPicker" }
+composeChart = { group = "io.github.ehsannarmani", name = "compose-charts", version.ref = "pieChart" }
 
 # For Jetpack Compose.
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }

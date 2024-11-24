@@ -43,4 +43,8 @@
     <string name="select_the_month">Select the month</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
+    <string name="percentage">%1$s %%</string>
+    <string name="there_is_some_error">There is some error</string>
+    <string name="you_spent_total_in_this_month">You spent total: %1$s in this month</string>
+    <string name="your_spent_nothing_in_this_month">Your spent nothing in this month</string>
 </resources>

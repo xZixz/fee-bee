@@ -4,16 +4,16 @@ import com.cardes.domain.entity.Spending
 import com.cardes.domain.repository.SpendingRepository
 import javax.inject.Inject
 
-interface GetSpendingsByDateRange {
+interface GetSpendingsByDateRangeUseCase {
     suspend operator fun invoke(
         from: Long,
         to: Long,
     ): Result<List<Spending>>
 }
 
-class GetSpendingsByDateRangeImpl @Inject constructor(
+class GetSpendingsByDateRangeUseCaseImpl @Inject constructor(
     private val spendingRepository: SpendingRepository,
-) : GetSpendingsByDateRange {
+) : GetSpendingsByDateRangeUseCase {
     override suspend fun invoke(
         from: Long,
         to: Long,

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cardes.domain.entity.Category
 import com.cardes.domain.entity.Spending
-import com.cardes.domain.usecase.GetSpendingsByCategoriesByDateRange
-import com.cardes.domain.usecase.getspendingsbydaterange.GetSpendingsByDateRange
+import com.cardes.domain.usecase.GetSpendingsByCategoriesByDateRangeUseCase
+import com.cardes.domain.usecase.getspendingsbydaterange.GetSpendingsByDateRangeUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.columnSeries
@@ -25,8 +25,8 @@ private const val DEFAULT_TIME_RANGE_IN_MONTHS = 12
 
 @HiltViewModel
 class TotalSpentViewModel @Inject constructor(
-    private val getSpendingsByDateRange: GetSpendingsByDateRange,
-    private val getSpendingsByCategoriesByDateRange: GetSpendingsByCategoriesByDateRange,
+    private val getSpendingsByDateRangeUseCase: GetSpendingsByDateRangeUseCase,
+    private val getSpendingsByCategoriesByDateRangeUseCase: GetSpendingsByCategoriesByDateRangeUseCase,
     observeCategoriesUseCase: ObserveCategoriesUseCase,
 ) : ViewModel() {
     private val spendingList = MutableStateFlow(listOf<Spending>())
@@ -57,8 +57,7 @@ class TotalSpentViewModel @Inject constructor(
                 }.mapValues { element ->
                     element.value.sumOf { it.amount }
                 }
-        }
-        .onEach { spendingsData ->
+        }.onEach { spendingsData ->
             if (spendingsData.isNotEmpty()) {
                 spendingsChartModelProducer.runTransaction {
                     columnSeries {
@@ -69,8 +68,7 @@ class TotalSpentViewModel @Inject constructor(
                     }
                 }
             }
-        }
-        .stateIn(
+        }.stateIn(
             initialValue = hashMapOf(),
             started = SharingStarted.WhileSubscribed(500L),
             scope = viewModelScope,
@@ -111,7 +109,7 @@ class TotalSpentViewModel @Inject constructor(
         ) { selectedCategoryIds, fromDate, toDate ->
             when {
                 selectedCategoryIds.isEmpty() -> {
-                    getSpendingsByDateRange
+                    getSpendingsByDateRangeUseCase
                         .invoke(
                             from = fromDate,
                             to = toDate,
@@ -123,7 +121,7 @@ class TotalSpentViewModel @Inject constructor(
                 }
 
                 else -> {
-                    getSpendingsByCategoriesByDateRange
+                    getSpendingsByCategoriesByDateRangeUseCase
                         .invoke(
                             categoryIds = selectedCategoryIds,
                             from = fromDate,

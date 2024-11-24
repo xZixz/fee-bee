@@ -41,7 +41,7 @@ fun AnalyticsRoute(modifier: Modifier = Modifier) {
 @Composable
 fun AnalyticsScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        var currentTab by remember { mutableStateOf<AnalyticTabDestination>(AnalyticTabDestination.BarChartTabDestination) }
+        var currentTab by remember { mutableStateOf<AnalyticTabDestination>(AnalyticTabDestination.PieChartTabDestination) }
         AnalyticsTopBar(
             tabs = allAnalyticTabDestinations,
             currentTab = currentTab,

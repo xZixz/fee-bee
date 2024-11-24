@@ -81,6 +81,9 @@ dependencies {
     // Number Picker
     implementation(libs.numberPicker)
 
+    // Pie Chart
+    implementation(libs.composeChart)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compliler)

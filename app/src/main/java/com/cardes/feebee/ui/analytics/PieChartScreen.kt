@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -46,6 +48,8 @@ import com.cardes.feebee.ui.common.monthYearDisplayFormat
 import com.cardes.feebee.ui.design.component.FeeBeeTextInput
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 import com.chargemap.compose.numberpicker.NumberPicker
+import ir.ehsannarmani.compose_charts.PieChart
+import ir.ehsannarmani.compose_charts.models.Pie
 import java.util.Calendar
 
 @Composable
@@ -53,28 +57,34 @@ fun PieChartScreen(
     modifier: Modifier = Modifier,
     viewModel: PieChartViewModel = hiltViewModel(),
 ) {
-    val pieChartViewState by viewModel.pieChartViewState.collectAsStateWithLifecycle()
+    val selectCategoryViewState by viewModel.selectCategoryViewState.collectAsStateWithLifecycle()
+    val selectedMonth by viewModel.selectedMonth.collectAsStateWithLifecycle()
+    val spendingPercentageViewState by viewModel.spendingPercentageViewState.collectAsStateWithLifecycle()
     Column(
         modifier = modifier.padding(10.dp),
     ) {
+        SpendingsPercentage(
+            spendingPercentageViewState = spendingPercentageViewState,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(modifier = Modifier.height(5.dp))
         MonthSelection(
-            month = pieChartViewState.selectedMonth.month,
-            year = pieChartViewState.selectedMonth.year,
+            month = selectedMonth.month,
+            year = selectedMonth.year,
             onMonthPicked = viewModel::onMonthPicked,
         )
         Spacer(modifier = Modifier.height(5.dp))
         CategorySelection(
-            selectCategoryViewState = pieChartViewState.selectCategoryViewState,
+            selectCategoryViewState = selectCategoryViewState,
             onCategoryClick = viewModel::onCategoryClick,
         )
-
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CategorySelection(
-    selectCategoryViewState: PieChartViewState.SelectCategoryViewState,
+    selectCategoryViewState: PieChartSelectCategoryViewState,
     onCategoryClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -103,6 +113,76 @@ private fun CategorySelection(
 }
 
 @Composable
+fun SpendingsPercentage(
+    spendingPercentageViewState: SpendingPercentageViewState,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        when (spendingPercentageViewState) {
+            SpendingPercentageViewState.Loading -> {
+                Text(
+                    text = stringResource(R.string.loading),
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
+
+            is SpendingPercentageViewState.NoCategories -> {
+                Text(
+                    text = stringResource(R.string.you_spent_total_in_this_month, spendingPercentageViewState.sumOfMonth),
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
+
+            is SpendingPercentageViewState.NoSpendingsInThisMonth -> {
+                Text(
+                    text = stringResource(R.string.your_spent_nothing_in_this_month),
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
+
+            is SpendingPercentageViewState.DataAvailable -> {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    val color1 = MaterialTheme.colorScheme.onPrimary
+                    val color2 = MaterialTheme.colorScheme.primary
+                    val pieChartData = remember(spendingPercentageViewState.percentageValue) {
+                        listOf(
+                            Pie(
+                                label = spendingPercentageViewState.percentageString,
+                                data = spendingPercentageViewState.percentageValue.toDouble(),
+                                color = color1,
+                            ),
+                            Pie(
+                                label = "",
+                                data = 100 - spendingPercentageViewState.percentageValue.toDouble(),
+                                color = color2,
+                            ),
+                        )
+                    }
+                    PieChart(
+                        modifier = Modifier.size(200.dp),
+                        data = pieChartData,
+                    )
+                    Text(
+                        text = stringResource(R.string.percentage, spendingPercentageViewState.percentageString),
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                    Text(
+                        text = spendingPercentageViewState.categoryName,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun MonthSelection(
     month: Int,
     year: Int,
@@ -111,10 +191,12 @@ fun MonthSelection(
 ) {
     var showMonthYearPickerDialog by remember { mutableStateOf(false) }
     val monthText = remember(month, year) {
-        Calendar.getInstance().apply {
-            set(Calendar.MONTH, month - 1)
-            set(Calendar.YEAR, year)
-        }.run { monthYearDisplayFormat.format(time) }
+        Calendar
+            .getInstance()
+            .apply {
+                set(Calendar.MONTH, month - 1)
+                set(Calendar.YEAR, year)
+            }.run { monthYearDisplayFormat.format(time) }
     }
     Column(modifier = modifier) {
         Text(
@@ -181,8 +263,7 @@ private fun MonthYearPickerDialog(
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     shape = RoundedCornerShape(8.dp),
-                )
-                .padding(16.dp),
+                ).padding(16.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -239,5 +320,4 @@ private fun MonthYearPickerDialogPreview() {
             )
         }
     }
-
 }
