@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.PieChart
+import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -41,7 +41,7 @@ fun AnalyticsRoute(modifier: Modifier = Modifier) {
 @Composable
 fun AnalyticsScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        var currentTab by remember { mutableStateOf<AnalyticTabDestination>(AnalyticTabDestination.PieChartTabDestination) }
+        var currentTab by remember { mutableStateOf<AnalyticTabDestination>(AnalyticTabDestination.ByCategoriesTabDestination) }
         AnalyticsTopBar(
             tabs = allAnalyticTabDestinations,
             currentTab = currentTab,
@@ -120,20 +120,20 @@ sealed class AnalyticTabDestination(
 ) {
     data object BarChartTabDestination : AnalyticTabDestination(
         titleStringResourceId = R.string.analytics_bar_chart_title,
-        icon = Icons.Filled.BarChart,
+        icon = Icons.Filled.Timeline,
         screen = { TotalSpentScreen() },
     )
 
-    data object PieChartTabDestination : AnalyticTabDestination(
-        titleStringResourceId = R.string.analytics_pie_chart_title,
-        icon = Icons.Filled.PieChart,
-        screen = { PieChartScreen() },
+    data object ByCategoriesTabDestination : AnalyticTabDestination(
+        titleStringResourceId = R.string.analytics_by_categories,
+        icon = Icons.Filled.BarChart,
+        screen = { ByCategoriesScreen() },
     )
 }
 
 private val allAnalyticTabDestinations = listOf(
     AnalyticTabDestination.BarChartTabDestination,
-    AnalyticTabDestination.PieChartTabDestination,
+    AnalyticTabDestination.ByCategoriesTabDestination,
 )
 
 @Preview(

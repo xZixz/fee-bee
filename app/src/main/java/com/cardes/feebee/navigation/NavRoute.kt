@@ -74,15 +74,14 @@ enum class BottomNavItem(
         icon = Icons.Default.Home,
         labelResourceId = R.string.spendings,
     ),
-
-    CATEGORIES_LIST(
-        route = NavRoutes.Main.CategoriesList.name,
-        icon = Icons.Default.Settings,
-        labelResourceId = R.string.categories,
-    ),
     ANALYTICS(
         route = NavRoutes.Main.Analytics.name,
         icon = Icons.Default.DataUsage,
         labelResourceId = R.string.analytics,
+    ),
+    CATEGORIES_LIST(
+        route = NavRoutes.Main.CategoriesList.name,
+        icon = Icons.Default.Settings,
+        labelResourceId = R.string.categories,
     ),
 }

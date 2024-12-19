@@ -23,7 +23,7 @@
     <string name="confirm_removing_category_text">I\'m sure about this</string>
     <string name="analytics">Analytics</string>
     <string name="analytics_bar_chart_title">Total Spent</string>
-    <string name="analytics_pie_chart_title">Pie Chart</string>
+    <string name="analytics_by_categories">By Categories</string>
     <string name="january_abbr">Jan</string>
     <string name="february_abbr">Feb</string>
     <string name="march_abbr">Mar</string>

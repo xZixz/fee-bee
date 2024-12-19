@@ -16,31 +16,27 @@ import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStart
 import com.patrykandpatrick.vico.compose.cartesian.cartesianLayerPadding
-import com.patrykandpatrick.vico.compose.cartesian.layer.rememberColumnCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLine
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.marker.rememberDefaultCartesianMarker
 import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
 import com.patrykandpatrick.vico.compose.cartesian.rememberVicoScrollState
 import com.patrykandpatrick.vico.compose.cartesian.rememberVicoZoomState
 import com.patrykandpatrick.vico.compose.common.component.fixed
-import com.patrykandpatrick.vico.compose.common.component.rememberLineComponent
-import com.patrykandpatrick.vico.compose.common.component.rememberShapeComponent
 import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
 import com.patrykandpatrick.vico.compose.common.data.rememberExtraLambda
 import com.patrykandpatrick.vico.compose.common.dimensions
-import com.patrykandpatrick.vico.compose.common.shape.markerCorneredShape
-import com.patrykandpatrick.vico.compose.common.shape.rounded
+import com.patrykandpatrick.vico.compose.common.fill
 import com.patrykandpatrick.vico.compose.common.vicoTheme
 import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
 import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModel
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
-import com.patrykandpatrick.vico.core.cartesian.data.ColumnCartesianLayerModel
-import com.patrykandpatrick.vico.core.cartesian.layer.ColumnCartesianLayer
+import com.patrykandpatrick.vico.core.cartesian.data.LineCartesianLayerModel
+import com.patrykandpatrick.vico.core.cartesian.layer.LineCartesianLayer
 import com.patrykandpatrick.vico.core.cartesian.marker.DefaultCartesianMarker
 import com.patrykandpatrick.vico.core.common.component.TextComponent
-import com.patrykandpatrick.vico.core.common.shape.Corner
-import com.patrykandpatrick.vico.core.common.shape.CorneredShape
 
 @Composable
 private fun TotalSpentBarChart(
@@ -62,32 +58,21 @@ private fun TotalSpentBarChart(
                 textAlignment = Layout.Alignment.ALIGN_CENTER,
                 margins = dimensions(bottom = 5.dp),
                 padding = dimensions(4.dp, 4.dp),
-                background =
-                    rememberShapeComponent(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = markerCorneredShape(
-                            all = Corner.FullyRounded,
-                            tickSizeDp = 0.dp,
-                        ),
-                    ),
                 minWidth = TextComponent.MinWidth.fixed(40.dp),
             ),
         )
-        val chart = rememberCartesianChart(
-            rememberColumnCartesianLayer(
-                ColumnCartesianLayer.ColumnProvider.series(
-                    vicoTheme.columnCartesianLayerColors.map { color ->
-                        rememberLineComponent(
-                            color = color,
-                            thickness = 8.dp,
-                            shape = CorneredShape.rounded(
-                                topLeft = 3.dp,
-                                topRight = 3.dp,
-                            ),
-                        )
-                    },
-                ),
+        val lineChart = rememberLineCartesianLayer(
+            LineCartesianLayer.LineProvider.series(
+                vicoTheme.lineCartesianLayerColors.map { color ->
+                    LineCartesianLayer.rememberLine(
+                        fill = remember { LineCartesianLayer.LineFill.single(fill(color)) },
+                        pointConnector = remember { LineCartesianLayer.PointConnector.cubic(curvature = 0f) },
+                    )
+                },
             ),
+        )
+        val chart = rememberCartesianChart(
+            lineChart,
             startAxis = VerticalAxis.rememberStart(
                 itemPlacer = remember { VerticalAxis.ItemPlacer.step(shiftTopLines = false) },
             ),
@@ -177,7 +162,7 @@ fun TotalSpentChartPreview() {
         Surface {
             TotalSpentBarChart(
                 spendingsChartModel = CartesianChartModel(
-                    ColumnCartesianLayerModel.build {
+                    LineCartesianLayerModel.build {
                         series(
                             x = listOf(4, 5, 6),
                             y = listOf(100, 200, 400),

@@ -8,7 +8,7 @@ import com.cardes.domain.usecase.GetSpendingsByCategoriesByDateRangeUseCase
 import com.cardes.domain.usecase.getspendingsbydaterange.GetSpendingsByDateRangeUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
-import com.patrykandpatrick.vico.core.cartesian.data.columnSeries
+import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -60,7 +60,7 @@ class TotalSpentViewModel @Inject constructor(
         }.onEach { spendingsData ->
             if (spendingsData.isNotEmpty()) {
                 spendingsChartModelProducer.runTransaction {
-                    columnSeries {
+                    lineSeries {
                         series(
                             x = spendingsData.keys,
                             y = spendingsData.values,
