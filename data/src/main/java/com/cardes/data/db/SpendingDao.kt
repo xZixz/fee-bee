@@ -2,16 +2,20 @@ package com.cardes.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.MapColumn
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.TypeConverters
 import androidx.room.Update
 import com.cardes.data.db.entity.SpendingCategoryCrossRef
 import com.cardes.data.db.entity.SpendingEntity
 import com.cardes.data.db.entity.SpendingWithCategories
 import kotlinx.coroutines.flow.Flow
+import java.math.BigDecimal
 
 @Dao
+@TypeConverters(BigDecimalTypeConverter::class)
 abstract class SpendingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun addSpending(spending: SpendingEntity): Long
@@ -76,6 +80,7 @@ abstract class SpendingDao {
     @Query(value = "SELECT * FROM spendings where id=:spendingId")
     abstract fun observeSpending(spendingId: Long): Flow<SpendingWithCategories>
 
+    @Transaction
     @Query(
         value = "SELECT * FROM spendings " +
             "INNER JOIN SpendingCategoryCrossRef ON spendings.id = SpendingCategoryCrossRef.spendingId " +
@@ -84,10 +89,11 @@ abstract class SpendingDao {
     )
     abstract suspend fun getSpendingsByCategoryIds(categoryIds: List<Long>): List<SpendingWithCategories>
 
+    @Transaction
     @Query(
         value = "SELECT * FROM spendings " +
             "INNER JOIN SpendingCategoryCrossRef ON spendings.id = SpendingCategoryCrossRef.spendingId " +
-            "INNER JOIN  categories ON SpendingCategoryCrossRef.categoryId = categories.categoryId " +
+            "INNER JOIN categories ON SpendingCategoryCrossRef.categoryId = categories.categoryId " +
             "WHERE categories.categoryId IN (:categoryIds) AND spendings.time BETWEEN :from AND :to",
     )
     abstract suspend fun getSpendingsByCategoryIdsByDateRange(
@@ -96,9 +102,26 @@ abstract class SpendingDao {
         to: Long,
     ): List<SpendingWithCategories>
 
+    @Transaction
     @Query(value = "SELECT * FROM spendings")
     abstract suspend fun getAllSpendings(): List<SpendingWithCategories>
 
+    @Query(
+        value = "SELECT categories.name, sum(spendings.amount) AS total FROM spendings " +
+            "INNER JOIN SpendingCategoryCrossRef ON spendings.id = SpendingCategoryCrossRef.spendingId " +
+            "INNER JOIN categories ON SpendingCategoryCrossRef.categoryId = categories.categoryId " +
+            "WHERE spendings.time BETWEEN :from AND :to " +
+            "GROUP BY categories.name ",
+    )
+    abstract suspend fun getTotalSpentOfCategoriesByDateRange(
+        from: Long,
+        to: Long,
+    ): Map<
+        @MapColumn(columnName = "name", tableName = "categories") String,
+        @MapColumn(columnName = "total") BigDecimal,
+    >
+
+    @Transaction
     @Query(value = "SELECT * FROM spendings WHERE time BETWEEN :from AND :to")
     abstract suspend fun getSpendingsByTimeRange(
         from: Long,

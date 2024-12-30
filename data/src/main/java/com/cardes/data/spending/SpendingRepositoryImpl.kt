@@ -101,6 +101,19 @@ class SpendingRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun getTotalSpentByCategoriesInMonth(
+        month: Int,
+        year: Int,
+    ): Result<Map<String, BigDecimal>> =
+        withContext(ioDispatcher) {
+            resultWrap {
+                spendingLocalDataSource.getTotalSpentByCategoriesInMonth(
+                    month = month,
+                    year = year,
+                )
+            }
+        }
+
     override fun observeSpending(spendingId: Long): Flow<Spending> = spendingLocalDataSource.observeSpending(spendingId)
 
     override suspend fun removeSpending(spendingId: Long): Result<Unit> =

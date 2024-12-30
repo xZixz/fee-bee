@@ -1,28 +1,26 @@
 package com.cardes.feebee.ui.analytics
 
 import android.content.res.Configuration
+import android.text.Layout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -48,137 +46,95 @@ import com.cardes.feebee.ui.common.monthYearDisplayFormat
 import com.cardes.feebee.ui.design.component.FeeBeeTextInput
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 import com.chargemap.compose.numberpicker.NumberPicker
-import ir.ehsannarmani.compose_charts.PieChart
-import ir.ehsannarmani.compose_charts.models.Pie
+import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStart
+import com.patrykandpatrick.vico.compose.cartesian.cartesianLayerPadding
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberColumnCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.marker.rememberDefaultCartesianMarker
+import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
+import com.patrykandpatrick.vico.compose.common.component.fixed
+import com.patrykandpatrick.vico.compose.common.component.rememberLineComponent
+import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
+import com.patrykandpatrick.vico.compose.common.dimensions
+import com.patrykandpatrick.vico.compose.common.shape.rounded
+import com.patrykandpatrick.vico.compose.common.vicoTheme
+import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
+import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
+import com.patrykandpatrick.vico.core.cartesian.layer.ColumnCartesianLayer
+import com.patrykandpatrick.vico.core.cartesian.marker.DefaultCartesianMarker
+import com.patrykandpatrick.vico.core.common.component.TextComponent
+import com.patrykandpatrick.vico.core.common.shape.CorneredShape
 import java.util.Calendar
 
 @Composable
-fun ByCategoriesScreen(
+fun ByCategoriesRoute(
     modifier: Modifier = Modifier,
-    viewModel: PieChartViewModel = hiltViewModel(),
+    viewModel: ByCategoriesViewModel = hiltViewModel(),
 ) {
-    val selectCategoryViewState by viewModel.selectCategoryViewState.collectAsStateWithLifecycle()
     val selectedMonth by viewModel.selectedMonth.collectAsStateWithLifecycle()
-    val spendingPercentageViewState by viewModel.spendingPercentageViewState.collectAsStateWithLifecycle()
+    val chartViewState by viewModel.chartViewState.collectAsStateWithLifecycle()
+
+    ByCategoryScreen(
+        selectedMonth = selectedMonth,
+        chartViewState = chartViewState,
+        totalSpentByCategoryChartProducer = viewModel.totalSpentByCategoryInMonthModelProducer,
+        onMonthPicked = viewModel::onMonthPicked,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun ByCategoryScreen(
+    selectedMonth: MonthYear,
+    chartViewState: ByCategoryChartViewState,
+    totalSpentByCategoryChartProducer: CartesianChartModelProducer,
+    onMonthPicked: (Int, Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier.padding(10.dp),
     ) {
-        SpendingsPercentage(
-            spendingPercentageViewState = spendingPercentageViewState,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        MonthSelection(
-            month = selectedMonth.month,
-            year = selectedMonth.year,
-            onMonthPicked = viewModel::onMonthPicked,
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        CategorySelection(
-            selectCategoryViewState = selectCategoryViewState,
-            onCategoryClick = viewModel::onCategoryClick,
-        )
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun CategorySelection(
-    selectCategoryViewState: PieChartSelectCategoryViewState,
-    onCategoryClick: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(modifier = modifier) {
-        Text(
-            text = stringResource(R.string.categories),
-            style = MaterialTheme.typography.titleMedium,
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        Box(
+            modifier = Modifier
+                .height(200.dp)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center,
         ) {
-            selectCategoryViewState.categories.forEach { category ->
-                FilterChip(
-                    selected = selectCategoryViewState.selectedCategoryId == category.id,
-                    onClick = {
-                        onCategoryClick(category.id)
-                    },
-                    label = {
-                        Text(text = category.name)
-                    },
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun SpendingsPercentage(
-    spendingPercentageViewState: SpendingPercentageViewState,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        when (spendingPercentageViewState) {
-            SpendingPercentageViewState.Loading -> {
-                Text(
-                    text = stringResource(R.string.loading),
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-
-            is SpendingPercentageViewState.NoCategories -> {
-                Text(
-                    text = stringResource(R.string.you_spent_total_in_this_month, spendingPercentageViewState.sumOfMonth),
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-
-            is SpendingPercentageViewState.NoSpendingsInThisMonth -> {
-                Text(
-                    text = stringResource(R.string.your_spent_nothing_in_this_month),
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-
-            is SpendingPercentageViewState.DataAvailable -> {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    val color1 = MaterialTheme.colorScheme.onPrimary
-                    val color2 = MaterialTheme.colorScheme.primary
-                    val pieChartData = remember(spendingPercentageViewState.percentageValue) {
-                        listOf(
-                            Pie(
-                                label = spendingPercentageViewState.percentageString,
-                                data = spendingPercentageViewState.percentageValue.toDouble(),
-                                color = color1,
-                            ),
-                            Pie(
-                                label = "",
-                                data = 100 - spendingPercentageViewState.percentageValue.toDouble(),
-                                color = color2,
-                            ),
-                        )
-                    }
-                    PieChart(
-                        modifier = Modifier.size(200.dp),
-                        data = pieChartData,
+            when (chartViewState) {
+                is ByCategoryChartViewState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.width(64.dp),
+                        color = MaterialTheme.colorScheme.secondary,
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
                     )
-                    Text(
-                        text = stringResource(R.string.percentage, spendingPercentageViewState.percentageString),
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                    Text(
-                        text = spendingPercentageViewState.categoryName,
-                        style = MaterialTheme.typography.titleLarge,
+                }
+
+                is ByCategoryChartViewState.Error -> {
+                    Text(text = stringResource(R.string.something_went_wrong))
+                    Text(text = stringResource(R.string.inside_bracket, chartViewState.message))
+                }
+
+                is ByCategoryChartViewState.NoData -> {
+                    Text(text = stringResource(R.string.no_spending_this_month))
+                }
+
+                is ByCategoryChartViewState.Data -> {
+                    TotalSpentByCategoriesChart(
+                        totalSpentByCategoriesProducer = totalSpentByCategoryChartProducer,
+                        categoryNames = chartViewState.categoryNames,
                     )
                 }
             }
         }
+        Spacer(modifier = Modifier.height(5.dp))
+        MonthSelection(
+            month = selectedMonth.month,
+            year = selectedMonth.year,
+            onMonthPicked = onMonthPicked,
+        )
     }
 }
 
@@ -244,6 +200,62 @@ fun MonthSelection(
     }
 }
 
+@Composable
+fun TotalSpentByCategoriesChart(
+    modifier: Modifier = Modifier,
+    totalSpentByCategoriesProducer: CartesianChartModelProducer,
+    categoryNames: List<String>,
+) {
+    Box(modifier = modifier) {
+        val valueFormatter = remember(categoryNames) {
+            CartesianValueFormatter { _, x, _ ->
+                categoryNames[x.toInt()]
+            }
+        }
+        val marker = rememberDefaultCartesianMarker(
+            labelPosition = DefaultCartesianMarker.LabelPosition.AbovePoint,
+            label = rememberTextComponent(
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlignment = Layout.Alignment.ALIGN_CENTER,
+                margins = dimensions(bottom = 5.dp),
+                padding = dimensions(4.dp, 4.dp),
+                minWidth = TextComponent.MinWidth.fixed(40.dp),
+            ),
+        )
+        val barChart = rememberCartesianChart(
+            rememberColumnCartesianLayer(
+                ColumnCartesianLayer.ColumnProvider.series(
+                    vicoTheme.columnCartesianLayerColors.map { color ->
+                        rememberLineComponent(
+                            color = color,
+                            thickness = 8.dp,
+                            shape = CorneredShape.rounded(
+                                topLeft = 3.dp,
+                                topRight = 3.dp,
+                            ),
+                        )
+                    },
+                ),
+            ),
+            startAxis = VerticalAxis.rememberStart(),
+            bottomAxis = HorizontalAxis.rememberBottom(
+                valueFormatter = valueFormatter,
+                itemPlacer = remember { HorizontalAxis.ItemPlacer.segmented() },
+            ),
+            marker = marker,
+            layerPadding = cartesianLayerPadding(
+                scalableStartPadding = 16.dp,
+                scalableEndPadding = 16.dp,
+            ),
+        )
+        CartesianChartHost(
+            modifier = modifier,
+            modelProducer = totalSpentByCategoriesProducer,
+            chart = barChart,
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MonthYearPickerDialog(
@@ -263,8 +275,7 @@ private fun MonthYearPickerDialog(
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     shape = RoundedCornerShape(8.dp),
-                )
-                .padding(16.dp),
+                ).padding(16.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.Center,

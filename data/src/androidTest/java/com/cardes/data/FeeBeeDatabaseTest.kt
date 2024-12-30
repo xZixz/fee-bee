@@ -166,4 +166,79 @@ class FeeBeeDatabaseTest {
                 )
             assertThat(spendingsOfJun.map { it.spending.id }).isEqualTo(listOf(2L, 3L))
         }
+
+    @Test
+    fun testQueryTotalSpentByCategoriesAndByDateRange() =
+        runTest {
+            // Given
+            val categories = TestUtil.createCategories(2)
+            categoriesDao.createCategories(categories)
+
+            val spendingOnMayCategory1 = TestUtil.createSpending(
+                id = 1,
+                content = "Spending on May",
+                time = Calendar
+                    .getInstance()
+                    .apply {
+                        set(Calendar.MONTH, 4)
+                        set(Calendar.DAY_OF_MONTH, 1)
+                    }.timeInMillis,
+            )
+            spendingsDao.addSpendingWithCategories(spendingOnMayCategory1, listOf(categories[0].categoryId))
+
+            val spendingsOnJunWithCategory2 =
+                (2..3).map { index ->
+                    TestUtil.createSpending(
+                        id = index.toLong(),
+                        content = "Spending num #$index",
+                        time = Calendar
+                            .getInstance()
+                            .apply {
+                                set(Calendar.MONTH, 5)
+                                set(Calendar.DAY_OF_MONTH, 1)
+                            }.timeInMillis,
+                    )
+                }
+            spendingsDao.addSpendingsWithCategories(
+                spendingsOnJunWithCategory2.map { spending -> Pair(spending, listOf(categories[1].categoryId)) },
+            )
+
+            val spendingOnJunWithCategory1 = TestUtil.createSpending(
+                id = 100,
+                content = "Spending more",
+                time = Calendar
+                    .getInstance()
+                    .apply {
+                        set(Calendar.MONTH, 5)
+                        set(Calendar.DAY_OF_MONTH, 1)
+                    }.timeInMillis,
+                amount = BigDecimal(300),
+            )
+            spendingsDao.addSpendingWithCategories(spendingOnJunWithCategory1, listOf(categories[0].categoryId))
+
+            // When
+            val aprilTime = TestUtil.timeOfFirstDayOfMonthInMilliseconds(4)
+            val mayTime = TestUtil.timeOfFirstDayOfMonthInMilliseconds(5)
+            val junTime = TestUtil.timeOfFirstDayOfMonthInMilliseconds(6)
+            val julyTime = TestUtil.timeOfFirstDayOfMonthInMilliseconds(7)
+            val spendingsOfMay = spendingsDao
+                .getSpendingsByCategoryIdsByDateRange(
+                    listOf(categories[0].categoryId),
+                    from = aprilTime,
+                    to = junTime,
+                )
+            assertThat(spendingsOfMay.map { it.spending.id }).isEqualTo(listOf(1L))
+
+            val totalSpent = spendingsDao
+                .getTotalSpentOfCategoriesByDateRange(
+                    from = mayTime,
+                    to = julyTime,
+                )
+            assertThat(totalSpent).isEqualTo(
+                mapOf(
+                    categories[0].name to spendingOnMayCategory1.amount + spendingOnJunWithCategory1.amount,
+                    categories[1].name to spendingsOnJunWithCategory2.sumOf { it.amount },
+                ),
+            )
+        }
 }

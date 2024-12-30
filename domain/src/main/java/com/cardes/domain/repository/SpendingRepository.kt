@@ -46,4 +46,9 @@ interface SpendingRepository {
         from: Long,
         to: Long,
     ): Result<List<Spending>>
+
+    suspend fun getTotalSpentByCategoriesInMonth(
+        month: Int,
+        year: Int,
+    ): Result<Map<String, BigDecimal>>
 }

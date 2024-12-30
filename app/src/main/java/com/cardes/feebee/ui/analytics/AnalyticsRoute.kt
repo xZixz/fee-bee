@@ -127,7 +127,7 @@ sealed class AnalyticTabDestination(
     data object ByCategoriesTabDestination : AnalyticTabDestination(
         titleStringResourceId = R.string.analytics_by_categories,
         icon = Icons.Filled.BarChart,
-        screen = { ByCategoriesScreen() },
+        screen = { ByCategoriesRoute() },
     )
 }
 

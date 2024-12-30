@@ -18,6 +18,8 @@ import com.cardes.domain.usecase.getspendingsbycategories.GetSpendingsByCategori
 import com.cardes.domain.usecase.getspendingsbycategories.GetSpendingsByCategoriesUseCaseImpl
 import com.cardes.domain.usecase.getspendingsbydaterange.GetSpendingsByDateRangeUseCase
 import com.cardes.domain.usecase.getspendingsbydaterange.GetSpendingsByDateRangeUseCaseImpl
+import com.cardes.domain.usecase.gettotalspentbycategoriesinmonth.GetTotalSpentByCategoriesInMonthUseCase
+import com.cardes.domain.usecase.gettotalspentbycategoriesinmonth.GetTotalSpentByCategoriesInMonthUseCaseImpl
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCaseImpl
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
@@ -92,4 +94,7 @@ interface UseCasesModule {
 
     @Binds
     fun bindGetSpendingsByCategoriesByDateRange(getSpendingsByCategoriesByDateRange: GetSpendingsByCategoriesByDateRangeUseCaseImpl): GetSpendingsByCategoriesByDateRangeUseCase
+
+    @Binds
+    fun bindGetTotalSpentByCategoriesInMonthUseCase(getTotalSpentByCategoriesInMonthUseCase: GetTotalSpentByCategoriesInMonthUseCaseImpl): GetTotalSpentByCategoriesInMonthUseCase
 }

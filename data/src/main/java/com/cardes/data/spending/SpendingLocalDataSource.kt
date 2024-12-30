@@ -57,6 +57,11 @@ interface SpendingLocalDataSource {
         from: Long,
         to: Long,
     ): List<Spending>
+
+    suspend fun getTotalSpentByCategoriesInMonth(
+        month: Int,
+        year: Int,
+    ): Map<String, BigDecimal>
 }
 
 class SpendingLocalDataSourceImpl @Inject constructor(
@@ -109,6 +114,36 @@ class SpendingLocalDataSourceImpl @Inject constructor(
                 from = from,
                 to = to,
             ).map(SpendingWithCategories::toSpending)
+
+    override suspend fun getTotalSpentByCategoriesInMonth(
+        month: Int,
+        year: Int,
+    ): Map<String, BigDecimal> {
+        val startOfTheMonth = Calendar
+            .getInstance()
+            .apply {
+                set(Calendar.MONTH, month - 1)
+                set(Calendar.YEAR, year)
+                set(Calendar.DAY_OF_MONTH, 1)
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.timeInMillis
+        val endOfTheMonth = Calendar
+            .getInstance()
+            .apply {
+                set(android.icu.util.Calendar.MONTH, month)
+                set(android.icu.util.Calendar.YEAR, year)
+                set(android.icu.util.Calendar.DAY_OF_MONTH, 1)
+                set(android.icu.util.Calendar.HOUR_OF_DAY, 0)
+                set(android.icu.util.Calendar.MINUTE, 0)
+                set(android.icu.util.Calendar.MILLISECOND, 0)
+            }.timeInMillis - 1
+        return spendingDao.getTotalSpentOfCategoriesByDateRange(
+            from = startOfTheMonth,
+            to = endOfTheMonth,
+        )
+    }
 
     override fun getSpendings(): Flow<List<Spending>> =
         spendingDao
@@ -186,15 +221,6 @@ private fun SpendingWithCategories.toSpending() =
         amount = spending.amount,
         time = spending.time,
         categories = categories.map { it.toCategory() },
-    )
-
-private fun SpendingEntity.toSpending() =
-    Spending(
-        id = id,
-        content = content,
-        amount = amount,
-        time = time,
-        categories = listOf(),
     )
 
 private fun Category.toCategoryEntity(id: Long = this.id) =
