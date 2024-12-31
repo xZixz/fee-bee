@@ -151,6 +151,7 @@ fun MonthSelection(
             .getInstance()
             .apply {
                 set(Calendar.MONTH, month - 1)
+                set(Calendar.DAY_OF_MONTH, 1)
                 set(Calendar.YEAR, year)
             }.run { monthYearDisplayFormat.format(time) }
     }
