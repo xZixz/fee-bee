@@ -56,6 +56,7 @@ import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
 import com.patrykandpatrick.vico.compose.common.component.fixed
 import com.patrykandpatrick.vico.compose.common.component.rememberLineComponent
 import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
+import com.patrykandpatrick.vico.compose.common.data.rememberExtraLambda
 import com.patrykandpatrick.vico.compose.common.dimensions
 import com.patrykandpatrick.vico.compose.common.shape.rounded
 import com.patrykandpatrick.vico.compose.common.vicoTheme
@@ -238,6 +239,9 @@ fun TotalSpentByCategoriesChart(
                     },
                 ),
             ),
+            persistentMarkers = rememberExtraLambda {
+                (0..categoryNames.size - 1).forEach { marker at it }
+            },
             startAxis = VerticalAxis.rememberStart(),
             bottomAxis = HorizontalAxis.rememberBottom(
                 valueFormatter = valueFormatter,
@@ -276,7 +280,8 @@ private fun MonthYearPickerDialog(
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     shape = RoundedCornerShape(8.dp),
-                ).padding(16.dp),
+                )
+                .padding(16.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.Center,
