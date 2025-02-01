@@ -9,4 +9,5 @@ private const val CATEGORY_TABLE_NAME = "categories"
 data class CategoryEntity(
     @PrimaryKey(autoGenerate = true) val categoryId: Long = 0,
     val name: String,
+    val emoticon: String? = null,
 )
