@@ -21,13 +21,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cardes.feebee.R
+import com.cardes.feebee.ui.common.EmojisPopup
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable
@@ -37,23 +42,16 @@ fun EditCategoryRoute(
     onFinishRemovingCategory: () -> Unit,
 ) {
     val fetchingCategoryUiState by viewModel.fetchingCategoryUiState.collectAsStateWithLifecycle()
-    val showCategoryNameEditDialog by viewModel.showCategoryNameEditDialog.collectAsStateWithLifecycle()
-    val showCategoryRemoveDialog by viewModel.showRemoveCategoryDialog.collectAsStateWithLifecycle(minActiveState = Lifecycle.State.CREATED)
 
     EditCategoryScreen(
         modifier = modifier,
-        showCategoryNameEditDialog = showCategoryNameEditDialog,
         fetchingCategoryUiState = fetchingCategoryUiState,
-        onCategoryNameEditClick = viewModel::onCategoryNameEditClick,
         onConfirmUpdateCategoryName = viewModel::onConfirmUpdateCategoryName,
-        dismissEditCategoryNameDialog = viewModel::dismissEditCategoryNameDialog,
         onEditingCategoryNameChanged = viewModel::onEditingCategoryNameChanged,
-        onRemoveCategoryButtonClick = viewModel::onCategoryRemoveClick,
-        showCategoryRemoveDialog = showCategoryRemoveDialog,
         onConfirmRemoveCategory = {
             viewModel.removeCategory(onFinishRemovingCategory)
         },
-        onDismissRemoveCategoryDialog = viewModel::dismissCategoryRemoveDialog,
+        onEmojiPicked = viewModel::onEmojiPicked,
     )
 }
 
@@ -61,33 +59,14 @@ fun EditCategoryRoute(
 fun EditCategoryScreen(
     modifier: Modifier = Modifier,
     fetchingCategoryUiState: FetchingCategoryUiState,
-    dismissEditCategoryNameDialog: () -> Unit,
-    onCategoryNameEditClick: () -> Unit,
-    showCategoryNameEditDialog: Boolean,
     onEditingCategoryNameChanged: (String) -> Unit,
     onConfirmUpdateCategoryName: (String) -> Unit,
-    onRemoveCategoryButtonClick: () -> Unit,
-    showCategoryRemoveDialog: Boolean,
     onConfirmRemoveCategory: () -> Unit,
-    onDismissRemoveCategoryDialog: () -> Unit,
+    onEmojiPicked: (String) -> Unit,
 ) {
     when (fetchingCategoryUiState) {
         FetchingCategoryUiState.Loading -> {}
         is FetchingCategoryUiState.Success -> {
-            if (showCategoryNameEditDialog) {
-                EditCategoryNameDialog(
-                    onDialogDismiss = dismissEditCategoryNameDialog,
-                    onEditingNameChanged = onEditingCategoryNameChanged,
-                    onConfirm = onConfirmUpdateCategoryName,
-                    editingName = fetchingCategoryUiState.editCategoryUiState.editingCategoryName,
-                )
-            }
-            if (showCategoryRemoveDialog) {
-                ConfirmRemoveCategoryDialog(
-                    onDismiss = onDismissRemoveCategoryDialog,
-                    onConfirm = onConfirmRemoveCategory,
-                )
-            }
             Column(
                 modifier = modifier
                     .background(color = MaterialTheme.colorScheme.background)
@@ -95,31 +74,47 @@ fun EditCategoryScreen(
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Row {
+                    // Edit category's name
+                    var showCategoryNameEditDialog by remember { mutableStateOf(false) }
+
+                    if (showCategoryNameEditDialog) {
+                        EditCategoryNameDialog(
+                            onDialogDismiss = { showCategoryNameEditDialog = false },
+                            onEditingNameChanged = onEditingCategoryNameChanged,
+                            onConfirm = onConfirmUpdateCategoryName,
+                            editingName = fetchingCategoryUiState.editCategoryUiState.editingCategoryName,
+                        )
+                    }
                     Text(
                         text = fetchingCategoryUiState.editCategoryUiState.categoryName,
                         style = MaterialTheme.typography.headlineSmall,
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Icon(
-                        modifier = Modifier.clickable {
-                            onCategoryNameEditClick()
-                        },
+                        modifier = Modifier.clickable { showCategoryNameEditDialog = true },
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit category's name",
                     )
                 }
                 Spacer(modifier = Modifier.weight(1.0f))
+
+                // Remove category
+                var showCategoryRemoveDialog by remember { mutableStateOf(false) }
+                if (showCategoryRemoveDialog) {
+                    ConfirmRemoveCategoryDialog(
+                        onDismiss = { showCategoryRemoveDialog = false },
+                        onConfirm = onConfirmRemoveCategory,
+                    )
+                }
                 Button(
                     shape = RoundedCornerShape(3.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.error,
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        onRemoveCategoryButtonClick()
-                    },
+                    onClick = { showCategoryRemoveDialog = true },
                 ) {
-                    Text(text = "Remove this Category")
+                    Text(text = stringResource(R.string.remove_this_category))
                 }
             }
         }
@@ -147,15 +142,10 @@ fun EditCategoryPreview(
         Surface {
             EditCategoryScreen(
                 fetchingCategoryUiState = fetchingCategoryUiState,
-                dismissEditCategoryNameDialog = {},
-                onCategoryNameEditClick = {},
-                showCategoryNameEditDialog = false,
                 onEditingCategoryNameChanged = {},
                 onConfirmUpdateCategoryName = {},
-                onRemoveCategoryButtonClick = {},
-                showCategoryRemoveDialog = false,
                 onConfirmRemoveCategory = {},
-                onDismissRemoveCategoryDialog = {},
+                onEmojiPicked = {},
             )
         }
     }

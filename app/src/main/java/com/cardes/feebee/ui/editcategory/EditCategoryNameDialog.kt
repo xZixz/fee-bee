@@ -20,6 +20,7 @@ fun EditCategoryNameDialog(
         confirmButton = {
             Button(
                 onClick = {
+                    onDialogDismiss()
                     onConfirm(editingName)
                 },
             ) {

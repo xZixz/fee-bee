@@ -13,12 +13,11 @@ fun ConfirmRemoveCategoryDialog(
     onConfirm: () -> Unit,
 ) {
     AlertDialog(
-        onDismissRequest = {
-            onDismiss()
-        },
+        onDismissRequest = { onDismiss() },
         confirmButton = {
             Button(
                 onClick = {
+                    onDismiss()
                     onConfirm()
                 },
             ) {
@@ -27,9 +26,7 @@ fun ConfirmRemoveCategoryDialog(
         },
         dismissButton = {
             Button(
-                onClick = {
-                    onDismiss()
-                },
+                onClick = { onDismiss() },
             ) {
                 Text(text = stringResource(id = R.string.cancel))
             }
