@@ -30,6 +30,12 @@ interface CategoryDao {
         categoryName: String,
     )
 
+    @Query("UPDATE categories SET emoji=:emoji WHERE categoryId = :categoryId")
+    suspend fun updateCategoryEmoji(
+        categoryId: Long,
+        emoji: String,
+    )
+
     @Query("DELETE FROM categories WHERE categoryId=:categoryId")
     suspend fun removeCategory(categoryId: Long)
 }

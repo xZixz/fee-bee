@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.cardes.data.db.FEE_BEE_DATABASE_NAME
 import com.cardes.data.db.FeeBeeDatabase
+import com.cardes.data.db.MIGRATION_2_3
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,7 +25,8 @@ class DatabaseModule {
                 context = context,
                 klass = FeeBeeDatabase::class.java,
                 name = FEE_BEE_DATABASE_NAME,
-            ).build()
+            ).addMigrations(MIGRATION_2_3)
+            .build()
 
     @Provides
     fun provideSpendingDao(feeBeeDatabase: FeeBeeDatabase) = feeBeeDatabase.spendingDao()

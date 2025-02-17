@@ -44,4 +44,17 @@ class CategoryRepositoryImpl @Inject constructor(
                 categoryLocalDataSource.removeCategory(categoryId = categoryId)
             }
         }
+
+    override suspend fun updateCategoryEmoji(
+        categoryId: Long,
+        emoji: String,
+    ): Result<Unit> =
+        withContext(ioDispatcher) {
+            resultWrap {
+                categoryLocalDataSource.updateCategoryEmoji(
+                    categoryId = categoryId,
+                    emoji = emoji,
+                )
+            }
+        }
 }

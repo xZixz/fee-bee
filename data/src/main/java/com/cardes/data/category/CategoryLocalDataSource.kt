@@ -21,6 +21,11 @@ interface CategoryLocalDataSource {
     )
 
     suspend fun removeCategory(categoryId: Long)
+
+    suspend fun updateCategoryEmoji(
+        categoryId: Long,
+        emoji: String,
+    )
 }
 
 class CategoryLocalDataSourceImpl @Inject constructor(
@@ -54,10 +59,21 @@ class CategoryLocalDataSourceImpl @Inject constructor(
     override suspend fun removeCategory(categoryId: Long) {
         categoryDao.removeCategory(categoryId = categoryId)
     }
+
+    override suspend fun updateCategoryEmoji(
+        categoryId: Long,
+        emoji: String,
+    ) {
+        categoryDao.updateCategoryEmoji(
+            categoryId = categoryId,
+            emoji = emoji,
+        )
+    }
 }
 
 private fun CategoryEntity.toCategory() =
     Category(
         id = categoryId,
         name = name,
+        emoji = emoji.orEmpty(),
     )

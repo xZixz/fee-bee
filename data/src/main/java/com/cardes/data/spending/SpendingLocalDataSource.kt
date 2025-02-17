@@ -233,6 +233,7 @@ private fun CategoryEntity.toCategory() =
     Category(
         id = categoryId,
         name = name,
+        emoji = emoji.orEmpty(),
     )
 
 private fun Spending.toSpendingEntity(id: Long = this.id) =

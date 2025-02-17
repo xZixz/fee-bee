@@ -32,6 +32,8 @@ import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCase
 import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCaseImpl
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCaseImpl
+import com.cardes.domain.usecase.updatecategoryemoji.UpdateCategoryEmojiUseCase
+import com.cardes.domain.usecase.updatecategoryemoji.UpdateCategoryEmojiUseCaseImpl
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCaseImpl
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
@@ -97,4 +99,7 @@ interface UseCasesModule {
 
     @Binds
     fun bindGetTotalSpentByCategoriesInMonthUseCase(getTotalSpentByCategoriesInMonthUseCase: GetTotalSpentByCategoriesInMonthUseCaseImpl): GetTotalSpentByCategoriesInMonthUseCase
+
+    @Binds
+    fun bindUpdateCategoryEmojiUseCase(updateCategoryEmojiUseCase: UpdateCategoryEmojiUseCaseImpl): UpdateCategoryEmojiUseCase
 }

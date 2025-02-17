@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
 import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCase
+import com.cardes.domain.usecase.updatecategoryemoji.UpdateCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
 import com.cardes.feebee.navigation.CATEGORY_ID_ARG
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class EditCategoryViewModel @Inject constructor(
     private val updateCategoryNameUseCase: UpdateCategoryNameUseCase,
     private val removeCategoryUseCase: RemoveCategoryUseCase,
+    private val updateCategoryEmojiUseCase: UpdateCategoryEmojiUseCase,
     observeCategoryUseCase: ObserveCategoryUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -53,6 +55,7 @@ class EditCategoryViewModel @Inject constructor(
         FetchingCategoryUiState.Success(
             editCategoryUiState = EditCategoryUiState(
                 categoryName = category.name,
+                emoji = category.emoji,
                 editingCategoryName = editingCategoryName,
             ),
         )
@@ -73,6 +76,15 @@ class EditCategoryViewModel @Inject constructor(
                 }
         }
     }
+
+    fun onEmojiPicked(emojiString: String) {
+        viewModelScope.launch {
+            updateCategoryEmojiUseCase.invoke(
+                categoryId = categoryId,
+                emoji = emojiString,
+            )
+        }
+    }
 }
 
 sealed class FetchingCategoryUiState {
@@ -85,5 +97,6 @@ sealed class FetchingCategoryUiState {
 
 data class EditCategoryUiState(
     val categoryName: String,
+    val emoji: String,
     val editingCategoryName: String,
 )

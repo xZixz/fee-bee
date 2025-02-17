@@ -9,14 +9,17 @@ object Fake {
             Category(
                 id = 1,
                 name = "Food",
+                emoji = "🍔",
             ),
             Category(
                 id = 2,
                 name = "Cleaning",
+                emoji = "\uD83E\uDEA3",
             ),
             Category(
                 id = 3,
                 name = "Daily",
+                emoji = "💡",
             ),
         )
     val spendings =

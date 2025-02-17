@@ -9,6 +9,7 @@ class EditCategoryPreviewParameter : PreviewParameterProvider<FetchingCategoryUi
             editCategoryUiState = EditCategoryUiState(
                 categoryName = Fake.categories.first().name,
                 editingCategoryName = Fake.categories.first().name,
+                emoji = "💡",
             ),
         ),
     )
