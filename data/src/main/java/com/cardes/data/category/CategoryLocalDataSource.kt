@@ -26,6 +26,8 @@ interface CategoryLocalDataSource {
         categoryId: Long,
         emoji: String,
     )
+
+    suspend fun removeCategoryEmoji(categoryId: Long)
 }
 
 class CategoryLocalDataSourceImpl @Inject constructor(
@@ -68,6 +70,10 @@ class CategoryLocalDataSourceImpl @Inject constructor(
             categoryId = categoryId,
             emoji = emoji,
         )
+    }
+
+    override suspend fun removeCategoryEmoji(categoryId: Long) {
+        categoryDao.removeCategoryEmoji(categoryId = categoryId)
     }
 }
 

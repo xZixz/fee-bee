@@ -57,4 +57,11 @@ class CategoryRepositoryImpl @Inject constructor(
                 )
             }
         }
+
+    override suspend fun removeCategoryEmoji(categoryId: Long): Result<Unit> =
+        withContext(ioDispatcher) {
+            resultWrap {
+                categoryLocalDataSource.removeCategoryEmoji(categoryId = categoryId)
+            }
+        }
 }

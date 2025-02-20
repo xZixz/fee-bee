@@ -21,4 +21,6 @@ interface CategoryRepository {
         categoryId: Long,
         emoji: String,
     ): Result<Unit>
+
+    suspend fun removeCategoryEmoji(categoryId: Long): Result<Unit>
 }

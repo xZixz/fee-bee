@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
 import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCase
+import com.cardes.domain.usecase.removecategoryemoji.RemoveCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryemoji.UpdateCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
 import com.cardes.feebee.navigation.CATEGORY_ID_ARG
@@ -22,6 +23,7 @@ class EditCategoryViewModel @Inject constructor(
     private val updateCategoryNameUseCase: UpdateCategoryNameUseCase,
     private val removeCategoryUseCase: RemoveCategoryUseCase,
     private val updateCategoryEmojiUseCase: UpdateCategoryEmojiUseCase,
+    private val removeCategoryEmojiUseCase: RemoveCategoryEmojiUseCase,
     observeCategoryUseCase: ObserveCategoryUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -83,6 +85,12 @@ class EditCategoryViewModel @Inject constructor(
                 categoryId = categoryId,
                 emoji = emojiString,
             )
+        }
+    }
+
+    fun onRemoveEmoji() {
+        viewModelScope.launch {
+            removeCategoryEmojiUseCase.invoke(categoryId = categoryId)
         }
     }
 }
