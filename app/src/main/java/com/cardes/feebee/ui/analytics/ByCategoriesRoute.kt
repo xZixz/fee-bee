@@ -280,8 +280,7 @@ private fun MonthYearPickerDialog(
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     shape = RoundedCornerShape(8.dp),
-                )
-                .padding(16.dp),
+                ).padding(16.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.Center,

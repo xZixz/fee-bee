@@ -1,14 +1,11 @@
 package com.cardes.feebee.ui.editcategory
 
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,11 +17,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddReaction
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ModeEdit
+import androidx.compose.material.icons.filled.RemoveCircle
+import androidx.compose.material.icons.filled.SentimentDissatisfied
 import androidx.compose.material.icons.outlined.AddReaction
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -40,10 +37,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -57,6 +58,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.emojis
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 
@@ -100,7 +102,17 @@ fun EditCategoryScreen(
                     .padding(horizontal = 10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    textDecoration = TextDecoration.Underline,
+                    text = stringResource(id = R.string.category),
+                )
+                Spacer(modifier = Modifier.height(30.dp))
+
+                EmojiSelectButton(
+                    onEmojiPicked = onEmojiPicked,
+                    onRemoveEmoji = onRemoveEmoji,
+                    emoji = fetchingCategoryUiState.editCategoryUiState.emoji,
+                )
                 // Edit category's name
                 var showCategoryNameEditDialog by remember { mutableStateOf(false) }
 
@@ -112,6 +124,7 @@ fun EditCategoryScreen(
                         editingName = fetchingCategoryUiState.editCategoryUiState.editingCategoryName,
                     )
                 }
+                Spacer(modifier = Modifier.height(50.dp))
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = fetchingCategoryUiState.editCategoryUiState.categoryName,
@@ -135,13 +148,6 @@ fun EditCategoryScreen(
                         contentDescription = "Edit category's name",
                     )
                 }
-
-                Spacer(modifier = Modifier.height(50.dp))
-                EmojiSelectButton(
-                    onEmojiPicked = onEmojiPicked,
-                    onRemoveEmoji = onRemoveEmoji,
-                    emoji = fetchingCategoryUiState.editCategoryUiState.emoji,
-                )
 
                 Spacer(modifier = Modifier.weight(1.0f))
 
@@ -177,68 +183,59 @@ fun EmojiSelectButton(
     emoji: String,
 ) {
     var showEmojisPopup by remember { mutableStateOf(false) }
-    Box {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            when (emoji.isBlank()) {
-                true -> {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        if (emoji.isBlank()) {
+            Icon(
+                modifier = Modifier
+                    .size(75.dp)
+                    .padding(10.dp),
+                imageVector = Icons.Default.SentimentDissatisfied,
+                contentDescription = "Empty emoji",
+                tint = Color.Gray,
+            )
+        } else {
+            Box {
+                Text(
+                    modifier = Modifier.size(75.dp),
+                    fontSize = 57.sp,
+                    text = emoji,
+                    textAlign = TextAlign.Center,
+                )
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .shadow(8.dp, CircleShape)
+                        .clip(CircleShape)
+                        .background(Color.White),
+                ) {
                     Icon(
                         modifier = Modifier
-                            .size(65.dp)
-                            .border(
-                                width = 2.dp,
-                                color = Color.Gray,
-                                shape = CircleShape,
-                            ).padding(10.dp),
-                        imageVector = Icons.Default.AddReaction,
-                        contentDescription = "Empty emoji",
+                            .clickable { onRemoveEmoji() },
+                        imageVector = Icons.Default.RemoveCircle,
                         tint = Color.Gray,
-                    )
-                }
-
-                false -> {
-                    Text(
-                        modifier = Modifier.size(65.dp),
-                        fontSize = 57.sp,
-                        text = emoji,
-                        textAlign = TextAlign.Center,
+                        contentDescription = "Remove emoji",
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(5.dp))
-            Row {
-                AnimatedVisibility(visible = emoji.isNotBlank()) {
-                    SmallFloatingActionButton(
-                        shape = CircleShape,
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        onClick = { onRemoveEmoji.invoke() },
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            imageVector = Icons.Outlined.Delete,
-                            contentDescription = "Remove emoji",
-                            tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                        )
-                    }
-                }
-                SmallFloatingActionButton(
-                    shape = CircleShape,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    onClick = { showEmojisPopup = true },
-                ) {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        imageVector = Icons.Outlined.AddReaction,
-                        contentDescription = "Remove emoji",
-                        tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                    )
+        }
+        Spacer(modifier = Modifier.height(5.dp))
+        SmallFloatingActionButton(
+            shape = CircleShape,
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            onClick = { showEmojisPopup = true },
+        ) {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                imageVector = Icons.Outlined.AddReaction,
+                contentDescription = "Remove emoji",
+                tint = MaterialTheme.colorScheme.onTertiaryContainer,
+            )
 
-                    if (showEmojisPopup) {
-                        EmojiPopup(
-                            onDismiss = { showEmojisPopup = false },
-                            onEmojiPicked = onEmojiPicked,
-                        )
-                    }
-                }
+            if (showEmojisPopup) {
+                EmojiPopup(
+                    onDismiss = { showEmojisPopup = false },
+                    onEmojiPicked = onEmojiPicked,
+                )
             }
         }
     }
@@ -304,6 +301,7 @@ fun EmojiPopup(
 
 @Preview(
     name = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true,
     widthDp = 250,
     heightDp = 400,
