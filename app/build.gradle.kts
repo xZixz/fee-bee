@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.cardes.feebee"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.cardes.feebee"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -32,6 +32,24 @@ android {
             )
         }
     }
+
+    flavorDimensions += "version"
+
+    productFlavors {
+        create("dev") {
+            dimension = "version"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            resValue("string", "app_name", "FeeBee-dev")
+        }
+        create("prod") {
+            dimension = "version"
+            applicationIdSuffix = ".prod"
+            versionNameSuffix = "-prod"
+            resValue("string", "app_name", "FeeBee")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
