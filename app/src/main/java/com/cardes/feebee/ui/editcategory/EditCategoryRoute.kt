@@ -1,9 +1,10 @@
 package com.cardes.feebee.ui.editcategory
 
 import android.content.res.Configuration
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,19 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddReaction
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ModeEdit
 import androidx.compose.material.icons.filled.RemoveCircle
-import androidx.compose.material.icons.filled.SentimentDissatisfied
-import androidx.compose.material.icons.outlined.AddReaction
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -54,12 +48,10 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.feebee.R
-import com.cardes.feebee.ui.common.emojis
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable
@@ -183,60 +175,60 @@ fun EmojiSelectButton(
     emoji: String,
 ) {
     var showEmojisPopup by remember { mutableStateOf(false) }
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        if (emoji.isBlank()) {
-            Icon(
-                modifier = Modifier
-                    .size(75.dp)
-                    .padding(10.dp),
-                imageVector = Icons.Default.SentimentDissatisfied,
-                contentDescription = "Empty emoji",
-                tint = Color.Gray,
-            )
-        } else {
-            Box {
-                Text(
-                    modifier = Modifier.size(75.dp),
-                    fontSize = 57.sp,
-                    text = emoji,
-                    textAlign = TextAlign.Center,
-                )
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .shadow(8.dp, CircleShape)
-                        .clip(CircleShape)
-                        .background(Color.White),
-                ) {
+    Box(
+        modifier = Modifier.clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = { showEmojisPopup = true },
+        ),
+    ) {
+        Crossfade(
+            targetState = emoji.isNotBlank(),
+        ) { isIconVisible ->
+            when (isIconVisible) {
+                true -> {
+                    Box {
+                        Text(
+                            modifier = Modifier.size(75.dp),
+                            fontSize = 57.sp,
+                            text = emoji,
+                            textAlign = TextAlign.Center,
+                        )
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .shadow(8.dp, CircleShape)
+                                .clip(CircleShape)
+                                .background(Color.White),
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .clickable { onRemoveEmoji() },
+                                imageVector = Icons.Default.RemoveCircle,
+                                tint = Color.Gray,
+                                contentDescription = "Remove emoji",
+                            )
+                        }
+                    }
+                }
+
+                false -> {
                     Icon(
                         modifier = Modifier
-                            .clickable { onRemoveEmoji() },
-                        imageVector = Icons.Default.RemoveCircle,
+                            .size(75.dp)
+                            .padding(10.dp),
+                        imageVector = Icons.Default.AddReaction,
+                        contentDescription = "Empty emoji",
                         tint = Color.Gray,
-                        contentDescription = "Remove emoji",
                     )
                 }
             }
         }
-        Spacer(modifier = Modifier.height(5.dp))
-        SmallFloatingActionButton(
-            shape = CircleShape,
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            onClick = { showEmojisPopup = true },
-        ) {
-            Icon(
-                modifier = Modifier.size(20.dp),
-                imageVector = Icons.Outlined.AddReaction,
-                contentDescription = "Remove emoji",
-                tint = MaterialTheme.colorScheme.onTertiaryContainer,
+        if (showEmojisPopup) {
+            EmojiPicker(
+                onDismiss = { showEmojisPopup = false },
+                onEmojiPicked = onEmojiPicked,
             )
-
-            if (showEmojisPopup) {
-                EmojiPopup(
-                    onDismiss = { showEmojisPopup = false },
-                    onEmojiPicked = onEmojiPicked,
-                )
-            }
         }
     }
 }
@@ -255,45 +247,6 @@ private fun rememberPopupPositionProvider(): PopupPositionProvider {
                 val x = anchorBounds.left + anchorBounds.width / 2 - popupContentSize.width / 2
                 val padding = with(currentDensity) { 5.dp.roundToPx() }
                 return IntOffset(x = x, y = anchorBounds.top + anchorBounds.height + padding)
-            }
-        }
-    }
-}
-
-@Composable
-fun EmojiPopup(
-    onDismiss: () -> Unit,
-    onEmojiPicked: (String) -> Unit,
-    popupPositionProvider: PopupPositionProvider = rememberPopupPositionProvider(),
-) {
-    Popup(
-        onDismissRequest = onDismiss,
-        popupPositionProvider = popupPositionProvider,
-    ) {
-        Card(
-            modifier = Modifier.wrapContentSize(),
-            colors = CardDefaults.cardColors(),
-            elevation = CardDefaults.cardElevation(5.dp),
-        ) {
-            LazyVerticalGrid(
-                modifier = Modifier.padding(10.dp),
-                columns = GridCells.FixedSize(size = 45.dp),
-                verticalArrangement = Arrangement.spacedBy(15.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                items(emojis) { emoji ->
-                    Text(
-                        modifier = Modifier
-//                            .size(45.dp)
-                            .clickable {
-                                onDismiss()
-                                onEmojiPicked(emoji)
-                            },
-                        text = emoji,
-                        textAlign = TextAlign.Center,
-                        fontSize = 30.sp,
-                    )
-                }
             }
         }
     }
