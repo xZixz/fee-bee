@@ -11,7 +11,7 @@ fun NavGraphBuilder.spendingsList(
     onSpendingClick: (Long) -> Unit,
 ) {
     composable(route = BottomNavItem.SPENDINGS_LIST.route) {
-        SpendingsListRoute(
+        SpendingsRoute(
             onCreateSpendingClick = onCreateSpendingClick,
             onSpendingClick = onSpendingClick,
         )

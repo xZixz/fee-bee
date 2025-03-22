@@ -47,7 +47,7 @@ fun HomeScreen(
         Box(modifier = modifier.weight(1.0f)) {
             NavHost(
                 navController = navController,
-                startDestination = BottomNavItem.ANALYTICS.route,
+                startDestination = BottomNavItem.SPENDINGS_LIST.route,
             ) {
                 spendingsList(
                     onCreateSpendingClick = onCreateSpendingClick,

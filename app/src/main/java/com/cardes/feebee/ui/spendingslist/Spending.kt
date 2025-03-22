@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -17,17 +16,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.cardes.domain.entity.Spending
 import com.cardes.feebee.mock.PreviewMockUp
 import com.cardes.feebee.ui.theme.FeeBeeTheme
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-private val spendingDateFormat = SimpleDateFormat("EEEE, MMMM dd, yyyy", Locale.US)
+private val spendingDateFormat = SimpleDateFormat("EEE, dd MMMM", Locale.US)
 
 @Composable
 fun Spending(
@@ -35,33 +40,63 @@ fun Spending(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        shape = RectangleShape,
+        shape = RoundedCornerShape(50),
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
     ) {
-        Column(modifier = Modifier.padding(5.dp)) {
-            Row {
+        Row(modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)) {
+            Column {
                 Text(
                     modifier = Modifier.padding(start = 5.dp),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
                     text = spending.content,
                 )
-                Spacer(modifier = Modifier.weight(1.0f))
                 Text(
-                    modifier = Modifier.padding(end = 5.dp),
-                    text = "${spending.amount}$",
+                    modifier = Modifier.padding(start = 5.dp),
+                    text = spendingDateFormat.format(spending.time),
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
-            Text(
-                modifier = Modifier.padding(start = 5.dp),
-                text = spendingDateFormat.format(spending.time),
-                style = MaterialTheme.typography.bodySmall,
+            Spacer(modifier = Modifier.weight(1.0f))
+            Cost(
+                modifier = Modifier.align(Alignment.CenterVertically),
+                amount = spending.amount,
             )
-            Spacer(modifier = Modifier.height(5.dp))
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                items(spending.categories) { category ->
-                    CategoryChip(text = category.name)
-                }
-            }
+        }
+    }
+}
+
+@Composable
+fun Cost(
+    modifier: Modifier = Modifier,
+    amount: BigDecimal,
+    currency: String = "$",
+) {
+    val text = buildAnnotatedString {
+        append("$amount")
+        withStyle(style = SpanStyle(fontSize = 14.sp)) {
+            append(" $currency")
+        }
+    }
+    Text(
+        modifier = modifier.padding(end = 5.dp),
+        style = MaterialTheme.typography.titleLarge,
+        text = text,
+    )
+}
+
+@Composable
+fun CategoryChipsRow(
+    spending: Spending,
+    modifier: Modifier = Modifier,
+) {
+    LazyRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+    ) {
+        items(spending.categories) { category ->
+            CategoryChip(text = category.name)
         }
     }
 }
