@@ -23,6 +23,11 @@ object Fake {
                 name = "Daily",
                 emoji = "💡",
             ),
+            Category(
+                id = 4,
+                name = "Sky",
+                emoji = "",
+            ),
         )
     val spendings =
         listOf(
