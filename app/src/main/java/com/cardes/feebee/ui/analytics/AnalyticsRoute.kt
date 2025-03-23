@@ -31,6 +31,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cardes.feebee.R
+import com.cardes.feebee.ui.analytics.bycategories.ByCategoriesRoute
+import com.cardes.feebee.ui.analytics.totalspent.TotalSpentScreen
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable

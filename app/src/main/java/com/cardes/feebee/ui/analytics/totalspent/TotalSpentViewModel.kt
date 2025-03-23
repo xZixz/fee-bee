@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.analytics
+package com.cardes.feebee.ui.analytics.totalspent
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

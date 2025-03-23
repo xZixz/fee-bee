@@ -1,15 +1,11 @@
-package com.cardes.feebee.ui.analytics
+package com.cardes.feebee.ui.analytics.totalspent
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +20,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.monthDayYearDisplayFormat
 import com.cardes.feebee.ui.design.component.FeeBeeDateInput
-import com.cardes.feebee.ui.editspending.NoRippleInteractionSource
 
 @Composable
 fun TotalSpentScreen(
@@ -82,31 +77,5 @@ fun TotalSpentScreen(
             dateFormat = remember { monthDayYearDisplayFormat },
             onDatePicked = viewModel::onToDatePicked,
         )
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun CategoryFilters(
-    onCategoryClick: (Long) -> Unit,
-    selectCategoryViewStates: List<SelectCategoryViewState>,
-    modifier: Modifier = Modifier,
-) {
-    FlowRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-    ) {
-        selectCategoryViewStates.forEach { categoryViewState ->
-            FilterChip(
-                selected = categoryViewState.isSelected,
-                onClick = {
-                    onCategoryClick(categoryViewState.category.id)
-                },
-                label = {
-                    Text(categoryViewState.category.name)
-                },
-                interactionSource = remember { NoRippleInteractionSource() },
-            )
-        }
     }
 }

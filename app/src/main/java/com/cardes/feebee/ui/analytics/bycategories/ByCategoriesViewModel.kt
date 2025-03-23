@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.analytics
+package com.cardes.feebee.ui.analytics.bycategories
 
 import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel

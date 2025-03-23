@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.analytics
+package com.cardes.feebee.ui.analytics.totalspent
 
 import android.text.Layout
 import androidx.compose.foundation.layout.Box
