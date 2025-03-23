@@ -2,6 +2,7 @@ package com.cardes.feebee.ui.spendingslist
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,16 +33,19 @@ import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-private val spendingDateFormat = SimpleDateFormat("EEE, dd MMMM", Locale.US)
+private val spendingDateFormat = SimpleDateFormat("EEE, dd", Locale.US)
 
 @Composable
 fun Spending(
     spending: Spending,
+    onSpendingClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
         shape = RoundedCornerShape(50),
-        modifier = modifier,
+        modifier = modifier.clickable {
+            onSpendingClick(spending.id)
+        },
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
     ) {
         Row(modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)) {
@@ -55,7 +59,7 @@ fun Spending(
                 Text(
                     modifier = Modifier.padding(start = 5.dp),
                     text = spendingDateFormat.format(spending.time),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
             Spacer(modifier = Modifier.weight(1.0f))
@@ -149,6 +153,7 @@ private fun SpendingPreview() {
         Surface {
             Spending(
                 spending = PreviewMockUp.spendings[0],
+                onSpendingClick = {},
             )
         }
     }

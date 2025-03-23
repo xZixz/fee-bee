@@ -1,7 +1,9 @@
 package com.cardes.data.fake
 
+import com.cardes.domain.base.MonthYear
 import com.cardes.domain.entity.Category
 import com.cardes.domain.entity.Spending
+import java.util.Calendar
 
 object Fake {
     val categories =
@@ -73,6 +75,16 @@ object Fake {
                 categories = listOf(),
             ),
         )
+    val spendingsData = spendings
+        .groupBy { spending ->
+            Calendar.getInstance().run {
+                timeInMillis = spending.time
+                MonthYear(
+                    month = get(Calendar.MONTH),
+                    year = get(Calendar.YEAR),
+                )
+            }
+        }.toSortedMap(compareBy<MonthYear> { it.year }.thenBy { it.month }.reversed())
 }
 
 @Suppress("ktlint:standard:property-naming")

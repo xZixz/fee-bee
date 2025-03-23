@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cardes.domain.usecase.addsamples.AddSamplesUseCase
 import com.cardes.domain.usecase.deleteallspendings.DeleteAllSpendingsUseCase
-import com.cardes.domain.usecase.observespendings.ObserveSpendingsUseCase
+import com.cardes.domain.usecase.observegroupedbymonthspendings.ObserveGroupedByMonthsSpendingsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SpendingsListViewModel @Inject constructor(
-    observeSpendingsUseCase: ObserveSpendingsUseCase,
+    observeGroupedByMonthsSpendingsUseCase: ObserveGroupedByMonthsSpendingsUseCase,
     private val addSamplesUseCase: AddSamplesUseCase,
     private val deleteAllSpendingsUseCase: DeleteAllSpendingsUseCase,
 ) : ViewModel() {
@@ -31,9 +31,9 @@ class SpendingsListViewModel @Inject constructor(
     }
 
     val spendingsListUiState =
-        observeSpendingsUseCase()
-            .map { spendings ->
-                SpendingsListUiState.Success(spendings = spendings)
+        observeGroupedByMonthsSpendingsUseCase()
+            .map { groupedSpendings ->
+                SpendingsListUiState.Success(data = groupedSpendings)
             }.stateIn(
                 scope = viewModelScope,
                 initialValue = SpendingsListUiState.Loading,

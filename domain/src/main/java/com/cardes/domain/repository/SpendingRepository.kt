@@ -1,13 +1,17 @@
 package com.cardes.domain.repository
 
+import com.cardes.domain.base.MonthYear
 import com.cardes.domain.entity.Spending
 import kotlinx.coroutines.flow.Flow
 import java.math.BigDecimal
+import java.util.SortedMap
 
 interface SpendingRepository {
     suspend fun getSpending(spendingId: Long): Result<Spending>
 
     fun observeSpendings(): Flow<List<Spending>>
+
+    fun observeGroupedByMonthsSpending(): Flow<SortedMap<MonthYear, List<Spending>>>
 
     suspend fun removeSpending(spendingId: Long): Result<Unit>
 

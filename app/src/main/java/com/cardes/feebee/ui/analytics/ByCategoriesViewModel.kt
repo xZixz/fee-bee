@@ -3,6 +3,7 @@ package com.cardes.feebee.ui.analytics
 import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cardes.domain.base.MonthYear
 import com.cardes.domain.usecase.gettotalspentbycategoriesinmonth.GetTotalSpentByCategoriesInMonthUseCase
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.columnSeries
@@ -79,8 +80,3 @@ sealed class ByCategoryChartViewState {
         val categoryNames: List<String>,
     ) : ByCategoryChartViewState()
 }
-
-data class MonthYear(
-    val month: Int,
-    val year: Int,
-)

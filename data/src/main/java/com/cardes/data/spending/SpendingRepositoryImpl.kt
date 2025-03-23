@@ -2,12 +2,17 @@ package com.cardes.data.spending
 
 import com.cardes.core.common.di.Dispatcher
 import com.cardes.core.common.di.FeeBeeDispatcher
+import com.cardes.domain.base.MonthYear
 import com.cardes.domain.entity.Spending
 import com.cardes.domain.repository.SpendingRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
+import java.util.Calendar
+import java.util.SortedMap
 import javax.inject.Inject
 
 class SpendingRepositoryImpl @Inject constructor(
@@ -58,6 +63,21 @@ class SpendingRepositoryImpl @Inject constructor(
         }
 
     override fun observeSpendings(): Flow<List<Spending>> = spendingLocalDataSource.getSpendings()
+
+    override fun observeGroupedByMonthsSpending(): Flow<SortedMap<MonthYear, List<Spending>>> =
+        observeSpendings()
+            .map { spendings ->
+                spendings
+                    .groupBy { spending ->
+                        Calendar.getInstance().run {
+                            timeInMillis = spending.time
+                            MonthYear(
+                                month = get(Calendar.MONTH),
+                                year = get(Calendar.YEAR),
+                            )
+                        }
+                    }.toSortedMap(compareBy<MonthYear> { it.year }.thenBy { it.month }.reversed())
+            }.flowOn(ioDispatcher)
 
     override suspend fun getSpendingsByCategoryIds(categoryIds: List<Long>): Result<List<Spending>> =
         withContext(ioDispatcher) {

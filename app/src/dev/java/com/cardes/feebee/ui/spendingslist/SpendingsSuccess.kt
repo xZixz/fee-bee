@@ -5,17 +5,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.cardes.domain.base.MonthYear
 import com.cardes.domain.entity.Spending
+import java.util.SortedMap
 
 @Composable
 fun SpendingsSuccess(
-    spendings: List<Spending>,
+    spendingsData: SortedMap<MonthYear, List<Spending>>,
     onSpendingClick: (Long) -> Unit,
     onAddSamplesClick: () -> Unit,
     onDeleteAllSpendingsClick: () -> Unit,
 ) = Box(modifier = Modifier.fillMaxSize()) {
     SpendingsList(
-        spendings = spendings,
+        spendingsData = spendingsData,
         onSpendingClick = onSpendingClick,
     )
     CreateMockDataButtons(

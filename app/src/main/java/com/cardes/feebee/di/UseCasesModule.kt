@@ -24,6 +24,8 @@ import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCaseImpl
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCaseImpl
+import com.cardes.domain.usecase.observegroupedbymonthspendings.ObserveGroupedByMonthsSpendingsUseCase
+import com.cardes.domain.usecase.observegroupedbymonthspendings.ObserveGroupedByMonthsSpendingsUseCaseImpl
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCaseImpl
 import com.cardes.domain.usecase.observespendings.ObserveSpendingsUseCase
@@ -107,4 +109,7 @@ interface UseCasesModule {
 
     @Binds
     fun bindRemoveCategoryEmojiUseCase(removeCategoryEmojiUseCase: RemoveCategoryEmojiUseCaseImpl): RemoveCategoryEmojiUseCase
+
+    @Binds
+    fun bindObservingGroupedByMonthsSpendings(groupedByMonthsSpendings: ObserveGroupedByMonthsSpendingsUseCaseImpl): ObserveGroupedByMonthsSpendingsUseCase
 }
