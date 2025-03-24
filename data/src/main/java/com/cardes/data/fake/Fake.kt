@@ -80,16 +80,6 @@ object Fake {
                 categories = listOf(),
             ),
         )
-    val spendingsData = spendings
-        .groupBy { spending ->
-            Calendar.getInstance().run {
-                timeInMillis = spending.time
-                MonthYear(
-                    month = get(Calendar.MONTH),
-                    year = get(Calendar.YEAR),
-                )
-            }
-        }.toSortedMap(compareBy<MonthYear> { it.year }.thenBy { it.month }.reversed())
 }
 
 @Suppress("ktlint:standard:property-naming")

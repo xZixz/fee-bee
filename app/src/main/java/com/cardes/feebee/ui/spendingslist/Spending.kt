@@ -2,9 +2,7 @@ package com.cardes.feebee.ui.spendingslist
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -12,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,41 +27,28 @@ import com.cardes.domain.entity.Spending
 import com.cardes.feebee.mock.PreviewMockUp
 import com.cardes.feebee.ui.theme.FeeBeeTheme
 import java.math.BigDecimal
-import java.text.SimpleDateFormat
-import java.util.Locale
-
-private val spendingDateFormat = SimpleDateFormat("EEE, dd", Locale.US)
 
 @Composable
-fun Spending(
+fun SpendingItem(
     spending: Spending,
     onSpendingClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
+        modifier = modifier,
         shape = RoundedCornerShape(50),
-        modifier = modifier.clickable {
-            onSpendingClick(spending.id)
-        },
-        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
+        onClick = { onSpendingClick(spending.id) },
     ) {
-        Row(modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)) {
-            Column {
-                Text(
-                    modifier = Modifier.padding(start = 5.dp),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    text = spending.content,
-                )
-                Text(
-                    modifier = Modifier.padding(start = 5.dp),
-                    text = spendingDateFormat.format(spending.time),
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            }
+        Row(
+            modifier = Modifier.padding(horizontal = 15.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                style = MaterialTheme.typography.titleMedium,
+                text = spending.content,
+            )
             Spacer(modifier = Modifier.weight(1.0f))
             Cost(
-                modifier = Modifier.align(Alignment.CenterVertically),
                 amount = spending.amount,
             )
         }
@@ -84,8 +68,9 @@ fun Cost(
         }
     }
     Text(
-        modifier = modifier.padding(end = 5.dp),
+        modifier = modifier,
         style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.Normal,
         text = text,
     )
 }
@@ -148,10 +133,10 @@ private fun CategoryChipPreview() {
     widthDp = 250,
 )
 @Composable
-private fun SpendingPreview() {
+private fun SingleSpendingPreview() {
     FeeBeeTheme {
         Surface {
-            Spending(
+            SpendingItem(
                 spending = PreviewMockUp.spendings[0],
                 onSpendingClick = {},
             )

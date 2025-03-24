@@ -64,7 +64,7 @@ class SpendingRepositoryImpl @Inject constructor(
 
     override fun observeSpendings(): Flow<List<Spending>> = spendingLocalDataSource.getSpendings()
 
-    override fun observeGroupedByMonthsSpending(): Flow<SortedMap<MonthYear, List<Spending>>> =
+    override fun observeGroupedByMonthsSpending(): Flow<SortedMap<MonthYear, SortedMap<Int, List<Spending>>>> =
         observeSpendings()
             .map { spendings ->
                 spendings
@@ -76,6 +76,14 @@ class SpendingRepositoryImpl @Inject constructor(
                                 year = get(Calendar.YEAR),
                             )
                         }
+                    }.mapValues { (_, spendings) ->
+                        spendings
+                            .groupBy { spending ->
+                                Calendar.getInstance().run {
+                                    timeInMillis = spending.time
+                                    get(Calendar.DATE)
+                                }
+                            }.toSortedMap(reverseOrder())
                     }.toSortedMap(compareBy<MonthYear> { it.year }.thenBy { it.month }.reversed())
             }.flowOn(ioDispatcher)
 

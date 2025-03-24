@@ -11,7 +11,7 @@ interface SpendingRepository {
 
     fun observeSpendings(): Flow<List<Spending>>
 
-    fun observeGroupedByMonthsSpending(): Flow<SortedMap<MonthYear, List<Spending>>>
+    fun observeGroupedByMonthsSpending(): Flow<SortedMap<MonthYear, SortedMap<Int, List<Spending>>>>
 
     suspend fun removeSpending(spendingId: Long): Result<Unit>
 

@@ -13,9 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="FeeBeeDatabaseTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="core.common">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2024-05-04T09:11:51.935512Z">

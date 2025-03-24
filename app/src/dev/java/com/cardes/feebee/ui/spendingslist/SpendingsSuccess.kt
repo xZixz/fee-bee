@@ -5,13 +5,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.cardes.domain.base.MonthYear
 import com.cardes.domain.entity.Spending
 import java.util.SortedMap
 
 @Composable
 fun SpendingsSuccess(
-    spendingsData: SortedMap<MonthYear, List<Spending>>,
+    spendingsData: SortedMap<DayYear, List<Spending>>,
     onSpendingClick: (Long) -> Unit,
     onAddSamplesClick: () -> Unit,
     onDeleteAllSpendingsClick: () -> Unit,

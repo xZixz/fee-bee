@@ -8,11 +8,11 @@ import java.util.SortedMap
 import javax.inject.Inject
 
 interface ObserveGroupedByMonthsSpendingsUseCase {
-    operator fun invoke(): Flow<SortedMap<MonthYear, List<Spending>>>
+    operator fun invoke(): Flow<SortedMap<MonthYear, SortedMap<Int, List<Spending>>>>
 }
 
 class ObserveGroupedByMonthsSpendingsUseCaseImpl @Inject constructor(
     private val spendingRepository: SpendingRepository,
 ) : ObserveGroupedByMonthsSpendingsUseCase {
-    override fun invoke(): Flow<SortedMap<MonthYear, List<Spending>>> = spendingRepository.observeGroupedByMonthsSpending()
+    override fun invoke(): Flow<SortedMap<MonthYear, SortedMap<Int, List<Spending>>>> = spendingRepository.observeGroupedByMonthsSpending()
 }
