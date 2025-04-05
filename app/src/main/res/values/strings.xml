@@ -9,15 +9,11 @@
     <string name="ok">OK</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
-    <string name="details">Details</string>
     <string name="remove_spending_confirm_question">Are you sure to remove this spending?</string>
     <string name="categories">Categories</string>
     <string name="add_a_new_category">Add a new category</string>
-    <string name="remove_this_spending">Remove this Spending</string>
     <string name="edit_spending">Edit Spending</string>
     <string name="update">Update</string>
-    <string name="loading">Loading</string>
-    <string name="edit_category">Edit Category</string>
     <string name="confirm_remove_category_dialog_content">Are you sure you want to remove this category?</string>
     <string name="confirm_removing_category_text">Yes, I\'m sure</string>
     <string name="analytics">Analytics</string>
@@ -42,14 +38,9 @@
     <string name="select_the_month">Select the month</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
-    <string name="percentage">%1$s %%</string>
-    <string name="there_is_some_error">There is some error</string>
-    <string name="you_spent_total_in_this_month">You spent total: %1$s in this month</string>
     <string name="no_spending_this_month">No spending this month.</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="inside_bracket">(%1$s)</string>
-    <string name="remove_this_category">Remove this Category</string>
-    <string name="pick_an_emoji">Pick an emoji</string>
     <string name="category_name">Category name</string>
     <string name="category">Category</string>
 </resources>

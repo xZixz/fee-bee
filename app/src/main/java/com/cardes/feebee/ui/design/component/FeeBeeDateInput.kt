@@ -22,9 +22,9 @@ import java.util.Calendar
 @Composable
 fun FeeBeeDateInput(
     time: Long,
+    modifier: Modifier = Modifier,
     dateFormat: DateFormat = remember { spendingDateDisplayFormat },
     onDatePicked: (Long) -> Unit,
-    modifier: Modifier = Modifier,
     lastSelectableDate: String? = null,
 ) {
     var showDatePickerDialog by rememberSaveable { mutableStateOf(false) }
