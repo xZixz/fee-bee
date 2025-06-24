@@ -1,26 +1,16 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.feebee.android.application)
     alias(libs.plugins.kotlinComposeCompiler)
+    alias(libs.plugins.feebee.hilt)
 }
 
 android {
     namespace = "com.cardes.feebee"
-    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.cardes.feebee"
-        minSdk = 24
-        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
 
     buildTypes {
@@ -50,18 +40,8 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     buildFeatures {
         compose = true
-    }
-    hilt {
-        enableAggregatingTask = false
     }
 }
 
@@ -77,7 +57,6 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.material.icons.extended)
     implementation(libs.androidx.material.material.icons.core)
-    implementation(libs.javax.inject)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
@@ -96,10 +75,6 @@ dependencies {
 
     // Pie Chart
     implementation(libs.composeChart)
-
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compliler)
 
     // Room
     ksp(libs.androidx.room)
