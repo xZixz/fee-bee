@@ -1,4 +1,4 @@
-package com.cardes.feebee.di
+package com.cardes.data.di
 
 import android.content.Context
 import androidx.room.Room

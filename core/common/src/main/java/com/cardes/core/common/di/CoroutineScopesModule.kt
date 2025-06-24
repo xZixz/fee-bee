@@ -16,7 +16,7 @@ annotation class ApplicationScope
 
 @Module
 @InstallIn(SingletonComponent::class)
-class CoroutineScopesModule {
+object CoroutineScopesModule {
     @Provides
     @Singleton
     @ApplicationScope

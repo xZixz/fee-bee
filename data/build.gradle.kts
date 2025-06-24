@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.feebee.android.library)
     alias(libs.plugins.feebee.inject)
     alias(libs.plugins.feebee.hilt)
+    alias(libs.plugins.feebee.room)
 }
 
 android {
@@ -16,22 +17,9 @@ android {
             )
         }
     }
-
-    ksp {
-        arg("room.schemaLocation", "$projectDir/schemas")
-    }
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.coroutines.core)
-
-    // Room
-    ksp(libs.androidx.room)
-    implementation(libs.androidx.room.ktx)
-
     testImplementation(libs.junit)
     testImplementation(libs.google.truth)
     androidTestImplementation(libs.coroutines.test)
@@ -39,6 +27,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    api(projects.domain)
+    implementation(projects.domain)
     api(projects.core.common)
 }

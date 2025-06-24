@@ -22,6 +22,7 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.hilt.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
 }
 
 tasks {
@@ -62,6 +63,30 @@ gradlePlugin {
                 .get()
                 .pluginId
             implementationClass = "HiltConventionPlugin"
+        }
+        register("composeApplication") {
+            id = libs.plugins.feebee.compose.application
+                .get()
+                .pluginId
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+        register("composeLibrary") {
+            id = libs.plugins.feebee.compose.library
+                .get()
+                .pluginId
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+        register("androidFeature") {
+            id = libs.plugins.feebee.android.feature
+                .get()
+                .pluginId
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
+        register("androidRoom") {
+            id = libs.plugins.feebee.room
+                .get()
+                .pluginId
+            implementationClass = "AndroidRoomConventionPlugin"
         }
     }
 }

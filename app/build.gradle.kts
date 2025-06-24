@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.feebee.android.application)
-    alias(libs.plugins.kotlinComposeCompiler)
+    alias(libs.plugins.feebee.compose.application)
     alias(libs.plugins.feebee.hilt)
 }
 
@@ -39,26 +39,16 @@ android {
             resValue("string", "app_name", "FeeBee")
         }
     }
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+
+    // Compose
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.material.icons.extended)
-    implementation(libs.androidx.material.material.icons.core)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewModel.compose)
     implementation(libs.com.squareup.javapoet)
@@ -76,19 +66,12 @@ dependencies {
     // Pie Chart
     implementation(libs.composeChart)
 
-    // Room
-    ksp(libs.androidx.room)
-    implementation(libs.androidx.room.ktx)
-
     testImplementation(libs.junit)
     testImplementation(libs.google.truth)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 
-    api(projects.domain)
-    api(projects.data)
+    // Modules
+    implementation(projects.domain)
+    implementation(projects.data)
 }
