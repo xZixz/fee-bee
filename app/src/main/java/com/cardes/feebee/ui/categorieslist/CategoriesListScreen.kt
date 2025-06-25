@@ -18,9 +18,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.domain.entity.Category
-import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.BasePage
 import com.cardes.feebee.ui.editspending.CreateCategoryDialog
+import com.cardes.core.common.R as commonR
 
 @Composable
 fun CategoriesListRoute(
@@ -48,7 +48,7 @@ fun CategoriesListScreen(
     showAddCategoryDialog: Boolean,
     onCategoryClick: (Long) -> Unit,
 ) {
-    BasePage(title = stringResource(id = R.string.categories)) {
+    BasePage(title = stringResource(id = commonR.string.categories)) {
         if (showAddCategoryDialog) {
             CreateCategoryDialog(
                 onDismiss = { onAddCategoryDismiss() },

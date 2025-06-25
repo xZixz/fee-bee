@@ -2,8 +2,6 @@ package com.cardes.feebee.ui.editspending
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.Interaction
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -35,14 +33,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cardes.designsystem.common.NoRippleInteractionSource
+import com.cardes.designsystem.component.FeeBeeDateInput
+import com.cardes.designsystem.component.FeeBeeTextInput
 import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.BasePage
-import com.cardes.feebee.ui.design.component.FeeBeeDateInput
-import com.cardes.feebee.ui.design.component.FeeBeeTextInput
 import com.cardes.feebee.ui.spendingdetails.DeleteSpendingDialog
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import com.cardes.core.common.R as commonR
 
 @Composable
 fun EditSpendingRoute(
@@ -157,7 +155,7 @@ fun EditSpendingScreen(
                 )
                 // Categories
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(text = stringResource(R.string.categories))
+                Text(text = stringResource(commonR.string.categories))
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
@@ -245,12 +243,4 @@ private fun EditSpendingScreenPreview(
             )
         }
     }
-}
-
-class NoRippleInteractionSource : MutableInteractionSource {
-    override val interactions: Flow<Interaction> = emptyFlow()
-
-    override suspend fun emit(interaction: Interaction) {}
-
-    override fun tryEmit(interaction: Interaction): Boolean = true
 }

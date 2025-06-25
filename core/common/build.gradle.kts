@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.feebee.android.library)
+    alias(libs.plugins.feebee.compose.library)
     alias(libs.plugins.feebee.inject)
     alias(libs.plugins.feebee.hilt)
     alias(libs.plugins.ksp)

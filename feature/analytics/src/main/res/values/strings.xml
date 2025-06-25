@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="analytics_bar_chart_title">Total Spent</string>
+    <string name="analytics_by_categories">By Categories</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="inside_bracket">(%1$s)</string>
+    <string name="no_spending_this_month">No spending this month.</string>
+    <string name="select_the_month">Select the month</string>
+    <string name="date">Date</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="ok">OK</string>
+    <string name="january_abbr">Jan</string>
+    <string name="february_abbr">Feb</string>
+    <string name="march_abbr">Mar</string>
+    <string name="april_abbr">Apr</string>
+    <string name="may_abbr">May</string>
+    <string name="june_abbr">Jun</string>
+    <string name="july_abbr">Jul</string>
+    <string name="august_abbr">Aug</string>
+    <string name="september_abbr">Sep</string>
+    <string name="october_abbr">Oct</string>
+    <string name="november_abbr">Nov</string>
+    <string name="december_abbr">Dec</string>
+    <string name="empty" translatable="false" />
+    <string name="no_data">No Data</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+</resources>

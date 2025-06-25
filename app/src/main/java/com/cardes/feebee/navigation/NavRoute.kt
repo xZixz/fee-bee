@@ -5,13 +5,14 @@ import androidx.compose.material.icons.filled.DataUsage
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.cardes.analytics.navigation.AnalyticsRoute
 import com.cardes.feebee.R
-import com.cardes.feebee.ui.analytics.navigation.AnalyticsRoute
 import com.cardes.feebee.ui.categorieslist.navigation.CategoriesRoute
 import com.cardes.feebee.ui.home.navigation.HOME_ROUTE
 import com.cardes.spendings.navigation.SpendingsRoute
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import com.cardes.core.common.R as commonR
 import com.cardes.spendings.R as spendingsR
 
 const val MAIN_ROUTE = "main_route"
@@ -83,6 +84,6 @@ enum class BottomNavItem(
     CATEGORIES_LIST(
         route = CategoriesRoute::class,
         icon = Icons.Default.Settings,
-        labelResourceId = R.string.categories,
+        labelResourceId = commonR.string.categories,
     ),
 }

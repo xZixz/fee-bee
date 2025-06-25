@@ -16,10 +16,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
+import com.cardes.analytics.navigation.analytics
+import com.cardes.analytics.navigation.toAnalytics
 import com.cardes.feebee.navigation.BottomNavItem
-import com.cardes.feebee.ui.analytics.navigation.analytics
 import com.cardes.feebee.ui.categorieslist.navigation.categoriesList
 import com.cardes.spendings.navigation.spendingsList
+import com.cardes.spendings.navigation.toSpendings
 
 @Composable
 fun HomeRoute(
@@ -76,14 +79,27 @@ fun BottomNavigationBar(
         val currentDestination = navBackStackEntry?.destination
 
         BottomNavItem.entries.toTypedArray().forEach { navItem ->
+            val route = navItem.route
             NavigationBarItem(
-                selected = currentDestination?.hasRoute(route = navItem.route) == true,
+                selected = currentDestination?.hasRoute(route = route) == true,
                 onClick = {
-                    if (currentDestination?.hasRoute(route = navItem.route)?.not() == true) {
-                        navController.navigate(navItem.route) {
-                            popUpTo(navController.graph.startDestinationId)
+                    if (currentDestination?.hasRoute(route = route)?.not() == true) {
+                        val navOptions = navOptions {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
                             launchSingleTop = true
+                            restoreState = true
                         }
+                        when (navItem) {
+                            BottomNavItem.SPENDINGS_LIST -> navController.toSpendings(navOptions)
+                            BottomNavItem.ANALYTICS -> navController.toAnalytics(navOptions)
+                            BottomNavItem.CATEGORIES_LIST -> {}
+                        }
+//                        navController.navigate(navItem.route) {
+//                            popUpTo(navController.graph.startDestinationId)
+//                            launchSingleTop = true
+//                        }
                     }
                 },
                 icon = {

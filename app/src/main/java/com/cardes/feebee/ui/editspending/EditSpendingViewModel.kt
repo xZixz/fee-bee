@@ -3,6 +3,7 @@ package com.cardes.feebee.ui.editspending
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cardes.designsystem.common.nonBigDecimalCharRegex
 import com.cardes.domain.entity.Category
 import com.cardes.domain.usecase.addcategory.AddCategoryUseCase
 import com.cardes.domain.usecase.createspending.CreateSpendingUseCase
@@ -12,7 +13,6 @@ import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
 import com.cardes.feebee.navigation.SPENDING_ID_ARG
 import com.cardes.feebee.ui.common.StringUtil
-import com.cardes.feebee.ui.common.nonBigDecimalCharRegex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

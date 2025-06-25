@@ -3,9 +3,9 @@ package com.cardes.feebee.ui.spendingdetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cardes.designsystem.common.spendingDateDisplayFormat
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
 import com.cardes.feebee.navigation.SPENDING_ID_ARG
-import com.cardes.feebee.ui.common.spendingDateDisplayFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
