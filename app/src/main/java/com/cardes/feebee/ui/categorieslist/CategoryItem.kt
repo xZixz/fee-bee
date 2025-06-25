@@ -25,8 +25,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.domain.entity.Category
-import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 private val ItemHeight = 34.dp
 

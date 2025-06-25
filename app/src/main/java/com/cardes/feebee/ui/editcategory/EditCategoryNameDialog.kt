@@ -8,9 +8,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.DarkModePreview
-import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable
 fun EditCategoryNameDialog(

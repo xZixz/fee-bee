@@ -35,12 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.BasePage
 import com.cardes.feebee.ui.design.component.FeeBeeDateInput
 import com.cardes.feebee.ui.design.component.FeeBeeTextInput
 import com.cardes.feebee.ui.spendingdetails.DeleteSpendingDialog
-import com.cardes.feebee.ui.theme.FeeBeeTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

@@ -6,9 +6,13 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.cardes.feebee.R
-import com.cardes.feebee.ui.home.HOME_ROUTE
-import com.cardes.feebee.ui.spendingslist.SPENDINGS_LIST_ROUTE
+import com.cardes.feebee.ui.analytics.navigation.AnalyticsRoute
+import com.cardes.feebee.ui.categorieslist.navigation.CategoriesRoute
+import com.cardes.feebee.ui.home.navigation.HOME_ROUTE
+import com.cardes.spendings.navigation.SpendingsRoute
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import com.cardes.spendings.R as spendingsR
 
 const val MAIN_ROUTE = "main_route"
 const val EDIT_CATEGORY_ROUTE = "edit_category_route"
@@ -26,7 +30,6 @@ value class NavRouteName(
     companion object {
         val MainRoute = NavRouteName(MAIN_ROUTE)
         val HomeRoute = NavRouteName(HOME_ROUTE)
-        val SpendingsList = NavRouteName(SPENDINGS_LIST_ROUTE)
         val EditSpendingRoute = NavRouteName("$EDIT_SPENDING_ROUTE/{$SPENDING_ID_ARG}")
         val SpendingDetails = NavRouteName("$SPENDING_DETAILS_ROUTE/{$SPENDING_ID_ARG}")
         val CategoriesList = NavRouteName(CATEGORIES_LIST_ROUTE)
@@ -50,8 +53,6 @@ object NavRoutes {
     data object Main : NavRoute(routeName = NavRouteName.MainRoute) {
         data object Home : NavRoute(routeName = NavRouteName.HomeRoute)
 
-        data object SpendingsList : NavRoute(routeName = NavRouteName.SpendingsList)
-
         data object CategoriesList : NavRoute(routeName = NavRouteName.CategoriesList)
 
         data object SpendingDetails : NavRoute(routeName = NavRouteName.SpendingDetails)
@@ -65,22 +66,22 @@ object NavRoutes {
 }
 
 enum class BottomNavItem(
-    val route: String,
+    val route: KClass<*>,
     val icon: ImageVector,
     val labelResourceId: Int,
 ) {
     SPENDINGS_LIST(
-        route = NavRoutes.Main.SpendingsList.name,
+        route = SpendingsRoute::class,
         icon = Icons.Default.Home,
-        labelResourceId = R.string.spendings,
+        labelResourceId = spendingsR.string.spendings,
     ),
     ANALYTICS(
-        route = NavRoutes.Main.Analytics.name,
+        route = AnalyticsRoute::class,
         icon = Icons.Default.DataUsage,
         labelResourceId = R.string.analytics,
     ),
     CATEGORIES_LIST(
-        route = NavRoutes.Main.CategoriesList.name,
+        route = CategoriesRoute::class,
         icon = Icons.Default.Settings,
         labelResourceId = R.string.categories,
     ),

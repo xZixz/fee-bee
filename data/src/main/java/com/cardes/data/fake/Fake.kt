@@ -1,9 +1,7 @@
 package com.cardes.data.fake
 
-import com.cardes.domain.base.MonthYear
 import com.cardes.domain.entity.Category
 import com.cardes.domain.entity.Spending
-import java.util.Calendar
 
 object Fake {
     val categories =

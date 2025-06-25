@@ -9,9 +9,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.ui.common.ChartPreview
 import com.cardes.feebee.ui.common.StringUtil.fromIntToMonthStringResourceId
-import com.cardes.feebee.ui.theme.FeeBeeTheme
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStart

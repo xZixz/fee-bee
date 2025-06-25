@@ -21,9 +21,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cardes.designsystem.component.CategoryChip
+import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.ui.common.BasePage
-import com.cardes.feebee.ui.spendingslist.CategoryChip
-import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable
 fun SpendingDetailsRoute(

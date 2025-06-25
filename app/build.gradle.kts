@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.feebee.android.application)
     alias(libs.plugins.feebee.compose.application)
     alias(libs.plugins.feebee.hilt)
+    // TODO: Remove this after refactoring the bottom navigation
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -74,4 +76,7 @@ dependencies {
     // Modules
     implementation(projects.domain)
     implementation(projects.data)
+
+    implementation(projects.core.designsystem)
+    implementation(projects.feature.spendings)
 }

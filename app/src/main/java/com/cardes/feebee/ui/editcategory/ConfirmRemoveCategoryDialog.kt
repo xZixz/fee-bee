@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.R
-import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable
 fun ConfirmRemoveCategoryDialog(

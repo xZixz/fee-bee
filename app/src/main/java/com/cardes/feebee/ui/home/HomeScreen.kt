@@ -11,14 +11,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cardes.feebee.navigation.BottomNavItem
-import com.cardes.feebee.ui.analytics.analytics
-import com.cardes.feebee.ui.categorieslist.categoriesList
-import com.cardes.feebee.ui.spendingslist.spendingsList
+import com.cardes.feebee.ui.analytics.navigation.analytics
+import com.cardes.feebee.ui.categorieslist.navigation.categoriesList
+import com.cardes.spendings.navigation.spendingsList
 
 @Composable
 fun HomeRoute(
@@ -72,13 +73,13 @@ fun BottomNavigationBar(
 ) {
     NavigationBar(modifier = modifier) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+        val currentDestination = navBackStackEntry?.destination
 
         BottomNavItem.entries.toTypedArray().forEach { navItem ->
             NavigationBarItem(
-                selected = navItem.route == currentRoute,
+                selected = currentDestination?.hasRoute(route = navItem.route) == true,
                 onClick = {
-                    if (navItem.route != currentRoute) {
+                    if (currentDestination?.hasRoute(route = navItem.route)?.not() == true) {
                         navController.navigate(navItem.route) {
                             popUpTo(navController.graph.startDestinationId)
                             launchSingleTop = true
@@ -88,7 +89,7 @@ fun BottomNavigationBar(
                 icon = {
                     Icon(
                         imageVector = navItem.icon,
-                        contentDescription = navItem.route,
+                        contentDescription = stringResource(navItem.labelResourceId),
                     )
                 },
                 label = { Text(text = stringResource(id = navItem.labelResourceId)) },

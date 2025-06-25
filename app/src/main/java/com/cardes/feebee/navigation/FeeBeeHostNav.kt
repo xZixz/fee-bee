@@ -11,7 +11,7 @@ import com.cardes.feebee.ui.editcategory.navigateToEditCategory
 import com.cardes.feebee.ui.editspending.editSpending
 import com.cardes.feebee.ui.editspending.navigateToCreateSpending
 import com.cardes.feebee.ui.editspending.navigateToEditSpending
-import com.cardes.feebee.ui.home.home
+import com.cardes.feebee.ui.home.navigation.home
 import com.cardes.feebee.ui.spendingdetails.navigateToSpendingDetails
 import com.cardes.feebee.ui.spendingdetails.spendingDetails
 

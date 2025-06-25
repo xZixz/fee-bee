@@ -51,8 +51,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.R
-import com.cardes.feebee.ui.theme.FeeBeeTheme
 
 @Composable
 fun EditCategoryRoute(

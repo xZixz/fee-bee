@@ -11,15 +11,17 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             apply(plugin = "feebee.android.library")
             apply(plugin = "feebee.hilt")
             apply(plugin = "feebee.compose.library")
+            apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
             dependencies {
                 implementation(project(":domain"))
                 implementation(project(":data"))
+                implementation(project(":core:designsystem"))
                 implementation(libs.findLibrary("androidx.hilt.navigation.compose").get())
                 implementation(libs.findLibrary("androidx.activity.compose").get())
                 implementation(libs.findLibrary("androidx.navigation.compose").get())
                 implementation(libs.findLibrary("androidx.lifecycle.runtime.compose").get())
-                implementation(libs.findLibrary("androidx.lifecycle.viewmodel.compose").get())
+                implementation(libs.findLibrary("androidx.lifecycle.viewModel.compose").get())
             }
         }
     }

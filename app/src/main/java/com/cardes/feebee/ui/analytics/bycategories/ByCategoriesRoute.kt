@@ -41,11 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.domain.base.MonthYear
 import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.monthYearDisplayFormat
 import com.cardes.feebee.ui.design.component.FeeBeeTextInput
-import com.cardes.feebee.ui.theme.FeeBeeTheme
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
@@ -281,7 +281,8 @@ private fun MonthYearPickerDialog(
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     shape = RoundedCornerShape(8.dp),
-                ).padding(16.dp),
+                )
+                .padding(16.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.Center,

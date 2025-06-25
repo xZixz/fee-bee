@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.navigation.FeeBeeHostNav
-import com.cardes.feebee.ui.theme.FeeBeeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

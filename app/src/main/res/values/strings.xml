@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">FeeBee</string>
-    <string name="spendings">Spendings</string>
     <string name="new_spending">New Spending</string>
     <string name="description">Description</string>
     <string name="cost">Cost ($)</string>
