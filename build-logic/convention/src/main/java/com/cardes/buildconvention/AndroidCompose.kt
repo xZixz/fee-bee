@@ -61,6 +61,6 @@ fun Project.configureCompose(commonExtension: CommonExtension<*, *, *, *, *, *>)
             .let(reportsDestination::set)
 
         stabilityConfigurationFiles
-            .add(isolated.rootProject.projectDirectory.file("compose_compiler_config.conf"))
+            .add(isolated.rootProject.projectDirectory.file("stability_config.conf"))
     }
 }

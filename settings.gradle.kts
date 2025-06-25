@@ -36,6 +36,6 @@ dependencyResolutionManagement {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "FeeBee"
 include(":app")
-include(":domain")
-include(":data")
+include(":core:domain")
+include(":core:data")
 include(":core:common")

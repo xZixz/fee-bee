@@ -74,8 +74,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // Modules
-    implementation(projects.domain)
-    implementation(projects.data)
+    implementation(projects.core.domain)
+    implementation(projects.core.data)
 
     implementation(projects.core.designsystem)
     implementation(projects.core.ui)

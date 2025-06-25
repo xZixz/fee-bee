@@ -14,8 +14,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
             dependencies {
-                implementation(project(":domain"))
-                implementation(project(":data"))
+                implementation(project(":core:domain"))
+                implementation(project(":core:data"))
                 implementation(project(":core:designsystem"))
                 implementation(project(":core:ui"))
                 implementation(project(":core:common"))
