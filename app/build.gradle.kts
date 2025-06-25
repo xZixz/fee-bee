@@ -78,7 +78,9 @@ dependencies {
     implementation(projects.data)
 
     implementation(projects.core.designsystem)
+    implementation(projects.core.ui)
     implementation(projects.core.common)
     implementation(projects.feature.spendings)
     implementation(projects.feature.analytics)
+    implementation(projects.feature.categories)
 }

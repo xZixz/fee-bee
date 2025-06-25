@@ -1,5 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:ui")
+
+include(":feature:categories")
+
 include(":feature:analytics")
 
 include(":core:designsystem")

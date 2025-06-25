@@ -19,8 +19,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.cardes.analytics.navigation.analytics
 import com.cardes.analytics.navigation.toAnalytics
+import com.cardes.categories.navigation.categoriesList
+import com.cardes.categories.navigation.toCategories
 import com.cardes.feebee.navigation.BottomNavItem
-import com.cardes.feebee.ui.categorieslist.navigation.categoriesList
 import com.cardes.spendings.navigation.spendingsList
 import com.cardes.spendings.navigation.toSpendings
 
@@ -94,12 +95,8 @@ fun BottomNavigationBar(
                         when (navItem) {
                             BottomNavItem.SPENDINGS_LIST -> navController.toSpendings(navOptions)
                             BottomNavItem.ANALYTICS -> navController.toAnalytics(navOptions)
-                            BottomNavItem.CATEGORIES_LIST -> {}
+                            BottomNavItem.CATEGORIES_LIST -> navController.toCategories(navOptions)
                         }
-//                        navController.navigate(navItem.route) {
-//                            popUpTo(navController.graph.startDestinationId)
-//                            launchSingleTop = true
-//                        }
                     }
                 },
                 icon = {

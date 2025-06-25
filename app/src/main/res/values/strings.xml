@@ -3,10 +3,8 @@
     <string name="new_spending">New Spending</string>
     <string name="description">Description</string>
     <string name="cost">Cost ($)</string>
-    <string name="create">Create</string>
     <string name="yes">Yes</string>
     <string name="remove_spending_confirm_question">Are you sure to remove this spending?</string>
-    <string name="add_a_new_category">Add a new category</string>
     <string name="edit_spending">Edit Spending</string>
     <string name="update">Update</string>
     <string name="confirm_remove_category_dialog_content">Are you sure you want to remove this category?</string>

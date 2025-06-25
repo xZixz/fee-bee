@@ -40,7 +40,8 @@ import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.BasePage
 import com.cardes.feebee.ui.spendingdetails.DeleteSpendingDialog
-import com.cardes.core.common.R as commonR
+import com.cardes.ui.CreateCategoryDialog
+import com.cardes.ui.R as uiR
 
 @Composable
 fun EditSpendingRoute(
@@ -155,7 +156,7 @@ fun EditSpendingScreen(
                 )
                 // Categories
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(text = stringResource(commonR.string.categories))
+                Text(text = stringResource(uiR.string.categories))
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
@@ -189,7 +190,7 @@ fun EditSpendingScreen(
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 val ctaStringResourceId = when (editMode) {
-                    EditMode.NEW -> R.string.create
+                    EditMode.NEW -> uiR.string.create
                     EditMode.EDIT -> R.string.update
                 }
                 Button(

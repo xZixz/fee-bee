@@ -4,10 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.cardes.designsystem"
+    namespace = "com.cardes.ui"
 }
 
 dependencies {
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

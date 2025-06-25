@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.categorieslist
+package com.cardes.categories
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -16,11 +16,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cardes.designsystem.component.BasePage
 import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.domain.entity.Category
-import com.cardes.feebee.ui.common.BasePage
-import com.cardes.feebee.ui.editspending.CreateCategoryDialog
-import com.cardes.core.common.R as commonR
+import com.cardes.ui.CreateCategoryDialog
+import com.cardes.ui.R as uiR
 
 @Composable
 fun CategoriesListRoute(
@@ -48,7 +48,7 @@ fun CategoriesListScreen(
     showAddCategoryDialog: Boolean,
     onCategoryClick: (Long) -> Unit,
 ) {
-    BasePage(title = stringResource(id = commonR.string.categories)) {
+    BasePage(title = stringResource(id = uiR.string.categories)) {
         if (showAddCategoryDialog) {
             CreateCategoryDialog(
                 onDismiss = { onAddCategoryDismiss() },

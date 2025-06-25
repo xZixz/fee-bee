@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.analytics.R
 import com.cardes.designsystem.common.monthDayYearDisplayFormat
 import com.cardes.designsystem.component.FeeBeeDateInput
-import com.cardes.core.common.R as commonR
+import com.cardes.ui.R as uiR
 
 @Composable
 fun TotalSpentScreen(
@@ -50,7 +50,7 @@ fun TotalSpentScreen(
         }
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = stringResource(commonR.string.categories),
+            text = stringResource(uiR.string.categories),
             style = MaterialTheme.typography.titleMedium,
         )
         Spacer(modifier = Modifier.height(5.dp))

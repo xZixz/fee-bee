@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.categorieslist
+package com.cardes.categories
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable

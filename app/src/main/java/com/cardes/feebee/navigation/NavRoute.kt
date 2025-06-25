@@ -6,13 +6,13 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.cardes.analytics.navigation.AnalyticsRoute
+import com.cardes.categories.navigation.CategoriesRoute
 import com.cardes.feebee.R
-import com.cardes.feebee.ui.categorieslist.navigation.CategoriesRoute
 import com.cardes.feebee.ui.home.navigation.HOME_ROUTE
 import com.cardes.spendings.navigation.SpendingsRoute
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
-import com.cardes.core.common.R as commonR
+import com.cardes.categories.R as categoriesR
 import com.cardes.spendings.R as spendingsR
 
 const val MAIN_ROUTE = "main_route"
@@ -20,9 +20,7 @@ const val EDIT_CATEGORY_ROUTE = "edit_category_route"
 const val CATEGORY_ID_ARG = "category_id_arg"
 const val SPENDING_DETAILS_ROUTE = "spending_details_route"
 const val SPENDING_ID_ARG = "spending_id_arg"
-const val CATEGORIES_LIST_ROUTE = "categories_list_route"
 const val EDIT_SPENDING_ROUTE = "edit_spending_route"
-const val ANALYTICS_ROUTE = "analytics_route"
 
 @JvmInline
 value class NavRouteName(
@@ -33,9 +31,7 @@ value class NavRouteName(
         val HomeRoute = NavRouteName(HOME_ROUTE)
         val EditSpendingRoute = NavRouteName("$EDIT_SPENDING_ROUTE/{$SPENDING_ID_ARG}")
         val SpendingDetails = NavRouteName("$SPENDING_DETAILS_ROUTE/{$SPENDING_ID_ARG}")
-        val CategoriesList = NavRouteName(CATEGORIES_LIST_ROUTE)
         val EditCategory = NavRouteName("$EDIT_CATEGORY_ROUTE/{$CATEGORY_ID_ARG}")
-        val Analytics = NavRouteName(ANALYTICS_ROUTE)
     }
 
     operator fun getValue(
@@ -54,15 +50,11 @@ object NavRoutes {
     data object Main : NavRoute(routeName = NavRouteName.MainRoute) {
         data object Home : NavRoute(routeName = NavRouteName.HomeRoute)
 
-        data object CategoriesList : NavRoute(routeName = NavRouteName.CategoriesList)
-
         data object SpendingDetails : NavRoute(routeName = NavRouteName.SpendingDetails)
 
         data object EditSpending : NavRoute(routeName = NavRouteName.EditSpendingRoute)
 
         data object EditCategory : NavRoute(routeName = NavRouteName.EditCategory)
-
-        data object Analytics : NavRoute(routeName = NavRouteName.Analytics)
     }
 }
 
@@ -84,6 +76,6 @@ enum class BottomNavItem(
     CATEGORIES_LIST(
         route = CategoriesRoute::class,
         icon = Icons.Default.Settings,
-        labelResourceId = commonR.string.categories,
+        labelResourceId = categoriesR.string.categories,
     ),
 }

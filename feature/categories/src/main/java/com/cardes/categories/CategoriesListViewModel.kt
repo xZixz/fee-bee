@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.categorieslist
+package com.cardes.categories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

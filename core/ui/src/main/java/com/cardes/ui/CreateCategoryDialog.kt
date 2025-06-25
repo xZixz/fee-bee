@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.editspending
+package com.cardes.ui
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -10,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
-import com.cardes.feebee.R
 
 @Composable
 fun CreateCategoryDialog(
