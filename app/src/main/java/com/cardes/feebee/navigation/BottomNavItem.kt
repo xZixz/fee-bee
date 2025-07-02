@@ -7,47 +7,11 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.cardes.analytics.navigation.AnalyticsRoute
 import com.cardes.categories.navigation.CategoriesRoute
-import com.cardes.feebee.R
-import com.cardes.feebee.ui.home.navigation.HOME_ROUTE
 import com.cardes.spendings.navigation.SpendingsRoute
 import kotlin.reflect.KClass
-import kotlin.reflect.KProperty
+import com.cardes.analytics.R as analyticsR
 import com.cardes.categories.R as categoriesR
 import com.cardes.spendings.R as spendingsR
-
-const val MAIN_ROUTE = "main_route"
-const val SPENDING_ID_ARG = "spending_id_arg"
-const val EDIT_SPENDING_ROUTE = "edit_spending_route"
-
-@JvmInline
-value class NavRouteName(
-    private val name: String,
-) {
-    companion object {
-        val MainRoute = NavRouteName(MAIN_ROUTE)
-        val HomeRoute = NavRouteName(HOME_ROUTE)
-        val EditSpendingRoute = NavRouteName("$EDIT_SPENDING_ROUTE/{$SPENDING_ID_ARG}")
-    }
-
-    operator fun getValue(
-        thisRef: Any?,
-        property: KProperty<*>,
-    ): String = name
-}
-
-sealed class NavRoute(
-    routeName: NavRouteName,
-) {
-    val name: String by routeName
-}
-
-object NavRoutes {
-    data object Main : NavRoute(routeName = NavRouteName.MainRoute) {
-        data object Home : NavRoute(routeName = NavRouteName.HomeRoute)
-
-        data object EditSpending : NavRoute(routeName = NavRouteName.EditSpendingRoute)
-    }
-}
 
 enum class BottomNavItem(
     val route: KClass<*>,
@@ -62,7 +26,7 @@ enum class BottomNavItem(
     ANALYTICS(
         route = AnalyticsRoute::class,
         icon = Icons.Default.DataUsage,
-        labelResourceId = R.string.analytics,
+        labelResourceId = analyticsR.string.analytics,
     ),
     CATEGORIES_LIST(
         route = CategoriesRoute::class,

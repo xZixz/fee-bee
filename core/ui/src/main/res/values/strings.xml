@@ -6,4 +6,5 @@
     <string name="update">Update</string>
     <string name="add_a_new_category">Add a new category</string>
     <string name="yes">Yes</string>
+    <string name="remove_spending_confirm_question">Are you sure to remove this spending?</string>
 </resources>

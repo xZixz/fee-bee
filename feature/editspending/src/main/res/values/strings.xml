@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="new_spending">New Spending</string>
+    <string name="edit_spending">Edit Spending</string>
+    <string name="description">Description</string>
+    <string name="cost">Cost ($)</string>
+</resources>

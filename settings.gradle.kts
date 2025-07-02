@@ -14,6 +14,8 @@ include(":feature:editcategory")
 
 include(":feature:spendingdetail")
 
+include(":feature:editspending")
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {

@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.editspending
+package com.cardes.editspending
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.cardes.data.fake.Fake

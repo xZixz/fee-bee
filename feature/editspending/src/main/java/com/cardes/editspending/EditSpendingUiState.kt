@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.editspending
+package com.cardes.editspending
 
 import com.cardes.domain.entity.Category
 

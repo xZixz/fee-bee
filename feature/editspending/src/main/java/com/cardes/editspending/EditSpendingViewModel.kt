@@ -1,8 +1,9 @@
-package com.cardes.feebee.ui.editspending
+package com.cardes.editspending
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.cardes.designsystem.common.nonBigDecimalCharRegex
 import com.cardes.domain.entity.Category
 import com.cardes.domain.usecase.addcategory.AddCategoryUseCase
@@ -11,13 +12,15 @@ import com.cardes.domain.usecase.getspending.GetSpendingUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
-import com.cardes.feebee.navigation.SPENDING_ID_ARG
-import com.cardes.feebee.ui.common.StringUtil
+import com.cardes.editspending.navigation.EditSpendingRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -31,7 +34,7 @@ class EditSpendingViewModel @Inject constructor(
     private val observeCategoriesUseCase: ObserveCategoriesUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val spendingId: Long = savedStateHandle[SPENDING_ID_ARG] ?: 0L
+    private val spendingId: Long = savedStateHandle.toRoute<EditSpendingRoute>().spendingId
     val editMode: EditMode
         get() = if (spendingId == 0L) EditMode.NEW else EditMode.EDIT
 
@@ -96,7 +99,7 @@ class EditSpendingViewModel @Inject constructor(
                 .run {
                     createSpendingUseCase.invoke(
                         content = description,
-                        amount = StringUtil.parseBigDecimalString(amount),
+                        amount = parseBigDecimalString(amount),
                         time = date,
                         categoryIds = selectedCategoryIds,
                     )
@@ -122,7 +125,7 @@ class EditSpendingViewModel @Inject constructor(
                     .invoke(
                         id = spendingId,
                         content = description,
-                        amount = StringUtil.parseBigDecimalString(amount),
+                        amount = parseBigDecimalString(amount),
                         time = date,
                         categoryIds = selectedCategoryIds,
                     ).onSuccess {
@@ -181,6 +184,16 @@ class EditSpendingViewModel @Inject constructor(
                     // TODO Handle error later
                 }
         }
+    }
+
+    private fun parseBigDecimalString(bigDecimalString: String): BigDecimal {
+        val decimalFormatSymbols = DecimalFormatSymbols().apply {
+            groupingSeparator = ','
+            decimalSeparator = '.'
+        }
+        val pattern = "#,##0.0#"
+        val decimalFormat = DecimalFormat(pattern, decimalFormatSymbols).apply { isParseBigDecimal = true }
+        return decimalFormat.parse(bigDecimalString) as BigDecimal
     }
 }
 

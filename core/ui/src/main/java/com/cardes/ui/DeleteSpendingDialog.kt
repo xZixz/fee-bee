@@ -1,11 +1,10 @@
-package com.cardes.spendingdetail
+package com.cardes.ui
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.cardes.ui.R as uiR
 
 @Composable
 fun DeleteSpendingDialog(
@@ -17,17 +16,13 @@ fun DeleteSpendingDialog(
             onDismissRemoveDialog()
         },
         confirmButton = {
-            Button(
-                onClick = { onRemoveSpending() },
-            ) {
-                Text(text = stringResource(id = uiR.string.yes))
+            Button(onClick = onRemoveSpending) {
+                Text(text = stringResource(id = R.string.yes))
             }
         },
         dismissButton = {
-            Button(
-                onClick = { onDismissRemoveDialog() },
-            ) {
-                Text(text = stringResource(id = uiR.string.cancel))
+            Button(onClick = onDismissRemoveDialog) {
+                Text(text = stringResource(id = R.string.cancel))
             }
         },
         text = {

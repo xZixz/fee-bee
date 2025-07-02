@@ -4,18 +4,19 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.cardes.feebee.ui.common.UiSetting
 import com.cardes.feebee.ui.home.HomeRoute
+import com.cardes.ui.shared.UiSetting
+import kotlinx.serialization.Serializable
 
-const val HOME_ROUTE = "home_route"
+@Serializable
+object HomeRoute
 
 fun NavGraphBuilder.home(
     onCreateSpendingClick: () -> Unit,
     onSpendingClick: (Long) -> Unit,
     onCategoryClick: (Long) -> Unit,
 ) {
-    composable(
-        route = HOME_ROUTE,
+    composable<HomeRoute>(
         exitTransition = {
             return@composable slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,

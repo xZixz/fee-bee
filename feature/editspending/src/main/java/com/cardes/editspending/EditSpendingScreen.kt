@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.editspending
+package com.cardes.editspending
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -34,13 +34,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.designsystem.common.NoRippleInteractionSource
+import com.cardes.designsystem.component.BasePage
 import com.cardes.designsystem.component.FeeBeeDateInput
 import com.cardes.designsystem.component.FeeBeeTextInput
 import com.cardes.designsystem.theme.FeeBeeTheme
-import com.cardes.feebee.R
-import com.cardes.feebee.ui.common.BasePage
-import com.cardes.spendingdetail.DeleteSpendingDialog
 import com.cardes.ui.CreateCategoryDialog
+import com.cardes.ui.DeleteSpendingDialog
 import com.cardes.ui.R as uiR
 
 @Composable
