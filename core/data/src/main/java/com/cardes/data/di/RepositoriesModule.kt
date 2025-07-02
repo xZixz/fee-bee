@@ -1,4 +1,4 @@
-package com.cardes.feebee.di
+package com.cardes.data.di
 
 import com.cardes.data.category.CategoryLocalDataSource
 import com.cardes.data.category.CategoryLocalDataSourceImpl
