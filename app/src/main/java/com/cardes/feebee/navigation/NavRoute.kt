@@ -16,9 +16,6 @@ import com.cardes.categories.R as categoriesR
 import com.cardes.spendings.R as spendingsR
 
 const val MAIN_ROUTE = "main_route"
-const val EDIT_CATEGORY_ROUTE = "edit_category_route"
-const val CATEGORY_ID_ARG = "category_id_arg"
-const val SPENDING_DETAILS_ROUTE = "spending_details_route"
 const val SPENDING_ID_ARG = "spending_id_arg"
 const val EDIT_SPENDING_ROUTE = "edit_spending_route"
 
@@ -30,8 +27,6 @@ value class NavRouteName(
         val MainRoute = NavRouteName(MAIN_ROUTE)
         val HomeRoute = NavRouteName(HOME_ROUTE)
         val EditSpendingRoute = NavRouteName("$EDIT_SPENDING_ROUTE/{$SPENDING_ID_ARG}")
-        val SpendingDetails = NavRouteName("$SPENDING_DETAILS_ROUTE/{$SPENDING_ID_ARG}")
-        val EditCategory = NavRouteName("$EDIT_CATEGORY_ROUTE/{$CATEGORY_ID_ARG}")
     }
 
     operator fun getValue(
@@ -50,11 +45,7 @@ object NavRoutes {
     data object Main : NavRoute(routeName = NavRouteName.MainRoute) {
         data object Home : NavRoute(routeName = NavRouteName.HomeRoute)
 
-        data object SpendingDetails : NavRoute(routeName = NavRouteName.SpendingDetails)
-
         data object EditSpending : NavRoute(routeName = NavRouteName.EditSpendingRoute)
-
-        data object EditCategory : NavRoute(routeName = NavRouteName.EditCategory)
     }
 }
 

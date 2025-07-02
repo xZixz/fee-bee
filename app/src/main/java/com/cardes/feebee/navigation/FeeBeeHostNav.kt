@@ -6,14 +6,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.cardes.editcategory.editCategory
-import com.cardes.editcategory.navigateToEditCategory
+import com.cardes.editcategory.navigation.editCategory
+import com.cardes.editcategory.navigation.navigateToEditCategory
 import com.cardes.feebee.ui.editspending.editSpending
 import com.cardes.feebee.ui.editspending.navigateToCreateSpending
 import com.cardes.feebee.ui.editspending.navigateToEditSpending
 import com.cardes.feebee.ui.home.navigation.home
-import com.cardes.feebee.ui.spendingdetails.navigateToSpendingDetails
-import com.cardes.feebee.ui.spendingdetails.spendingDetails
+import com.cardes.spendingdetail.navigation.navigateToSpendingDetail
+import com.cardes.spendingdetail.navigation.spendingDetail
 
 @Composable
 fun FeeBeeHostNav(
@@ -34,7 +34,7 @@ fun FeeBeeHostNav(
                 onCreateSpendingClick = {
                     navController.navigateToCreateSpending()
                 },
-                onSpendingClick = navController::navigateToSpendingDetails,
+                onSpendingClick = navController::navigateToSpendingDetail,
                 onCategoryClick = navController::navigateToEditCategory,
             )
             editSpending(
@@ -46,7 +46,7 @@ fun FeeBeeHostNav(
                     )
                 },
             )
-            spendingDetails(
+            spendingDetail(
                 onEditClick = { spendingId ->
                     navController.navigateToEditSpending(spendingId = spendingId)
                 },

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.cardes.designsystem.theme.FeeBeeTheme
-import com.cardes.ui.DarkModePreview
+import com.cardes.ui.shared.DarkModePreview
 
 val foodAndDrinkEmojis = listOf(
     "🍔",

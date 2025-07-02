@@ -1,4 +1,4 @@
-package com.cardes.ui
+package com.cardes.ui.shared
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview

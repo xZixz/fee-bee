@@ -1,28 +1,32 @@
-package com.cardes.feebee.ui.spendingdetails
+package com.cardes.spendingdetail.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import com.cardes.feebee.navigation.NavRoutes
-import com.cardes.feebee.navigation.SPENDING_DETAILS_ROUTE
-import com.cardes.feebee.navigation.SPENDING_ID_ARG
-import com.cardes.feebee.ui.common.UiSetting
+import com.cardes.spendingdetail.SpendingDetailRoute
+import com.cardes.ui.shared.UiSetting
+import kotlinx.serialization.Serializable
 
-fun NavController.navigateToSpendingDetails(spendingId: Long) {
-    navigate("${SPENDING_DETAILS_ROUTE}/$spendingId")
+@Serializable
+data class SpendingDetailRoute(
+    val spendingId: Long,
+)
+
+fun NavController.navigateToSpendingDetail(
+    spendingId: Long,
+    navOptions: NavOptionsBuilder.() -> Unit = {},
+) {
+    navigate(route = SpendingDetailRoute(spendingId = spendingId)) {
+        navOptions()
+    }
 }
 
-fun NavGraphBuilder.spendingDetails(onEditClick: (Long) -> Unit) {
-    composable(
-        route = NavRoutes.Main.SpendingDetails.name,
-        arguments = listOf(
-            navArgument(SPENDING_ID_ARG) { type = NavType.LongType },
-        ),
+fun NavGraphBuilder.spendingDetail(onEditClick: (Long) -> Unit) {
+    composable<SpendingDetailRoute>(
         exitTransition = {
             return@composable fadeOut(tween(UiSetting.SCREEN_TRANSITION_DURATION))
         },
@@ -38,8 +42,7 @@ fun NavGraphBuilder.spendingDetails(onEditClick: (Long) -> Unit) {
                 animationSpec = tween(UiSetting.SCREEN_TRANSITION_DURATION),
             )
         },
-    ) { navBackStackEntry ->
-        val spendingId = navBackStackEntry.arguments?.getLong(SPENDING_ID_ARG) ?: 0L
-        SpendingDetailsRoute(onEditClick = { onEditClick(spendingId) })
+    ) {
+        SpendingDetailRoute(onEditClick = onEditClick)
     }
 }

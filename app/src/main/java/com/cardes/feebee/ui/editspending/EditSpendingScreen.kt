@@ -39,7 +39,7 @@ import com.cardes.designsystem.component.FeeBeeTextInput
 import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.feebee.R
 import com.cardes.feebee.ui.common.BasePage
-import com.cardes.feebee.ui.spendingdetails.DeleteSpendingDialog
+import com.cardes.spendingdetail.DeleteSpendingDialog
 import com.cardes.ui.CreateCategoryDialog
 import com.cardes.ui.R as uiR
 

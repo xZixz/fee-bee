@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.spendingdetails
+package com.cardes.spendingdetail
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -21,32 +21,32 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cardes.designsystem.component.BasePage
 import com.cardes.designsystem.component.CategoryChip
 import com.cardes.designsystem.theme.FeeBeeTheme
-import com.cardes.feebee.ui.common.BasePage
 
 @Composable
-fun SpendingDetailsRoute(
-    onEditClick: () -> Unit,
-    spendingDetailsViewModel: SpendingDetailsViewModel = hiltViewModel(),
+fun SpendingDetailRoute(
+    onEditClick: (Long) -> Unit,
+    spendingDetailViewModel: SpendingDetailViewModel = hiltViewModel(),
 ) {
-    val spendingUiState by spendingDetailsViewModel.spendingUiState.collectAsStateWithLifecycle()
+    val spendingUiState by spendingDetailViewModel.spendingUiState.collectAsStateWithLifecycle()
 
-    SpendingDetailsScreen(
+    SpendingDetailScreen(
         spendingUiState = spendingUiState,
         onEditClick = onEditClick,
     )
 }
 
 @Composable
-fun SpendingDetailsScreen(
+fun SpendingDetailScreen(
     spendingUiState: SpendingUiState,
-    onEditClick: () -> Unit,
+    onEditClick: (Long) -> Unit,
 ) {
     when (spendingUiState) {
         is SpendingUiState.Loading -> {}
         is SpendingUiState.Success -> {
-            SpendingDetails(
+            SpendingDetail(
                 spendingUiState = spendingUiState,
                 onEditClick = onEditClick,
             )
@@ -56,10 +56,10 @@ fun SpendingDetailsScreen(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SpendingDetails(
+fun SpendingDetail(
     spendingUiState: SpendingUiState.Success,
     modifier: Modifier = Modifier,
-    onEditClick: () -> Unit,
+    onEditClick: (Long) -> Unit,
 ) {
     BasePage(
         modifier = modifier,
@@ -67,7 +67,7 @@ fun SpendingDetails(
         titleAction = {
             Icon(
                 modifier = Modifier.clickable {
-                    onEditClick()
+                    onEditClick(spendingUiState.spendingId)
                 },
                 imageVector = Icons.Default.Edit,
                 contentDescription = "Enter Edit mode",
@@ -107,13 +107,13 @@ fun SpendingDetails(
     widthDp = 250,
 )
 @Composable
-private fun SpendingDetailsPreview(
-    @PreviewParameter(SpendingDetailsUiStatePreviewParameter::class)
+private fun SpendingDetailPreview(
+    @PreviewParameter(SpendingDetailUiStatePreviewParameter::class)
     spendingUiState: SpendingUiState.Success,
 ) {
     FeeBeeTheme {
         Surface {
-            SpendingDetails(
+            SpendingDetail(
                 spendingUiState = spendingUiState,
                 onEditClick = {},
             )

@@ -1,11 +1,11 @@
-package com.cardes.feebee.ui.spendingdetails
+package com.cardes.spendingdetail
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.cardes.feebee.R
+import com.cardes.ui.R as uiR
 
 @Composable
 fun DeleteSpendingDialog(
@@ -20,14 +20,14 @@ fun DeleteSpendingDialog(
             Button(
                 onClick = { onRemoveSpending() },
             ) {
-                Text(text = stringResource(id = R.string.yes))
+                Text(text = stringResource(id = uiR.string.yes))
             }
         },
         dismissButton = {
             Button(
                 onClick = { onDismissRemoveDialog() },
             ) {
-                Text(text = stringResource(id = R.string.cancel))
+                Text(text = stringResource(id = uiR.string.cancel))
             }
         },
         text = {
