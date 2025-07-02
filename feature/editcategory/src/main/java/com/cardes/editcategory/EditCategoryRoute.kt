@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.editcategory
+package com.cardes.editcategory
 
 import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
@@ -34,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -42,17 +41,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntRect
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.PopupPositionProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.designsystem.theme.FeeBeeTheme
-import com.cardes.feebee.R
 
 @Composable
 fun EditCategoryRoute(
@@ -229,25 +222,6 @@ fun EmojiSelectButton(
                 onDismiss = { showEmojisPopup = false },
                 onEmojiPicked = onEmojiPicked,
             )
-        }
-    }
-}
-
-@Composable
-private fun rememberPopupPositionProvider(): PopupPositionProvider {
-    val currentDensity = LocalDensity.current
-    return remember {
-        object : PopupPositionProvider {
-            override fun calculatePosition(
-                anchorBounds: IntRect,
-                windowSize: IntSize,
-                layoutDirection: LayoutDirection,
-                popupContentSize: IntSize,
-            ): IntOffset {
-                val x = anchorBounds.left + anchorBounds.width / 2 - popupContentSize.width / 2
-                val padding = with(currentDensity) { 5.dp.roundToPx() }
-                return IntOffset(x = x, y = anchorBounds.top + anchorBounds.height + padding)
-            }
         }
     }
 }

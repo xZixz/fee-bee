@@ -1,14 +1,14 @@
-package com.cardes.feebee.ui.editcategory
+package com.cardes.editcategory
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
 import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCase
 import com.cardes.domain.usecase.removecategoryemoji.RemoveCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryemoji.UpdateCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
-import com.cardes.feebee.navigation.CATEGORY_ID_ARG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -40,7 +40,7 @@ class EditCategoryViewModel @Inject constructor(
         editingCategoryNameFlow.value = editingCategoryName
     }
 
-    private val categoryId: Long = savedStateHandle[CATEGORY_ID_ARG] ?: 0L
+    private val categoryId: Long = savedStateHandle.toRoute<EditCategoryRoute>().categoryId
 
     private val editingCategoryNameFlow = MutableStateFlow("")
 

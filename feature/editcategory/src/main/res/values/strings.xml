@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirm_removing_category_text">Yes, I\'m sure</string>
+    <string name="confirm_remove_category_dialog_content">Are you sure you want to remove this category?</string>
+    <string name="category_name">Category name</string>
+    <string name="category">Category</string>
+</resources>

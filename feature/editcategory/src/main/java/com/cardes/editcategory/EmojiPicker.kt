@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.editcategory
+package com.cardes.editcategory
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.cardes.designsystem.theme.FeeBeeTheme
-import com.cardes.feebee.ui.common.DarkModePreview
+import com.cardes.ui.DarkModePreview
 
 val foodAndDrinkEmojis = listOf(
     "🍔",

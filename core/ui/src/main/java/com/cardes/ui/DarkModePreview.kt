@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.common
+package com.cardes.ui
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview

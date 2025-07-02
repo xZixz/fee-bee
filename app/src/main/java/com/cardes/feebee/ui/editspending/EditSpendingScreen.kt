@@ -191,7 +191,7 @@ fun EditSpendingScreen(
                 Spacer(modifier = Modifier.height(20.dp))
                 val ctaStringResourceId = when (editMode) {
                     EditMode.NEW -> uiR.string.create
-                    EditMode.EDIT -> R.string.update
+                    EditMode.EDIT -> uiR.string.update
                 }
                 Button(
                     modifier = Modifier.fillMaxWidth(),

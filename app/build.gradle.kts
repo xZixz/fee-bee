@@ -83,4 +83,5 @@ dependencies {
     implementation(projects.feature.spendings)
     implementation(projects.feature.analytics)
     implementation(projects.feature.categories)
+    implementation(projects.feature.editcategory)
 }

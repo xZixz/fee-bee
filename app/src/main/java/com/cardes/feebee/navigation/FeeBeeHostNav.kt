@@ -6,8 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.cardes.feebee.ui.editcategory.editCategory
-import com.cardes.feebee.ui.editcategory.navigateToEditCategory
+import com.cardes.editcategory.editCategory
+import com.cardes.editcategory.navigateToEditCategory
 import com.cardes.feebee.ui.editspending.editSpending
 import com.cardes.feebee.ui.editspending.navigateToCreateSpending
 import com.cardes.feebee.ui.editspending.navigateToEditSpending

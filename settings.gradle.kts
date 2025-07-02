@@ -10,6 +10,8 @@ include(":core:designsystem")
 
 include(":feature:spendings")
 
+include(":feature:editcategory")
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {

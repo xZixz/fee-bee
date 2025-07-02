@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.cardes.categories"
+    namespace = "com.cardes.editcategory"
 }
 
 dependencies {

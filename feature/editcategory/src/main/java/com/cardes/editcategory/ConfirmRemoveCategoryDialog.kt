@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.editcategory
+package com.cardes.editcategory
 
 import android.content.res.Configuration
 import androidx.compose.material3.AlertDialog
@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.cardes.designsystem.theme.FeeBeeTheme
-import com.cardes.feebee.R
+import com.cardes.ui.R as uiR
 
 @Composable
 fun ConfirmRemoveCategoryDialog(
@@ -37,7 +37,7 @@ fun ConfirmRemoveCategoryDialog(
             Button(
                 onClick = { onDismiss() },
             ) {
-                Text(text = stringResource(id = R.string.cancel))
+                Text(text = stringResource(id = uiR.string.cancel))
             }
         },
         text = {

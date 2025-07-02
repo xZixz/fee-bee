@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.editcategory
+package com.cardes.editcategory
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.cardes.data.fake.Fake

@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.editcategory
+package com.cardes.editcategory
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.cardes.designsystem.theme.FeeBeeTheme
-import com.cardes.feebee.R
-import com.cardes.feebee.ui.common.DarkModePreview
+import com.cardes.ui.DarkModePreview
+import com.cardes.ui.R as uiR
 
 @Composable
 fun EditCategoryNameDialog(
@@ -32,12 +32,12 @@ fun EditCategoryNameDialog(
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 ),
             ) {
-                Text(text = stringResource(R.string.update))
+                Text(text = stringResource(uiR.string.update))
             }
         },
         dismissButton = {
             Button(onClick = onDialogDismiss) {
-                Text(text = stringResource(id = R.string.cancel))
+                Text(text = stringResource(id = uiR.string.cancel))
             }
         },
         text = {
