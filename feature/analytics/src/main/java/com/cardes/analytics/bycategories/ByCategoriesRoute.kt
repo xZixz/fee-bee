@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -147,7 +148,7 @@ fun MonthSelection(
     onMonthPicked: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var showMonthYearPickerDialog by remember { mutableStateOf(false) }
+    var showMonthYearPickerDialog by rememberSaveable { mutableStateOf(false) }
     val monthText = remember(month, year) {
         Calendar
             .getInstance()
@@ -270,9 +271,9 @@ private fun MonthYearPickerDialog(
     onDismiss: () -> Unit,
     onConfirm: (Int, Int) -> Unit,
 ) {
-    var selectedMonth by remember { mutableIntStateOf(initialMonth) }
-    var selectedYear by remember { mutableIntStateOf(initialYear) }
-    val currentYear = remember { Calendar.getInstance().get(Calendar.YEAR) }
+    var selectedMonth by rememberSaveable { mutableIntStateOf(initialMonth) }
+    var selectedYear by rememberSaveable { mutableIntStateOf(initialYear) }
+    val currentYear = rememberSaveable { Calendar.getInstance().get(Calendar.YEAR) }
 
     Dialog(onDismissRequest = { onDismiss() }) {
         Column(

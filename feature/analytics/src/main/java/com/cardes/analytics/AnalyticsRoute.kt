@@ -23,6 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,9 +44,12 @@ fun AnalyticsRoute(modifier: Modifier = Modifier) {
 @Composable
 fun AnalyticsScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        var currentTab by remember { mutableStateOf<AnalyticTabDestination>(AnalyticTabDestination.ByCategoriesTabDestination) }
+        var currentTab by rememberSaveable(stateSaver = AnalyticTabDestinationSaver) {
+            mutableStateOf(AnalyticTabDestination.BY_CATEGORIES_TAB)
+        }
+
         AnalyticsTopBar(
-            tabs = allAnalyticTabDestinations,
+            tabs = AnalyticTabDestination.entries,
             currentTab = currentTab,
             onSelected = { selectedTab ->
                 if (currentTab != selectedTab) currentTab = selectedTab
@@ -114,28 +119,23 @@ fun AnalyticTab(
     }
 }
 
-sealed class AnalyticTabDestination(
+enum class AnalyticTabDestination(
     @StringRes val titleStringResourceId: Int,
     val icon: ImageVector,
     val screen: @Composable () -> Unit,
 ) {
-    data object BarChartTabDestination : AnalyticTabDestination(
+    BAR_CHART_TAB(
         titleStringResourceId = R.string.analytics_bar_chart_title,
         icon = Icons.Filled.Timeline,
         screen = { TotalSpentScreen() },
-    )
+    ),
 
-    data object ByCategoriesTabDestination : AnalyticTabDestination(
+    BY_CATEGORIES_TAB(
         titleStringResourceId = R.string.analytics_by_categories,
         icon = Icons.Filled.BarChart,
         screen = { ByCategoriesRoute() },
-    )
+    ),
 }
-
-private val allAnalyticTabDestinations = listOf(
-    AnalyticTabDestination.BarChartTabDestination,
-    AnalyticTabDestination.ByCategoriesTabDestination,
-)
 
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
@@ -150,12 +150,17 @@ private fun AnalyticTabTopBarPreview() {
     FeeBeeTheme {
         Surface {
             AnalyticsTopBar(
-                tabs = allAnalyticTabDestinations,
+                tabs = AnalyticTabDestination.entries,
                 onSelected = {},
-                currentTab = AnalyticTabDestination.BarChartTabDestination,
+                currentTab = AnalyticTabDestination.BAR_CHART_TAB,
             )
         }
     }
 }
 
 private const val INACTIVE_TAB_OPACITY = 0.60f
+
+val AnalyticTabDestinationSaver: Saver<AnalyticTabDestination, Int> = Saver(
+    save = { destination -> AnalyticTabDestination.entries.indexOf(destination) },
+    restore = { id -> AnalyticTabDestination.entries[id] },
+)

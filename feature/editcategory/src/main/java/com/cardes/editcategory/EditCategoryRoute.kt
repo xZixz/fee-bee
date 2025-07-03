@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -99,7 +100,7 @@ fun EditCategoryScreen(
                     emoji = fetchingCategoryUiState.editCategoryUiState.emoji,
                 )
                 // Edit category's name
-                var showCategoryNameEditDialog by remember { mutableStateOf(false) }
+                var showCategoryNameEditDialog by rememberSaveable { mutableStateOf(false) }
 
                 if (showCategoryNameEditDialog) {
                     EditCategoryNameDialog(
@@ -137,7 +138,7 @@ fun EditCategoryScreen(
                 Spacer(modifier = Modifier.weight(1.0f))
 
                 // Remove category
-                var showCategoryRemoveDialog by remember { mutableStateOf(false) }
+                var showCategoryRemoveDialog by rememberSaveable { mutableStateOf(false) }
                 if (showCategoryRemoveDialog) {
                     ConfirmRemoveCategoryDialog(
                         onDismiss = { showCategoryRemoveDialog = false },
@@ -167,7 +168,7 @@ fun EmojiSelectButton(
     onRemoveEmoji: () -> Unit,
     emoji: String,
 ) {
-    var showEmojisPopup by remember { mutableStateOf(false) }
+    var showEmojisPopup by rememberSaveable { mutableStateOf(false) }
     Box(
         modifier = Modifier.clickable(
             interactionSource = remember { MutableInteractionSource() },
