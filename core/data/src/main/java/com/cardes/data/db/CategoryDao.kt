@@ -22,7 +22,7 @@ interface CategoryDao {
     fun observeCategories(): Flow<List<CategoryEntity>>
 
     @Query("SElECT * FROM categories WHERE categoryId = :categoryId")
-    fun observeCategory(categoryId: Long): Flow<CategoryEntity>
+    fun observeCategory(categoryId: Long): Flow<CategoryEntity?>
 
     @Query("UPDATE categories SET name=:categoryName WHERE categoryId = :categoryId")
     suspend fun updateCategoryName(

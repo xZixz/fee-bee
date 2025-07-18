@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -44,7 +45,7 @@ import com.cardes.ui.R as uiR
 
 @Composable
 fun EditSpendingRoute(
-    onNavUp: () -> Unit,
+    navUp: () -> Unit,
     onSpendingRemoved: () -> Unit,
     editSpendingViewModel: EditSpendingViewModel = hiltViewModel(),
 ) {
@@ -54,6 +55,15 @@ fun EditSpendingRoute(
         minActiveState = Lifecycle.State.CREATED,
     )
 
+    LaunchedEffect(Unit) {
+        editSpendingViewModel.events.collect { event ->
+            when (event) {
+                EditSpendingEvent.CreatingFinished, EditSpendingEvent.UpdatingFinished -> navUp()
+                EditSpendingEvent.DeletingFinished -> onSpendingRemoved()
+            }
+        }
+    }
+
     EditSpendingScreen(
         removeSpendingDialogShowState = removeSpendingDialogShowState,
         editMode = editSpendingViewModel.editMode,
@@ -61,9 +71,7 @@ fun EditSpendingRoute(
         showAddCategoryDialog = showAddCategoryDialog,
         onDescriptionChanged = editSpendingViewModel::onDescriptionChanged,
         onCostChanged = editSpendingViewModel::onCostChanged,
-        onCtaButtonClick = {
-            editSpendingViewModel.onCtaButtonClick(onFinishedCreating = onNavUp)
-        },
+        onCtaButtonClick = editSpendingViewModel::onCtaButtonClick,
         onDatePickerConfirmed = editSpendingViewModel::onDatePicked,
         onCategoryClick = editSpendingViewModel::onCategoryClick,
         onAddCategoryClick = editSpendingViewModel::onAddCategoryClick,
@@ -71,9 +79,7 @@ fun EditSpendingRoute(
         onAddCategory = editSpendingViewModel::onAddCategory,
         onRemoveSpendingClick = editSpendingViewModel::onRemoveSpendingClick,
         onDismissRemoveSpendingDialog = editSpendingViewModel::closeRemoveSpendingDialog,
-        removeSpending = {
-            editSpendingViewModel.removeSpending(onSpendingRemoved)
-        },
+        removeSpending = editSpendingViewModel::removeSpending,
     )
 }
 

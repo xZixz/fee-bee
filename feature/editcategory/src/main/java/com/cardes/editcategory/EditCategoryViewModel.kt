@@ -11,9 +11,12 @@ import com.cardes.domain.usecase.updatecategoryemoji.UpdateCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
 import com.cardes.editcategory.navigation.EditCategoryRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -28,6 +31,12 @@ class EditCategoryViewModel @Inject constructor(
     observeCategoryUseCase: ObserveCategoryUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+    private val _events = MutableSharedFlow<EditCategoryEvent>(
+        replay = 0,
+        extraBufferCapacity = 1,
+    )
+    val events = _events.asSharedFlow()
+
     fun onConfirmUpdateCategoryName(newCategoryName: String) {
         viewModelScope.launch {
             updateCategoryNameUseCase.invoke(
@@ -47,6 +56,7 @@ class EditCategoryViewModel @Inject constructor(
 
     private val categoryFlow = observeCategoryUseCase
         .invoke(categoryId = categoryId)
+        .filterNotNull()
         .onEach { category ->
             editingCategoryNameFlow.emit(category.name)
         }
@@ -68,12 +78,12 @@ class EditCategoryViewModel @Inject constructor(
         scope = viewModelScope,
     )
 
-    fun removeCategory(onFinishRemovingCategory: () -> Unit) {
+    fun removeCategory() {
         viewModelScope.launch {
             removeCategoryUseCase
                 .invoke(categoryId = categoryId)
                 .onSuccess {
-                    onFinishRemovingCategory()
+                    _events.emit(EditCategoryEvent.RemovingFinished)
                 }.onFailure {
                     // TODO: handle error case later
                 }
@@ -109,3 +119,7 @@ data class EditCategoryUiState(
     val emoji: String,
     val editingCategoryName: String,
 )
+
+sealed class EditCategoryEvent {
+    data object RemovingFinished : EditCategoryEvent()
+}
