@@ -43,7 +43,7 @@ fun NavGraphBuilder.editSpending(
         },
     ) {
         EditSpendingRoute(
-            onNavUp = onNavUp,
+            navUp = onNavUp,
             onSpendingRemoved = onSpendingRemoved,
         )
     }

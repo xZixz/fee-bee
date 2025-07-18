@@ -23,7 +23,7 @@ class CategoryRepositoryImpl @Inject constructor(
             }
         }
 
-    override fun observeCategory(categoryId: Long): Flow<Category> = categoryLocalDataSource.observeCategory(categoryId = categoryId)
+    override fun observeCategory(categoryId: Long): Flow<Category?> = categoryLocalDataSource.observeCategory(categoryId = categoryId)
 
     override suspend fun updateCategoryName(
         categoryId: Long,

@@ -14,7 +14,9 @@ import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
 import com.cardes.editspending.navigation.EditSpendingRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -37,6 +39,12 @@ class EditSpendingViewModel @Inject constructor(
     private val spendingId: Long = savedStateHandle.toRoute<EditSpendingRoute>().spendingId
     val editMode: EditMode
         get() = if (spendingId == 0L) EditMode.NEW else EditMode.EDIT
+
+    private val _events = MutableSharedFlow<EditSpendingEvent>(
+        replay = 0,
+        extraBufferCapacity = 1,
+    )
+    val events = _events.asSharedFlow()
 
     private val _editSpendingUiState = MutableStateFlow(
         EditSpendingUiState(
@@ -93,7 +101,7 @@ class EditSpendingViewModel @Inject constructor(
         }
     }
 
-    private fun createSpending(onFinishUpdating: () -> Unit) {
+    private fun createSpending() {
         viewModelScope.launch {
             _editSpendingUiState.value
                 .run {
@@ -104,21 +112,21 @@ class EditSpendingViewModel @Inject constructor(
                         categoryIds = selectedCategoryIds,
                     )
                 }.onSuccess {
-                    onFinishUpdating()
+                    _events.emit(EditSpendingEvent.CreatingFinished)
                 }.onFailure {
                     // TODO: error handling later
                 }
         }
     }
 
-    fun onCtaButtonClick(onFinishedCreating: () -> Unit) {
+    fun onCtaButtonClick() {
         when (editMode) {
-            EditMode.NEW -> createSpending(onFinishedCreating)
-            EditMode.EDIT -> updateSpending(onFinishedCreating)
+            EditMode.NEW -> createSpending()
+            EditMode.EDIT -> updateSpending()
         }
     }
 
-    private fun updateSpending(onFinishUpdating: () -> Unit) {
+    private fun updateSpending() {
         viewModelScope.launch {
             _editSpendingUiState.value.run {
                 updateSpendingUseCase
@@ -129,7 +137,7 @@ class EditSpendingViewModel @Inject constructor(
                         time = date,
                         categoryIds = selectedCategoryIds,
                     ).onSuccess {
-                        onFinishUpdating()
+                        _events.emit(EditSpendingEvent.UpdatingFinished)
                     }.onFailure {
                         // TODO: error handling later
                     }
@@ -173,13 +181,13 @@ class EditSpendingViewModel @Inject constructor(
         _removeSpendingDialogState.value = false
     }
 
-    fun removeSpending(onSpendingRemoved: () -> Unit) {
+    fun removeSpending() {
         viewModelScope.launch {
             removeSpendingUseCase
                 .invoke(spendingId)
                 .onSuccess {
                     closeRemoveSpendingDialog()
-                    onSpendingRemoved()
+                    _events.emit(EditSpendingEvent.DeletingFinished)
                 }.onFailure {
                     // TODO Handle error later
                 }
@@ -200,4 +208,12 @@ class EditSpendingViewModel @Inject constructor(
 enum class EditMode {
     NEW,
     EDIT,
+}
+
+sealed class EditSpendingEvent {
+    data object UpdatingFinished : EditSpendingEvent()
+
+    data object CreatingFinished : EditSpendingEvent()
+
+    data object DeletingFinished : EditSpendingEvent()
 }

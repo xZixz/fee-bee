@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface ObserveCategoryUseCase {
-    operator fun invoke(categoryId: Long): Flow<Category>
+    operator fun invoke(categoryId: Long): Flow<Category?>
 }
 
 class ObserveCategoryUseCaseImpl @Inject constructor(
     private val categoryRepository: CategoryRepository,
 ) : ObserveCategoryUseCase {
-    override fun invoke(categoryId: Long): Flow<Category> = categoryRepository.observeCategory(categoryId)
+    override fun invoke(categoryId: Long): Flow<Category?> = categoryRepository.observeCategory(categoryId)
 }

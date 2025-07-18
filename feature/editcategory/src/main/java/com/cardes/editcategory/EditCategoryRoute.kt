@@ -25,6 +25,7 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.designsystem.theme.FeeBeeTheme
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EditCategoryRoute(
@@ -56,14 +58,20 @@ fun EditCategoryRoute(
 ) {
     val fetchingCategoryUiState by viewModel.fetchingCategoryUiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.events.collectLatest { event ->
+            when (event) {
+                EditCategoryEvent.RemovingFinished -> onFinishRemovingCategory()
+            }
+        }
+    }
+
     EditCategoryScreen(
         modifier = modifier,
         fetchingCategoryUiState = fetchingCategoryUiState,
         onConfirmUpdateCategoryName = viewModel::onConfirmUpdateCategoryName,
         onEditingCategoryNameChanged = viewModel::onEditingCategoryNameChanged,
-        onConfirmRemoveCategory = {
-            viewModel.removeCategory(onFinishRemovingCategory)
-        },
+        onConfirmRemoveCategory = viewModel::removeCategory,
         onEmojiPicked = viewModel::onEmojiPicked,
         onRemoveEmoji = viewModel::onRemoveEmoji,
     )
