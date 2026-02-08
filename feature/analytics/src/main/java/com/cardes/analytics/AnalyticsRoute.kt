@@ -120,7 +120,7 @@ fun AnalyticTab(
 }
 
 enum class AnalyticTabDestination(
-    @StringRes val titleStringResourceId: Int,
+    @param:StringRes val titleStringResourceId: Int,
     val icon: ImageVector,
     val screen: @Composable () -> Unit,
 ) {

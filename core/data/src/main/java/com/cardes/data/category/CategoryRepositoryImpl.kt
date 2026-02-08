@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
     private val categoryLocalDataSource: CategoryLocalDataSource,
-    @Dispatcher(FeeBeeDispatcher.IO) private val ioDispatcher: CoroutineDispatcher,
+    @param:Dispatcher(FeeBeeDispatcher.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : CategoryRepository {
     override fun observeCategories(): Flow<List<Category>> = categoryLocalDataSource.observeCategories()
 

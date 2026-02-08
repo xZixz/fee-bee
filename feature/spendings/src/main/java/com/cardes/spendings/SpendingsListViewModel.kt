@@ -24,7 +24,7 @@ class SpendingsListViewModel @Inject constructor(
     observeSpendingsUseCase: ObserveSpendingsUseCase,
     private val addSamplesUseCase: AddSamplesUseCase,
     private val deleteAllSpendingsUseCase: DeleteAllSpendingsUseCase,
-    @Dispatcher(FeeBeeDispatcher.Default) private val defaultDispatcher: CoroutineDispatcher,
+    @param:Dispatcher(FeeBeeDispatcher.Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     fun addSamples() {
         viewModelScope.launch {

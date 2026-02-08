@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class SpendingRepositoryImpl @Inject constructor(
     private val spendingLocalDataSource: SpendingLocalDataSource,
-    @Dispatcher(FeeBeeDispatcher.IO) private val ioDispatcher: CoroutineDispatcher,
+    @param:Dispatcher(FeeBeeDispatcher.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : SpendingRepository {
     override suspend fun createSpending(
         time: Long,
