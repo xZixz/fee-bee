@@ -11,6 +11,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             apply(plugin = "feebee.android.library")
             apply(plugin = "feebee.koin")
             apply(plugin = "feebee.compose.library")
+            apply(plugin = "feebee.nav3")
             apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
             dependencies {

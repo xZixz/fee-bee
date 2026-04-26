@@ -81,5 +81,11 @@ gradlePlugin {
                 .pluginId
             implementationClass = "AndroidRoomConventionPlugin"
         }
+        register("nav3") {
+            id = libs.plugins.feebee.nav3
+                .get()
+                .pluginId
+            implementationClass = "Navigation3ConventionPlugin"
+        }
     }
 }
