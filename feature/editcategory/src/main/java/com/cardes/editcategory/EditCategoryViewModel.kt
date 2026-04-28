@@ -10,7 +10,6 @@ import com.cardes.domain.usecase.removecategoryemoji.RemoveCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryemoji.UpdateCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
 import com.cardes.editcategory.navigation.EditCategoryRoute
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,10 +19,8 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class EditCategoryViewModel @Inject constructor(
+class EditCategoryViewModel(
     private val updateCategoryNameUseCase: UpdateCategoryNameUseCase,
     private val removeCategoryUseCase: RemoveCategoryUseCase,
     private val updateCategoryEmojiUseCase: UpdateCategoryEmojiUseCase,

@@ -42,74 +42,28 @@ import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCaseImpl
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCaseImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface UseCasesModule {
-    @Binds
-    fun bindCreateSpendingUseCase(createSpendingUseCase: CreateSpendingUseCaseImpl): CreateSpendingUseCase
-
-    @Binds
-    fun bindGetSpendingsUseCase(getSpendingsUseCase: ObserveSpendingsUseCaseImpl): ObserveSpendingsUseCase
-
-    @Binds
-    fun bindGetSpendingUseCase(getSpendingUseCase: GetSpendingUseCaseImpl): GetSpendingUseCase
-
-    @Binds
-    fun bindRemoveSpendingUseCase(removeSpendingUseCase: RemoveSpendingUseCaseImpl): RemoveSpendingUseCase
-
-    @Binds
-    fun bindAddSamplesUseCase(addSamplesUseCase: AddSamplesUseCaseImpl): AddSamplesUseCase
-
-    @Binds
-    fun bindDeleteAllSpendingsUseCase(deleteAllSpendingsUseCase: DeleteAllSpendingsUseCaseImpl): DeleteAllSpendingsUseCase
-
-    @Binds
-    fun bindObserveCategoriesUseCase(observeCategoriesUseCase: ObserveCategoriesUseCaseImpl): ObserveCategoriesUseCase
-
-    @Binds
-    fun bindAddCategoryUseCase(addCategoryUseCase: AddCategoryUseCaseImpl): AddCategoryUseCase
-
-    @Binds
-    fun bindUpdateSpendingUseCase(updateSpendingUseCase: UpdateSpendingUseCaseImpl): UpdateSpendingUseCase
-
-    @Binds
-    fun bindObserveSpending(observeSpendingUseCase: ObserveSpendingUseCaseImpl): ObserveSpendingUseCase
-
-    @Binds
-    fun bindObserveCategory(observeCategoryUseCase: ObserveCategoryUseCaseImpl): ObserveCategoryUseCase
-
-    @Binds
-    fun bindGetSpendingByCategories(getSpendingsByCategoriesUseCase: GetSpendingsByCategoriesUseCaseImpl): GetSpendingsByCategoriesUseCase
-
-    @Binds
-    fun bindGetAllSpendings(getAllSpendingsUseCase: GetAllSpendingsUseCaseImpl): GetAllSpendingsUseCase
-
-    @Binds
-    fun bindRemoveCategory(removeCategoryUseCase: RemoveCategoryUseCaseImpl): RemoveCategoryUseCase
-
-    @Binds
-    fun bindUpdateCategoryNameUseCase(updateCategoryNameUseCase: UpdateCategoryNameUseCaseImpl): UpdateCategoryNameUseCase
-
-    @Binds
-    fun bindGetSpendingsByDateRange(getSpendingsByDateRange: GetSpendingsByDateRangeUseCaseImpl): GetSpendingsByDateRangeUseCase
-
-    @Binds
-    fun bindGetSpendingsByCategoriesByDateRange(getSpendingsByCategoriesByDateRange: GetSpendingsByCategoriesByDateRangeUseCaseImpl): GetSpendingsByCategoriesByDateRangeUseCase
-
-    @Binds
-    fun bindGetTotalSpentByCategoriesInMonthUseCase(getTotalSpentByCategoriesInMonthUseCase: GetTotalSpentByCategoriesInMonthUseCaseImpl): GetTotalSpentByCategoriesInMonthUseCase
-
-    @Binds
-    fun bindUpdateCategoryEmojiUseCase(updateCategoryEmojiUseCase: UpdateCategoryEmojiUseCaseImpl): UpdateCategoryEmojiUseCase
-
-    @Binds
-    fun bindRemoveCategoryEmojiUseCase(removeCategoryEmojiUseCase: RemoveCategoryEmojiUseCaseImpl): RemoveCategoryEmojiUseCase
-
-    @Binds
-    fun bindObservingGroupedByMonthsSpendings(groupedByMonthsSpendings: ObserveGroupedByMonthsSpendingsUseCaseImpl): ObserveGroupedByMonthsSpendingsUseCase
+val useCasesModule = module {
+    factory<CreateSpendingUseCase> { CreateSpendingUseCaseImpl(get()) }
+    factory<ObserveSpendingsUseCase> { ObserveSpendingsUseCaseImpl(get()) }
+    factory<GetSpendingUseCase> { GetSpendingUseCaseImpl(get()) }
+    factory<RemoveSpendingUseCase> { RemoveSpendingUseCaseImpl(get()) }
+    factory<AddSamplesUseCase> { AddSamplesUseCaseImpl(get()) }
+    factory<DeleteAllSpendingsUseCase> { DeleteAllSpendingsUseCaseImpl(get()) }
+    factory<ObserveCategoriesUseCase> { ObserveCategoriesUseCaseImpl(get()) }
+    factory<AddCategoryUseCase> { AddCategoryUseCaseImpl(get()) }
+    factory<UpdateSpendingUseCase> { UpdateSpendingUseCaseImpl(get()) }
+    factory<ObserveSpendingUseCase> { ObserveSpendingUseCaseImpl(get()) }
+    factory<ObserveCategoryUseCase> { ObserveCategoryUseCaseImpl(get()) }
+    factory<GetSpendingsByCategoriesUseCase> { GetSpendingsByCategoriesUseCaseImpl(get()) }
+    factory<GetAllSpendingsUseCase> { GetAllSpendingsUseCaseImpl(get()) }
+    factory<RemoveCategoryUseCase> { RemoveCategoryUseCaseImpl(get()) }
+    factory<UpdateCategoryNameUseCase> { UpdateCategoryNameUseCaseImpl(get()) }
+    factory<GetSpendingsByDateRangeUseCase> { GetSpendingsByDateRangeUseCaseImpl(get()) }
+    factory<GetSpendingsByCategoriesByDateRangeUseCase> { GetSpendingsByCategoriesByDateRangeUseCaseImpl(get()) }
+    factory<GetTotalSpentByCategoriesInMonthUseCase> { GetTotalSpentByCategoriesInMonthUseCaseImpl(get()) }
+    factory<UpdateCategoryEmojiUseCase> { UpdateCategoryEmojiUseCaseImpl(get()) }
+    factory<RemoveCategoryEmojiUseCase> { RemoveCategoryEmojiUseCaseImpl(get()) }
+    factory<ObserveGroupedByMonthsSpendingsUseCase> { ObserveGroupedByMonthsSpendingsUseCaseImpl(get()) }
 }

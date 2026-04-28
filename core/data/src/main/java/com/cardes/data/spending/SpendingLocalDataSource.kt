@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.math.BigDecimal
 import java.util.Calendar
-import javax.inject.Inject
 
 interface SpendingLocalDataSource {
     fun getSpendings(): Flow<List<Spending>>
@@ -64,7 +63,7 @@ interface SpendingLocalDataSource {
     ): Map<String, BigDecimal>
 }
 
-class SpendingLocalDataSourceImpl @Inject constructor(
+class SpendingLocalDataSourceImpl(
     private val spendingDao: SpendingDao,
     private val categoryDao: CategoryDao,
 ) : SpendingLocalDataSource {

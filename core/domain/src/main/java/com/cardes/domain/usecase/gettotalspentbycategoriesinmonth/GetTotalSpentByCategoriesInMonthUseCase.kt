@@ -2,7 +2,6 @@ package com.cardes.domain.usecase.gettotalspentbycategoriesinmonth
 
 import com.cardes.domain.repository.SpendingRepository
 import java.math.BigDecimal
-import javax.inject.Inject
 
 interface GetTotalSpentByCategoriesInMonthUseCase {
     suspend operator fun invoke(
@@ -11,7 +10,7 @@ interface GetTotalSpentByCategoriesInMonthUseCase {
     ): Result<Map<String, BigDecimal>>
 }
 
-class GetTotalSpentByCategoriesInMonthUseCaseImpl @Inject constructor(
+class GetTotalSpentByCategoriesInMonthUseCaseImpl constructor(
     val spendingRepository: SpendingRepository,
 ) : GetTotalSpentByCategoriesInMonthUseCase {
     override suspend fun invoke(

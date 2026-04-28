@@ -5,7 +5,6 @@ import com.cardes.data.db.entity.CategoryEntity
 import com.cardes.domain.entity.Category
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 interface CategoryLocalDataSource {
     fun observeCategories(): Flow<List<Category>>
@@ -29,7 +28,7 @@ interface CategoryLocalDataSource {
     suspend fun removeCategoryEmoji(categoryId: Long)
 }
 
-class CategoryLocalDataSourceImpl @Inject constructor(
+class CategoryLocalDataSourceImpl(
     private val categoryDao: CategoryDao,
 ) : CategoryLocalDataSource {
     override fun observeCategories(): Flow<List<Category>> =

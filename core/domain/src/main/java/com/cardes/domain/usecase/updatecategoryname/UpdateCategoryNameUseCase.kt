@@ -1,7 +1,6 @@
 package com.cardes.domain.usecase.updatecategoryname
 
 import com.cardes.domain.repository.CategoryRepository
-import javax.inject.Inject
 
 interface UpdateCategoryNameUseCase {
     suspend operator fun invoke(
@@ -10,7 +9,7 @@ interface UpdateCategoryNameUseCase {
     ): Result<Unit>
 }
 
-class UpdateCategoryNameUseCaseImpl @Inject constructor(
+class UpdateCategoryNameUseCaseImpl constructor(
     private val categoryRepository: CategoryRepository,
 ) : UpdateCategoryNameUseCase {
     override suspend fun invoke(

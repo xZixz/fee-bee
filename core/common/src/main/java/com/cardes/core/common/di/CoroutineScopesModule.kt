@@ -1,26 +1,13 @@
 package com.cardes.core.common.di
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import javax.inject.Qualifier
-import javax.inject.Singleton
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class ApplicationScope
-
-@Module
-@InstallIn(SingletonComponent::class)
-object CoroutineScopesModule {
-    @Provides
-    @Singleton
-    @ApplicationScope
-    fun provideApplicationScope(
-        @Dispatcher(FeeBeeDispatcher.Default) defaultDispatcher: CoroutineDispatcher,
-    ) = CoroutineScope(SupervisorJob() + defaultDispatcher)
+val coroutineScopesModule = module {
+    single(named("ApplicationScope")) {
+        CoroutineScope(SupervisorJob() + get<CoroutineDispatcher>(named("Default")))
+    }
 }

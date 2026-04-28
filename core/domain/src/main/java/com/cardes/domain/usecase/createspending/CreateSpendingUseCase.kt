@@ -2,7 +2,6 @@ package com.cardes.domain.usecase.createspending
 
 import com.cardes.domain.repository.SpendingRepository
 import java.math.BigDecimal
-import javax.inject.Inject
 
 interface CreateSpendingUseCase {
     suspend operator fun invoke(
@@ -13,7 +12,7 @@ interface CreateSpendingUseCase {
     ): Result<Unit>
 }
 
-class CreateSpendingUseCaseImpl @Inject constructor(
+class CreateSpendingUseCaseImpl constructor(
     private val spendingRepository: SpendingRepository,
 ) : CreateSpendingUseCase {
     override suspend fun invoke(

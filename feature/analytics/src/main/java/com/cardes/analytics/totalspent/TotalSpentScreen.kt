@@ -15,8 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
 import com.cardes.analytics.R
 import com.cardes.designsystem.common.monthDayYearDisplayFormat
 import com.cardes.designsystem.component.FeeBeeDateInput
@@ -25,7 +25,7 @@ import com.cardes.ui.R as uiR
 @Composable
 fun TotalSpentScreen(
     modifier: Modifier = Modifier,
-    viewModel: TotalSpentViewModel = hiltViewModel(),
+    viewModel: TotalSpentViewModel = koinViewModel(),
 ) {
     val spendingsData by viewModel.spendingsData.collectAsStateWithLifecycle()
     val spendingsChartModelProducer = viewModel.spendingsChartModelProducer

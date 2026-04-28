@@ -1,7 +1,5 @@
 package com.cardes.data.spending
 
-import com.cardes.core.common.di.Dispatcher
-import com.cardes.core.common.di.FeeBeeDispatcher
 import com.cardes.domain.base.MonthYear
 import com.cardes.domain.entity.Spending
 import com.cardes.domain.repository.SpendingRepository
@@ -13,11 +11,10 @@ import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import java.util.Calendar
 import java.util.SortedMap
-import javax.inject.Inject
 
-class SpendingRepositoryImpl @Inject constructor(
+class SpendingRepositoryImpl(
     private val spendingLocalDataSource: SpendingLocalDataSource,
-    @param:Dispatcher(FeeBeeDispatcher.IO) private val ioDispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher,
 ) : SpendingRepository {
     override suspend fun createSpending(
         time: Long,

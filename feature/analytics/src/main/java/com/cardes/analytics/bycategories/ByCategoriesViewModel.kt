@@ -7,17 +7,14 @@ import com.cardes.domain.base.MonthYear
 import com.cardes.domain.usecase.gettotalspentbycategoriesinmonth.GetTotalSpentByCategoriesInMonthUseCase
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.columnSeries
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
 
-@HiltViewModel
-class ByCategoriesViewModel @Inject constructor(
+class ByCategoriesViewModel(
     private val getTotalSpentByCategoriesInMonthUseCase: GetTotalSpentByCategoriesInMonthUseCase,
 ) : ViewModel() {
     private val _selectedMonth = MutableStateFlow(

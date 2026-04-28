@@ -8,28 +8,12 @@ import com.cardes.data.spending.SpendingLocalDataSourceImpl
 import com.cardes.data.spending.SpendingRepositoryImpl
 import com.cardes.domain.repository.CategoryRepository
 import com.cardes.domain.repository.SpendingRepository
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface RepositoriesModule {
-    @Singleton
-    @Binds
-    fun bindSpendingRepository(spendingRepository: SpendingRepositoryImpl): SpendingRepository
-
-    @Singleton
-    @Binds
-    fun bindSpendingLocalDataSource(spendingLocalDataSource: SpendingLocalDataSourceImpl): SpendingLocalDataSource
-
-    @Singleton
-    @Binds
-    fun bindCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository
-
-    @Singleton
-    @Binds
-    fun bindCategoryLocalDataSource(categoryLocalDataSource: CategoryLocalDataSourceImpl): CategoryLocalDataSource
+val repositoriesModule = module {
+    single<SpendingRepository> { SpendingRepositoryImpl(get(), get(named("IO"))) }
+    single<SpendingLocalDataSource> { SpendingLocalDataSourceImpl(get(), get()) }
+    single<CategoryRepository> { CategoryRepositoryImpl(get(), get(named("IO"))) }
+    single<CategoryLocalDataSource> { CategoryLocalDataSourceImpl(get()) }
 }

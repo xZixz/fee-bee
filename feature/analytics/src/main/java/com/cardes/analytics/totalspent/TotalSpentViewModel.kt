@@ -9,7 +9,6 @@ import com.cardes.domain.usecase.getspendingsbydaterange.GetSpendingsByDateRange
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -19,12 +18,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import java.util.Calendar
-import javax.inject.Inject
 
 private const val DEFAULT_TIME_RANGE_IN_MONTHS = 12
 
-@HiltViewModel
-class TotalSpentViewModel @Inject constructor(
+class TotalSpentViewModel(
     private val getSpendingsByDateRangeUseCase: GetSpendingsByDateRangeUseCase,
     private val getSpendingsByCategoriesByDateRangeUseCase: GetSpendingsByCategoriesByDateRangeUseCase,
     observeCategoriesUseCase: ObserveCategoriesUseCase,

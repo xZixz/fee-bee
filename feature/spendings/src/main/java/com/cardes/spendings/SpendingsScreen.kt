@@ -30,8 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
 import com.cardes.designsystem.component.BasePage
 import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.domain.entity.Spending
@@ -45,7 +45,7 @@ import kotlin.math.absoluteValue
 fun SpendingsRoute(
     onCreateSpendingClick: () -> Unit,
     onSpendingClick: (Long) -> Unit,
-    viewModel: SpendingsListViewModel = hiltViewModel(),
+    viewModel: SpendingsListViewModel = koinViewModel(),
 ) {
     val spendingsListUiState by viewModel.spendingsListUiState.collectAsStateWithLifecycle()
     SpendingsScreen(

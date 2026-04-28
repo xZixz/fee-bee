@@ -14,8 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
 import com.cardes.designsystem.component.BasePage
 import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.domain.entity.Category
@@ -25,7 +25,7 @@ import com.cardes.ui.R as uiR
 @Composable
 fun CategoriesListRoute(
     onCategoryClick: (Long) -> Unit,
-    categoriesListViewModel: CategoriesListViewModel = hiltViewModel(),
+    categoriesListViewModel: CategoriesListViewModel = koinViewModel(),
 ) {
     val categories by categoriesListViewModel.categories.collectAsStateWithLifecycle()
     val showAddCategoryDialog by categoriesListViewModel.showDatePickerDialog.collectAsStateWithLifecycle()

@@ -1,20 +1,10 @@
 package com.cardes.core.common.di
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object DispatchersModule {
-    @Provides
-    @Dispatcher(FeeBeeDispatcher.IO)
-    fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
-
-    @Provides
-    @Dispatcher(FeeBeeDispatcher.Default)
-    fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+val dispatchersModule = module {
+    factory(named("IO")) { Dispatchers.IO }
+    factory(named("Default")) { Dispatchers.Default }
 }

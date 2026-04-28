@@ -40,8 +40,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
 import com.cardes.analytics.R
 import com.cardes.designsystem.common.monthYearDisplayFormat
 import com.cardes.designsystem.component.FeeBeeTextInput
@@ -75,7 +75,7 @@ import java.util.Calendar
 @Composable
 fun ByCategoriesRoute(
     modifier: Modifier = Modifier,
-    viewModel: ByCategoriesViewModel = hiltViewModel(),
+    viewModel: ByCategoriesViewModel = koinViewModel(),
 ) {
     val selectedMonth by viewModel.selectedMonth.collectAsStateWithLifecycle()
     val chartViewState by viewModel.chartViewState.collectAsStateWithLifecycle()

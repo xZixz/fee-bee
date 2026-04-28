@@ -45,15 +45,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
 import com.cardes.designsystem.theme.FeeBeeTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EditCategoryRoute(
     modifier: Modifier = Modifier,
-    viewModel: EditCategoryViewModel = hiltViewModel(),
+    viewModel: EditCategoryViewModel = koinViewModel(),
     onFinishRemovingCategory: () -> Unit,
 ) {
     val fetchingCategoryUiState by viewModel.fetchingCategoryUiState.collectAsStateWithLifecycle()

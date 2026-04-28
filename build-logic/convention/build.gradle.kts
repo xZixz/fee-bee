@@ -21,7 +21,6 @@ dependencies {
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
-    compileOnly(libs.hilt.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
 }
 
@@ -52,17 +51,11 @@ gradlePlugin {
                 .pluginId
             implementationClass = "KotlinLibraryConventionPlugin"
         }
-        register("injectLibrary") {
-            id = libs.plugins.feebee.inject
+        register("koinLibrary") {
+            id = libs.plugins.feebee.koin
                 .get()
                 .pluginId
-            implementationClass = "InjectLibraryConventionPlugin"
-        }
-        register("hiltLibrary") {
-            id = libs.plugins.feebee.hilt
-                .get()
-                .pluginId
-            implementationClass = "HiltConventionPlugin"
+            implementationClass = "KoinConventionPlugin"
         }
         register("composeApplication") {
             id = libs.plugins.feebee.compose.application

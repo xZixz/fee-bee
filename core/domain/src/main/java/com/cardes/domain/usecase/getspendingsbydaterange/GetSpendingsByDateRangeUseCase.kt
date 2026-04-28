@@ -2,7 +2,6 @@ package com.cardes.domain.usecase.getspendingsbydaterange
 
 import com.cardes.domain.entity.Spending
 import com.cardes.domain.repository.SpendingRepository
-import javax.inject.Inject
 
 interface GetSpendingsByDateRangeUseCase {
     suspend operator fun invoke(
@@ -11,7 +10,7 @@ interface GetSpendingsByDateRangeUseCase {
     ): Result<List<Spending>>
 }
 
-class GetSpendingsByDateRangeUseCaseImpl @Inject constructor(
+class GetSpendingsByDateRangeUseCaseImpl constructor(
     private val spendingRepository: SpendingRepository,
 ) : GetSpendingsByDateRangeUseCase {
     override suspend fun invoke(

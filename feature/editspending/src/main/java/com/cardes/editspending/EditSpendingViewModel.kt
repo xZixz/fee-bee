@@ -13,7 +13,6 @@ import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
 import com.cardes.editspending.navigation.EditSpendingRoute
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -24,10 +23,8 @@ import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Calendar
-import javax.inject.Inject
 
-@HiltViewModel
-class EditSpendingViewModel @Inject constructor(
+class EditSpendingViewModel(
     private val createSpendingUseCase: CreateSpendingUseCase,
     private val updateSpendingUseCase: UpdateSpendingUseCase,
     private val removeSpendingUseCase: RemoveSpendingUseCase,

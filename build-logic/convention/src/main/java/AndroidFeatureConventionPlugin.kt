@@ -9,7 +9,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = "feebee.android.library")
-            apply(plugin = "feebee.hilt")
+            apply(plugin = "feebee.koin")
             apply(plugin = "feebee.compose.library")
             apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
@@ -19,7 +19,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 implementation(project(":core:designsystem"))
                 implementation(project(":core:ui"))
                 implementation(project(":core:common"))
-                implementation(libs.findLibrary("androidx.hilt.navigation.compose").get())
+                implementation(libs.findLibrary("koin.androidx.compose").get())
                 implementation(libs.findLibrary("androidx.activity.compose").get())
                 implementation(libs.findLibrary("androidx.navigation.compose").get())
                 implementation(libs.findLibrary("androidx.lifecycle.runtime.compose").get())

@@ -2,13 +2,10 @@ package com.cardes.spendings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cardes.core.common.di.Dispatcher
-import com.cardes.core.common.di.FeeBeeDispatcher
 import com.cardes.domain.entity.Spending
 import com.cardes.domain.usecase.addsamples.AddSamplesUseCase
 import com.cardes.domain.usecase.deleteallspendings.DeleteAllSpendingsUseCase
 import com.cardes.domain.usecase.observespendings.ObserveSpendingsUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flowOn
@@ -17,14 +14,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.SortedMap
-import javax.inject.Inject
 
-@HiltViewModel
-class SpendingsListViewModel @Inject constructor(
+class SpendingsListViewModel(
     observeSpendingsUseCase: ObserveSpendingsUseCase,
     private val addSamplesUseCase: AddSamplesUseCase,
     private val deleteAllSpendingsUseCase: DeleteAllSpendingsUseCase,
-    @param:Dispatcher(FeeBeeDispatcher.Default) private val defaultDispatcher: CoroutineDispatcher,
+    private val defaultDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     fun addSamples() {
         viewModelScope.launch {

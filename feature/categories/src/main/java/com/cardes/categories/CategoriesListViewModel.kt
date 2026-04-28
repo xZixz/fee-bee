@@ -4,16 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cardes.domain.usecase.addcategory.AddCategoryUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class CategoriesListViewModel @Inject constructor(
+class CategoriesListViewModel(
     private val addCategoryUseCase: AddCategoryUseCase,
     observeCategoriesUseCase: ObserveCategoriesUseCase,
 ) : ViewModel() {

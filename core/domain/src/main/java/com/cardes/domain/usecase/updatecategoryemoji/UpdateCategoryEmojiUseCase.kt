@@ -1,7 +1,6 @@
 package com.cardes.domain.usecase.updatecategoryemoji
 
 import com.cardes.domain.repository.CategoryRepository
-import javax.inject.Inject
 
 interface UpdateCategoryEmojiUseCase {
     suspend operator fun invoke(
@@ -11,7 +10,7 @@ interface UpdateCategoryEmojiUseCase {
 }
 
 class UpdateCategoryEmojiUseCaseImpl
-    @Inject constructor(
+    constructor(
         private val categoryRepository: CategoryRepository,
     ) : UpdateCategoryEmojiUseCase {
         override suspend fun invoke(

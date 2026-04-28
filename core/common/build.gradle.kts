@@ -1,15 +1,9 @@
 plugins {
     alias(libs.plugins.feebee.android.library)
     alias(libs.plugins.feebee.compose.library)
-    alias(libs.plugins.feebee.inject)
-    alias(libs.plugins.feebee.hilt)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.feebee.koin)
 }
 
 android {
     namespace = "com.cardes.core.common"
-}
-
-dependencies {
-    implementation(libs.com.squareup.javapoet)
 }

@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.feebee.android.application)
     alias(libs.plugins.feebee.compose.application)
-    alias(libs.plugins.feebee.hilt)
+    alias(libs.plugins.feebee.koin)
     // TODO: Remove this after refactoring the bottom navigation
     alias(libs.plugins.kotlin.serialization)
 }
@@ -53,7 +53,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewModel.compose)
-    implementation(libs.com.squareup.javapoet)
 
     // Vico
     implementation(libs.vico.core)

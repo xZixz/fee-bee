@@ -9,16 +9,13 @@ lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.12.1"
 composeBom = "2025.12.00"
 appcompat = "1.7.1"
-hilt = "2.57.2"
 ksp = "2.1.21-2.0.2"
-javaxInject = "1"
+koin = "3.5.6"
 coroutines = "1.10.2"
 room = "2.8.4"
 googleTruth = "1.4.5"
 androidxNavigation = "2.9.6"
-androidxHiltNavigationCompose = "1.3.0"
 androidxLifecycle = "2.10.0"
-javapoet = "1.13.0"
 ktlintGradle = "14.0.1"
 vico = "2.0.0-beta.1"
 numberPicker = "1.0.3"
@@ -46,9 +43,9 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javaxInject" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -56,8 +53,6 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 google-truth = { group = "com.google.truth", name = "truth", version.ref = "googleTruth" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
-androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
-com-squareup-javapoet = { group = "com.squareup", name = "javapoet", version.ref = "javapoet" }
 androidx-material-material-icons = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-material-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 numberPicker = { group = "com.chargemap.compose", name = "numberpicker", version.ref = "numberPicker" }
@@ -84,7 +79,6 @@ android-tools-common = { group = "com.android.tools", name = "common", version.r
 compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxComposeFoundation" }
@@ -95,7 +89,6 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktlintGradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradle" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
@@ -105,8 +98,7 @@ room = { id = "androidx.room", version.ref = "room" }
 feebee-android-application = { id = "feebee.android.application" }
 feebee-android-library = { id = "feebee.android.library" }
 feebee-kotlin-library = { id = "feebee.kotlin.library" }
-feebee-inject = { id = "feebee.inject" }
-feebee-hilt = { id = "feebee.hilt" }
+feebee-koin = { id = "feebee.koin" }
 feebee-compose-application = { id = "feebee.compose.application" }
 feebee-compose-library = { id = "feebee.compose.library" }
 feebee-android-feature = { id = "feebee.android.feature" }

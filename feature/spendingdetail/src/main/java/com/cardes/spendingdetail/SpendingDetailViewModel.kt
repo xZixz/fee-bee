@@ -7,14 +7,11 @@ import androidx.navigation.toRoute
 import com.cardes.designsystem.common.spendingDateDisplayFormat
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
 import com.cardes.spendingdetail.navigation.SpendingDetailRoute
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import javax.inject.Inject
 
-@HiltViewModel
-class SpendingDetailViewModel @Inject constructor(
+class SpendingDetailViewModel(
     savedStateHandle: SavedStateHandle,
     observeSpendingUseCase: ObserveSpendingUseCase,
 ) : ViewModel() {
