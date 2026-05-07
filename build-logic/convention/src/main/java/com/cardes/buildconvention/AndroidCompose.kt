@@ -9,7 +9,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
-fun Project.configureCompose(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+fun Project.configureCompose(commonExtension: CommonExtension) {
     dependencies {
         val bom = libs.findLibrary("androidx.compose.bom").get()
         implementation(platform(bom))
@@ -27,14 +27,8 @@ fun Project.configureCompose(commonExtension: CommonExtension<*, *, *, *, *, *>)
     }
 
     commonExtension.apply {
-        buildFeatures {
-            compose = true
-        }
-        testOptions {
-            unitTests {
-                isIncludeAndroidResources = true
-            }
-        }
+        buildFeatures.compose = true
+        testOptions.unitTests.isIncludeAndroidResources = true
     }
 
     extensions.configure<ComposeCompilerGradlePluginExtension> {

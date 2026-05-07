@@ -14,7 +14,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 defaultConfig.consumerProguardFiles("consumer-rules.pro")
-                testOptions.targetSdk = 36
+                testOptions.targetSdk = 37
             }
         }
     }
