@@ -26,9 +26,7 @@ fun FeeBeeHostNav(
         modifier = modifier,
     ) {
         home(
-            onCreateSpendingClick = {
-                navController.navigateToCreateSpending()
-            },
+            onCreateSpendingClick = { navController.navigateToCreateSpending() },
             onSpendingClick = navController::navigateToSpendingDetail,
             onCategoryClick = navController::navigateToEditCategory,
         )

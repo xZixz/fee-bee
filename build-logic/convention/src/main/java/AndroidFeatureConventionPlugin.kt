@@ -20,6 +20,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 implementation(project(":core:designsystem"))
                 implementation(project(":core:ui"))
                 implementation(project(":core:common"))
+                implementation(project(":core:navigation"))
                 implementation(libs.findLibrary("koin.androidx.compose").get())
                 implementation(libs.findLibrary("androidx.activity.compose").get())
                 implementation(libs.findLibrary("androidx.navigation.compose").get())

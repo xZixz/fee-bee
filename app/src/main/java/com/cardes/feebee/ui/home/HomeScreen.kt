@@ -7,23 +7,19 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navOptions
-import com.cardes.analytics.navigation.analytics
-import com.cardes.analytics.navigation.toAnalytics
-import com.cardes.categories.navigation.categoriesList
-import com.cardes.categories.navigation.toCategories
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import com.cardes.analytics.AnalyticsRoute
+import com.cardes.categories.CategoriesListRoute
 import com.cardes.feebee.navigation.BottomNavItem
-import com.cardes.spendings.navigation.spendingsList
-import com.cardes.spendings.navigation.toSpendings
+import com.cardes.navigation.Navigator
+import com.cardes.navigation.TopLevelDestination
+import com.cardes.navigation.rememberNavigationState
+import com.cardes.navigation.toEntries
+import com.cardes.spendings.SpendingsRoute
 
 @Composable
 fun HomeRoute(
@@ -45,60 +41,58 @@ fun HomeScreen(
     onCreateSpendingClick: () -> Unit,
     onSpendingClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
     onCategoryClick: (Long) -> Unit,
 ) {
+    val navigateState = rememberNavigationState(
+        startRoute = TopLevelDestination.SpendingsRoute,
+        topLevelRoutes = setOf(
+            TopLevelDestination.SpendingsRoute,
+            TopLevelDestination.AnalyticsRoute,
+            TopLevelDestination.CategoriesRoute,
+        ),
+    )
+
+    val navigator = remember(navigateState) { Navigator(navigateState) }
+
     Column {
         Box(modifier = modifier.weight(1.0f)) {
-            NavHost(
-                navController = navController,
-                startDestination = BottomNavItem.SPENDINGS_LIST.route,
-            ) {
-                spendingsList(
-                    onCreateSpendingClick = onCreateSpendingClick,
-                    onSpendingClick = onSpendingClick,
-                )
-                analytics()
-                categoriesList(
-                    onCategoryClick = onCategoryClick,
-                )
-            }
+            NavDisplay(
+                entries = navigateState.toEntries(
+                    entryProvider = entryProvider {
+                        entry<TopLevelDestination.SpendingsRoute> {
+                            SpendingsRoute(
+                                onCreateSpendingClick = onCreateSpendingClick,
+                                onSpendingClick = onSpendingClick,
+                            )
+                        }
+                        entry<TopLevelDestination.CategoriesRoute> {
+                            CategoriesListRoute(
+                                onCategoryClick = onCategoryClick,
+                            )
+                        }
+                        entry<TopLevelDestination.AnalyticsRoute> {
+                            AnalyticsRoute()
+                        }
+                    },
+                ),
+                onBack = { navigator.goBack() },
+            )
         }
-        BottomNavigationBar(
-            navController = navController,
-        )
+        BottomNavigationBar(navigator = navigator)
     }
 }
 
 @Composable
 fun BottomNavigationBar(
-    navController: NavController,
+    navigator: Navigator,
     modifier: Modifier = Modifier,
 ) {
     NavigationBar(modifier = modifier) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
-
         BottomNavItem.entries.toTypedArray().forEach { navItem ->
             val route = navItem.route
             NavigationBarItem(
-                selected = currentDestination?.hasRoute(route = route) == true,
-                onClick = {
-                    if (currentDestination?.hasRoute(route = route)?.not() == true) {
-                        val navOptions = navOptions {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                        when (navItem) {
-                            BottomNavItem.SPENDINGS_LIST -> navController.toSpendings(navOptions)
-                            BottomNavItem.ANALYTICS -> navController.toAnalytics(navOptions)
-                            BottomNavItem.CATEGORIES_LIST -> navController.toCategories(navOptions)
-                        }
-                    }
-                },
+                selected = navigator.state.topLevelRoute == navItem.route,
+                onClick = { navigator.navigate(route) },
                 icon = {
                     Icon(
                         imageVector = navItem.icon,

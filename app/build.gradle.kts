@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.feebee.android.application)
     alias(libs.plugins.feebee.compose.application)
     alias(libs.plugins.feebee.koin)
+    alias(libs.plugins.feebee.nav3)
     // TODO: Remove this after refactoring the bottom navigation
     alias(libs.plugins.kotlin.serialization)
 }
@@ -75,6 +76,7 @@ dependencies {
     // Modules
     implementation(projects.core.domain)
     implementation(projects.core.data)
+    implementation(projects.core.navigation)
 
     implementation(projects.core.designsystem)
     implementation(projects.core.ui)
