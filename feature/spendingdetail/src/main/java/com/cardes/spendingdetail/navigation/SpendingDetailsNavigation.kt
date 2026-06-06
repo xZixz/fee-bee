@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import com.cardes.spendingdetail.SpendingDetailRoute
 import com.cardes.ui.shared.UiSetting
 import kotlinx.serialization.Serializable
+import org.koin.androidx.compose.koinViewModel
 
 @Serializable
 data class SpendingDetailRoute(
@@ -43,6 +44,9 @@ fun NavGraphBuilder.spendingDetail(onEditClick: (Long) -> Unit) {
             )
         },
     ) {
-        SpendingDetailRoute(onEditClick = onEditClick)
+        SpendingDetailRoute(
+            onEditClick = onEditClick,
+            spendingDetailViewModel = koinViewModel(),
+        )
     }
 }

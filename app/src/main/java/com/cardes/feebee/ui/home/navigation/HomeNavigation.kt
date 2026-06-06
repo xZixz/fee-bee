@@ -11,11 +11,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 object HomeRoute
 
-fun NavGraphBuilder.home(
-    onCreateSpendingClick: () -> Unit,
-    onSpendingClick: (Long) -> Unit,
-    onCategoryClick: (Long) -> Unit,
-) {
+fun NavGraphBuilder.home() {
     composable<HomeRoute>(
         exitTransition = {
             return@composable slideOutOfContainer(
@@ -30,10 +26,6 @@ fun NavGraphBuilder.home(
             )
         },
     ) {
-        HomeRoute(
-            onCreateSpendingClick = onCreateSpendingClick,
-            onSpendingClick = onSpendingClick,
-            onCategoryClick = onCategoryClick,
-        )
+        HomeRoute()
     }
 }

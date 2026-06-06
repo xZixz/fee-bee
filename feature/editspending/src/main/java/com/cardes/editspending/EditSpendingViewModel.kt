@@ -1,9 +1,7 @@
 package com.cardes.editspending
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.cardes.designsystem.common.nonBigDecimalCharRegex
 import com.cardes.domain.entity.Category
 import com.cardes.domain.usecase.addcategory.AddCategoryUseCase
@@ -12,28 +10,27 @@ import com.cardes.domain.usecase.getspending.GetSpendingUseCase
 import com.cardes.domain.usecase.observecategories.ObserveCategoriesUseCase
 import com.cardes.domain.usecase.removespending.RemoveSpendingUseCase
 import com.cardes.domain.usecase.updatespending.UpdateSpendingUseCase
-import com.cardes.editspending.navigation.EditSpendingRoute
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.InjectedParam
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Calendar
 
 class EditSpendingViewModel(
+    @InjectedParam private val spendingId: Long,
     private val createSpendingUseCase: CreateSpendingUseCase,
     private val updateSpendingUseCase: UpdateSpendingUseCase,
     private val removeSpendingUseCase: RemoveSpendingUseCase,
     private val addCategoryUseCase: AddCategoryUseCase,
     private val getSpendingUseCase: GetSpendingUseCase,
     private val observeCategoriesUseCase: ObserveCategoriesUseCase,
-    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val spendingId: Long = savedStateHandle.toRoute<EditSpendingRoute>().spendingId
     val editMode: EditMode
         get() = if (spendingId == 0L) EditMode.NEW else EditMode.EDIT
 

@@ -1,21 +1,18 @@
 package com.cardes.spendingdetail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.cardes.designsystem.common.spendingDateDisplayFormat
 import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
-import com.cardes.spendingdetail.navigation.SpendingDetailRoute
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import org.koin.core.annotation.InjectedParam
 
 class SpendingDetailViewModel(
-    savedStateHandle: SavedStateHandle,
+    @InjectedParam val spendingId: Long,
     observeSpendingUseCase: ObserveSpendingUseCase,
 ) : ViewModel() {
-    private val spendingId: Long = savedStateHandle.toRoute<SpendingDetailRoute>().spendingId
     val spendingUiState = observeSpendingUseCase
         .invoke(spendingId)
         .map { spending ->

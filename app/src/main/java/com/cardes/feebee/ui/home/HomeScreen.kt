@@ -14,35 +14,27 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.cardes.analytics.AnalyticsRoute
 import com.cardes.categories.CategoriesListRoute
+import com.cardes.editcategory.EditCategoryRoute
+import com.cardes.editspending.EditSpendingRoute
 import com.cardes.feebee.navigation.BottomNavItem
+import com.cardes.navigation.CategoriesDestination
 import com.cardes.navigation.Navigator
+import com.cardes.navigation.SpendingsDestination
 import com.cardes.navigation.TopLevelDestination
 import com.cardes.navigation.rememberNavigationState
 import com.cardes.navigation.toEntries
+import com.cardes.spendingdetail.SpendingDetailRoute
 import com.cardes.spendings.SpendingsRoute
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun HomeRoute(
-    onCreateSpendingClick: () -> Unit,
-    onSpendingClick: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-    onCategoryClick: (Long) -> Unit,
-) {
-    HomeScreen(
-        onCreateSpendingClick = onCreateSpendingClick,
-        onSpendingClick = onSpendingClick,
-        onCategoryClick = onCategoryClick,
-        modifier = modifier,
-    )
+fun HomeRoute(modifier: Modifier = Modifier) {
+    HomeScreen(modifier = modifier)
 }
 
 @Composable
-fun HomeScreen(
-    onCreateSpendingClick: () -> Unit,
-    onSpendingClick: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-    onCategoryClick: (Long) -> Unit,
-) {
+fun HomeScreen(modifier: Modifier = Modifier) {
     val navigateState = rememberNavigationState(
         startRoute = TopLevelDestination.SpendingsRoute,
         topLevelRoutes = setOf(
@@ -61,17 +53,49 @@ fun HomeScreen(
                     entryProvider = entryProvider {
                         entry<TopLevelDestination.SpendingsRoute> {
                             SpendingsRoute(
-                                onCreateSpendingClick = onCreateSpendingClick,
-                                onSpendingClick = onSpendingClick,
+                                onCreateSpendingClick = { navigator.navigate(SpendingsDestination.EditSpending(0)) },
+                                onSpendingClick = { spendingId ->
+                                    navigator.navigate(SpendingsDestination.SpendingDetails(spendingId))
+                                },
                             )
                         }
                         entry<TopLevelDestination.CategoriesRoute> {
                             CategoriesListRoute(
-                                onCategoryClick = onCategoryClick,
+                                onCategoryClick = { categoryId ->
+                                    navigator.navigate(CategoriesDestination.EditCategory(categoryId))
+                                },
                             )
                         }
                         entry<TopLevelDestination.AnalyticsRoute> {
                             AnalyticsRoute()
+                        }
+                        entry<SpendingsDestination.SpendingDetails> { key ->
+                            SpendingDetailRoute(
+                                onEditClick = { spendingId -> navigator.navigate(SpendingsDestination.EditSpending(spendingId)) },
+                                spendingDetailViewModel = koinViewModel(
+                                    key = "${key.spendingId}",
+                                    parameters = { parametersOf(key.spendingId) },
+                                ),
+                            )
+                        }
+                        entry<SpendingsDestination.EditSpending> { key ->
+                            EditSpendingRoute(
+                                navUp = { navigator.goBack() },
+                                onSpendingRemoved = { navigator.goBack() },
+                                editSpendingViewModel = koinViewModel(
+                                    key = "${key.spendingId}",
+                                    parameters = { parametersOf(key.spendingId) },
+                                ),
+                            )
+                        }
+                        entry<CategoriesDestination.EditCategory> { key ->
+                            EditCategoryRoute(
+                                onFinishRemovingCategory = { navigator.goBack() },
+                                editCategoryViewModel = koinViewModel(
+                                    key = "${key.categoryId}",
+                                    parameters = { parametersOf(key.categoryId) },
+                                ),
+                            )
                         }
                     },
                 ),

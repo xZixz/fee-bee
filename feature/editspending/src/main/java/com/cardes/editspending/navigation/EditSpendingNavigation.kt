@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import com.cardes.editspending.EditSpendingRoute
 import com.cardes.ui.shared.UiSetting
 import kotlinx.serialization.Serializable
+import org.koin.compose.viewmodel.koinViewModel
 
 @Serializable
 data class EditSpendingRoute(
@@ -45,6 +46,7 @@ fun NavGraphBuilder.editSpending(
         EditSpendingRoute(
             navUp = onNavUp,
             onSpendingRemoved = onSpendingRemoved,
+            editSpendingViewModel = koinViewModel(),
         )
     }
 }

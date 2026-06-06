@@ -1,15 +1,12 @@
 package com.cardes.editcategory
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.cardes.domain.usecase.observecategory.ObserveCategoryUseCase
 import com.cardes.domain.usecase.removecategory.RemoveCategoryUseCase
 import com.cardes.domain.usecase.removecategoryemoji.RemoveCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryemoji.UpdateCategoryEmojiUseCase
 import com.cardes.domain.usecase.updatecategoryname.UpdateCategoryNameUseCase
-import com.cardes.editcategory.navigation.EditCategoryRoute
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,14 +16,15 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.InjectedParam
 
 class EditCategoryViewModel(
+    @InjectedParam private val categoryId: Long,
     private val updateCategoryNameUseCase: UpdateCategoryNameUseCase,
     private val removeCategoryUseCase: RemoveCategoryUseCase,
     private val updateCategoryEmojiUseCase: UpdateCategoryEmojiUseCase,
     private val removeCategoryEmojiUseCase: RemoveCategoryEmojiUseCase,
     observeCategoryUseCase: ObserveCategoryUseCase,
-    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _events = MutableSharedFlow<EditCategoryEvent>(
         replay = 0,
@@ -46,8 +44,6 @@ class EditCategoryViewModel(
     fun onEditingCategoryNameChanged(editingCategoryName: String) {
         editingCategoryNameFlow.value = editingCategoryName
     }
-
-    private val categoryId: Long = savedStateHandle.toRoute<EditCategoryRoute>().categoryId
 
     private val editingCategoryNameFlow = MutableStateFlow("")
 

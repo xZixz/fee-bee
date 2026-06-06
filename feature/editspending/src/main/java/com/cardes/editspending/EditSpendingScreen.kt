@@ -41,14 +41,13 @@ import com.cardes.designsystem.theme.FeeBeeTheme
 import com.cardes.ui.CreateCategoryDialog
 import com.cardes.ui.DeleteSpendingDialog
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.androidx.compose.koinViewModel
 import com.cardes.ui.R as uiR
 
 @Composable
 fun EditSpendingRoute(
     navUp: () -> Unit,
     onSpendingRemoved: () -> Unit,
-    editSpendingViewModel: EditSpendingViewModel = koinViewModel(),
+    editSpendingViewModel: EditSpendingViewModel,
 ) {
     val editSpendingUiState by editSpendingViewModel.editSpendingUiState.collectAsStateWithLifecycle()
     val showAddCategoryDialog by editSpendingViewModel.showAddCategoryDialog.collectAsStateWithLifecycle()

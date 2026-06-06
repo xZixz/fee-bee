@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.koin.androidx.compose.koinViewModel
 import com.cardes.designsystem.component.BasePage
 import com.cardes.designsystem.component.CategoryChip
 import com.cardes.designsystem.theme.FeeBeeTheme
@@ -28,7 +27,7 @@ import com.cardes.designsystem.theme.FeeBeeTheme
 @Composable
 fun SpendingDetailRoute(
     onEditClick: (Long) -> Unit,
-    spendingDetailViewModel: SpendingDetailViewModel = koinViewModel(),
+    spendingDetailViewModel: SpendingDetailViewModel,
 ) {
     val spendingUiState by spendingDetailViewModel.spendingUiState.collectAsStateWithLifecycle()
 

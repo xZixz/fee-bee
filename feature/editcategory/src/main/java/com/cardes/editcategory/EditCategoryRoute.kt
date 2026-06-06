@@ -46,20 +46,19 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.koin.androidx.compose.koinViewModel
 import com.cardes.designsystem.theme.FeeBeeTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EditCategoryRoute(
     modifier: Modifier = Modifier,
-    viewModel: EditCategoryViewModel = koinViewModel(),
+    editCategoryViewModel: EditCategoryViewModel,
     onFinishRemovingCategory: () -> Unit,
 ) {
-    val fetchingCategoryUiState by viewModel.fetchingCategoryUiState.collectAsStateWithLifecycle()
+    val fetchingCategoryUiState by editCategoryViewModel.fetchingCategoryUiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        viewModel.events.collectLatest { event ->
+        editCategoryViewModel.events.collectLatest { event ->
             when (event) {
                 EditCategoryEvent.RemovingFinished -> onFinishRemovingCategory()
             }
@@ -69,11 +68,11 @@ fun EditCategoryRoute(
     EditCategoryScreen(
         modifier = modifier,
         fetchingCategoryUiState = fetchingCategoryUiState,
-        onConfirmUpdateCategoryName = viewModel::onConfirmUpdateCategoryName,
-        onEditingCategoryNameChanged = viewModel::onEditingCategoryNameChanged,
-        onConfirmRemoveCategory = viewModel::removeCategory,
-        onEmojiPicked = viewModel::onEmojiPicked,
-        onRemoveEmoji = viewModel::onRemoveEmoji,
+        onConfirmUpdateCategoryName = editCategoryViewModel::onConfirmUpdateCategoryName,
+        onEditingCategoryNameChanged = editCategoryViewModel::onEditingCategoryNameChanged,
+        onConfirmRemoveCategory = editCategoryViewModel::removeCategory,
+        onEmojiPicked = editCategoryViewModel::onEmojiPicked,
+        onRemoveEmoji = editCategoryViewModel::onRemoveEmoji,
     )
 }
 
