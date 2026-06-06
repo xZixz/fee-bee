@@ -10,7 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.cardes.designsystem.theme.FeeBeeTheme
-import com.cardes.feebee.navigation.FeeBeeHostNav
+import com.cardes.feebee.ui.home.HomeRoute
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    FeeBeeHostNav(modifier = Modifier.safeDrawingPadding())
+                    HomeRoute(modifier = Modifier.safeDrawingPadding())
                 }
             }
         }
