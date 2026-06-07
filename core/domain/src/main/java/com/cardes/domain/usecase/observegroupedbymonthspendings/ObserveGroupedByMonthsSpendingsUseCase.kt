@@ -10,7 +10,7 @@ interface ObserveGroupedByMonthsSpendingsUseCase {
     operator fun invoke(): Flow<SortedMap<MonthYear, SortedMap<Int, List<Spending>>>>
 }
 
-class ObserveGroupedByMonthsSpendingsUseCaseImpl constructor(
+class ObserveGroupedByMonthsSpendingsUseCaseImpl(
     private val spendingRepository: SpendingRepository,
 ) : ObserveGroupedByMonthsSpendingsUseCase {
     override fun invoke(): Flow<SortedMap<MonthYear, SortedMap<Int, List<Spending>>>> = spendingRepository.observeGroupedByMonthsSpending()

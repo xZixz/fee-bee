@@ -9,16 +9,15 @@ interface UpdateCategoryEmojiUseCase {
     ): Result<Unit>
 }
 
-class UpdateCategoryEmojiUseCaseImpl
-    constructor(
-        private val categoryRepository: CategoryRepository,
-    ) : UpdateCategoryEmojiUseCase {
-        override suspend fun invoke(
-            categoryId: Long,
-            emoji: String,
-        ): Result<Unit> =
-            categoryRepository.updateCategoryEmoji(
-                categoryId = categoryId,
-                emoji = emoji,
-            )
-    }
+class UpdateCategoryEmojiUseCaseImpl(
+    private val categoryRepository: CategoryRepository,
+) : UpdateCategoryEmojiUseCase {
+    override suspend fun invoke(
+        categoryId: Long,
+        emoji: String,
+    ): Result<Unit> =
+        categoryRepository.updateCategoryEmoji(
+            categoryId = categoryId,
+            emoji = emoji,
+        )
+}

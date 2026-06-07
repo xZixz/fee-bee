@@ -6,7 +6,7 @@ interface RemoveCategoryUseCase {
     suspend operator fun invoke(categoryId: Long): Result<Unit>
 }
 
-class RemoveCategoryUseCaseImpl constructor(
+class RemoveCategoryUseCaseImpl(
     private val categoryRepository: CategoryRepository,
 ) : RemoveCategoryUseCase {
     override suspend fun invoke(categoryId: Long): Result<Unit> = categoryRepository.removeCategory(categoryId = categoryId)

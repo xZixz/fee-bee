@@ -11,7 +11,7 @@ interface GetSpendingsByCategoriesByDateRangeUseCase {
     ): Result<List<Spending>>
 }
 
-class GetSpendingsByCategoriesByDateRangeUseCaseImpl constructor(
+class GetSpendingsByCategoriesByDateRangeUseCaseImpl(
     private val spendingRepository: SpendingRepository,
 ) : GetSpendingsByCategoriesByDateRangeUseCase {
     override suspend fun invoke(

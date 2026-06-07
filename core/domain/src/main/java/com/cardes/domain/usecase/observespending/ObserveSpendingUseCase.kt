@@ -8,7 +8,7 @@ interface ObserveSpendingUseCase {
     operator fun invoke(spendingId: Long): Flow<Spending>
 }
 
-class ObserveSpendingUseCaseImpl constructor(
+class ObserveSpendingUseCaseImpl(
     private val spendingRepository: SpendingRepository,
 ) : ObserveSpendingUseCase {
     override fun invoke(spendingId: Long): Flow<Spending> = spendingRepository.observeSpending(spendingId)

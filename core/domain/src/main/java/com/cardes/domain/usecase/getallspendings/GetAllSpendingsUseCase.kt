@@ -7,7 +7,7 @@ interface GetAllSpendingsUseCase {
     suspend operator fun invoke(): Result<List<Spending>>
 }
 
-class GetAllSpendingsUseCaseImpl constructor(
+class GetAllSpendingsUseCaseImpl(
     private val spendingRepository: SpendingRepository,
 ) : GetAllSpendingsUseCase {
     override suspend fun invoke(): Result<List<Spending>> = spendingRepository.getAllSpendings()

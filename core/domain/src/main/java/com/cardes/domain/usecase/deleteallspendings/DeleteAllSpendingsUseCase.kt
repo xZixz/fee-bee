@@ -6,7 +6,7 @@ interface DeleteAllSpendingsUseCase {
     suspend operator fun invoke()
 }
 
-class DeleteAllSpendingsUseCaseImpl constructor(
+class DeleteAllSpendingsUseCaseImpl(
     private val spendingRepository: SpendingRepository,
 ) : DeleteAllSpendingsUseCase {
     override suspend fun invoke() {

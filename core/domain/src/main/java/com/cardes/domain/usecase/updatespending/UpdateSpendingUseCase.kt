@@ -13,7 +13,7 @@ interface UpdateSpendingUseCase {
     ): Result<Unit>
 }
 
-class UpdateSpendingUseCaseImpl constructor(
+class UpdateSpendingUseCaseImpl(
     private val spendingRepository: SpendingRepository,
 ) : UpdateSpendingUseCase {
     override suspend fun invoke(

@@ -6,7 +6,7 @@ interface RemoveCategoryEmojiUseCase {
     suspend operator fun invoke(categoryId: Long): Result<Unit>
 }
 
-class RemoveCategoryEmojiUseCaseImpl constructor(
+class RemoveCategoryEmojiUseCaseImpl(
     private val categoryRepository: CategoryRepository,
 ) : RemoveCategoryEmojiUseCase {
     override suspend fun invoke(categoryId: Long): Result<Unit> = categoryRepository.removeCategoryEmoji(categoryId = categoryId)

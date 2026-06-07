@@ -8,7 +8,7 @@ interface ObserveCategoriesUseCase {
     operator fun invoke(): Flow<List<Category>>
 }
 
-class ObserveCategoriesUseCaseImpl constructor(
+class ObserveCategoriesUseCaseImpl(
     private val categoryRepository: CategoryRepository,
 ) : ObserveCategoriesUseCase {
     override fun invoke() = categoryRepository.observeCategories()

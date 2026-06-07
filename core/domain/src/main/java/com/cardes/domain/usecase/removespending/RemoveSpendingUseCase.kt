@@ -6,7 +6,7 @@ interface RemoveSpendingUseCase {
     suspend operator fun invoke(spendingId: Long): Result<Unit>
 }
 
-class RemoveSpendingUseCaseImpl constructor(
+class RemoveSpendingUseCaseImpl(
     private val spendingRepository: SpendingRepository,
 ) : RemoveSpendingUseCase {
     override suspend fun invoke(spendingId: Long): Result<Unit> = spendingRepository.removeSpending(spendingId = spendingId)

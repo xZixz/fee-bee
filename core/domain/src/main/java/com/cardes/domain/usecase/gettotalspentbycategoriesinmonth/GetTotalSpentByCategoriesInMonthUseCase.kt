@@ -10,7 +10,7 @@ interface GetTotalSpentByCategoriesInMonthUseCase {
     ): Result<Map<String, BigDecimal>>
 }
 
-class GetTotalSpentByCategoriesInMonthUseCaseImpl constructor(
+class GetTotalSpentByCategoriesInMonthUseCaseImpl(
     val spendingRepository: SpendingRepository,
 ) : GetTotalSpentByCategoriesInMonthUseCase {
     override suspend fun invoke(

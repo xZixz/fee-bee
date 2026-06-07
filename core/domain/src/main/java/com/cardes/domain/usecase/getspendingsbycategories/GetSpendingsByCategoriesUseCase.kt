@@ -7,7 +7,7 @@ interface GetSpendingsByCategoriesUseCase {
     suspend operator fun invoke(categoryIds: List<Long>): Result<List<Spending>>
 }
 
-class GetSpendingsByCategoriesUseCaseImpl constructor(
+class GetSpendingsByCategoriesUseCaseImpl(
     private val spendingRepository: SpendingRepository,
 ) : GetSpendingsByCategoriesUseCase {
     override suspend fun invoke(categoryIds: List<Long>): Result<List<Spending>> = spendingRepository.getSpendingsByCategoryIds(categoryIds)

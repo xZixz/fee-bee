@@ -6,7 +6,7 @@ interface AddSamplesUseCase {
     suspend operator fun invoke()
 }
 
-class AddSamplesUseCaseImpl constructor(
+class AddSamplesUseCaseImpl(
     private val spendingRepository: SpendingRepository,
 ) : AddSamplesUseCase {
     override suspend fun invoke() {

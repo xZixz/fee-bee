@@ -9,7 +9,7 @@ interface UpdateCategoryNameUseCase {
     ): Result<Unit>
 }
 
-class UpdateCategoryNameUseCaseImpl constructor(
+class UpdateCategoryNameUseCaseImpl(
     private val categoryRepository: CategoryRepository,
 ) : UpdateCategoryNameUseCase {
     override suspend fun invoke(
