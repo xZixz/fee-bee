@@ -34,7 +34,7 @@ class EditCategoryViewModel(
 
     fun onConfirmUpdateCategoryName(newCategoryName: String) {
         viewModelScope.launch {
-            updateCategoryNameUseCase.invoke(
+            updateCategoryNameUseCase(
                 categoryId = categoryId,
                 categoryName = newCategoryName,
             )
