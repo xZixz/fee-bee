@@ -81,7 +81,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                         entry<SpendingsDestination.EditSpending> { key ->
                             EditSpendingRoute(
                                 navUp = { navigator.goBack() },
-                                onSpendingRemoved = { navigator.goBack() },
+                                onSpendingRemoved = { navigator.goBackToTopRoute() },
                                 editSpendingViewModel = koinViewModel(
                                     key = "${key.spendingId}",
                                     parameters = { parametersOf(key.spendingId) },
