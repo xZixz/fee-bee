@@ -34,25 +34,24 @@ class ByCategoriesViewModel(
                 _chartViewState.update { ByCategoryChartViewState.Loading }
                 // Fake loading
                 delay(500L)
-                getTotalSpentByCategoriesInMonthUseCase
-                    .invoke(
-                        month = month,
-                        year = year,
-                    ).onSuccess { result ->
-                        when {
-                            result.isEmpty() -> _chartViewState.update { ByCategoryChartViewState.NoData }
-                            else -> {
-                                _chartViewState.update { ByCategoryChartViewState.Data(categoryNames = result.keys.toList()) }
-                                totalSpentByCategoryInMonthModelProducer.runTransaction {
-                                    columnSeries {
-                                        series(result.values)
-                                    }
+                getTotalSpentByCategoriesInMonthUseCase(
+                    month = month,
+                    year = year,
+                ).onSuccess { result ->
+                    when {
+                        result.isEmpty() -> _chartViewState.update { ByCategoryChartViewState.NoData }
+                        else -> {
+                            _chartViewState.update { ByCategoryChartViewState.Data(categoryNames = result.keys.toList()) }
+                            totalSpentByCategoryInMonthModelProducer.runTransaction {
+                                columnSeries {
+                                    series(result.values)
                                 }
                             }
                         }
-                    }.onFailure { error ->
-                        _chartViewState.update { ByCategoryChartViewState.Error(message = error.message.orEmpty()) }
                     }
+                }.onFailure { error ->
+                    _chartViewState.update { ByCategoryChartViewState.Error(message = error.message.orEmpty()) }
+                }
             }.launchIn(viewModelScope)
     }
 

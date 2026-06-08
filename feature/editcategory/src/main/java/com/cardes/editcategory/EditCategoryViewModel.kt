@@ -47,8 +47,7 @@ class EditCategoryViewModel(
 
     private val editingCategoryNameFlow = MutableStateFlow("")
 
-    private val categoryFlow = observeCategoryUseCase
-        .invoke(categoryId = categoryId)
+    private val categoryFlow = observeCategoryUseCase(categoryId = categoryId)
         .filterNotNull()
         .onEach { category ->
             editingCategoryNameFlow.emit(category.name)
@@ -73,8 +72,7 @@ class EditCategoryViewModel(
 
     fun removeCategory() {
         viewModelScope.launch {
-            removeCategoryUseCase
-                .invoke(categoryId = categoryId)
+            removeCategoryUseCase(categoryId = categoryId)
                 .onSuccess {
                     _events.emit(EditCategoryEvent.RemovingFinished)
                 }.onFailure {
@@ -85,7 +83,7 @@ class EditCategoryViewModel(
 
     fun onEmojiPicked(emojiString: String) {
         viewModelScope.launch {
-            updateCategoryEmojiUseCase.invoke(
+            updateCategoryEmojiUseCase(
                 categoryId = categoryId,
                 emoji = emojiString,
             )
@@ -94,7 +92,7 @@ class EditCategoryViewModel(
 
     fun onRemoveEmoji() {
         viewModelScope.launch {
-            removeCategoryEmojiUseCase.invoke(categoryId = categoryId)
+            removeCategoryEmojiUseCase(categoryId = categoryId)
         }
     }
 }

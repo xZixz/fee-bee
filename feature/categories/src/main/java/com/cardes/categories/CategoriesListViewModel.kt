@@ -23,8 +23,7 @@ class CategoriesListViewModel(
 
     fun onCreateCategory(categoryName: String) {
         viewModelScope.launch {
-            addCategoryUseCase
-                .invoke(categoryName)
+            addCategoryUseCase(categoryName)
                 .onSuccess {
                     dismissNewCategoryDialog()
                 }.onFailure {
@@ -37,8 +36,7 @@ class CategoriesListViewModel(
         _showDatePickerDialog.value = false
     }
 
-    val categories = observeCategoriesUseCase
-        .invoke()
+    val categories = observeCategoriesUseCase()
         .stateIn(
             initialValue = listOf(),
             started = SharingStarted.WhileSubscribed(500L),

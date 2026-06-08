@@ -72,7 +72,7 @@ class TotalSpentViewModel(
         )
 
     val totalSpentViewState = combine(
-        observeCategoriesUseCase.invoke(),
+        observeCategoriesUseCase(),
         selectedCategoryIds,
         fromDate,
         toDate,
@@ -106,28 +106,26 @@ class TotalSpentViewModel(
         ) { selectedCategoryIds, fromDate, toDate ->
             when {
                 selectedCategoryIds.isEmpty() -> {
-                    getSpendingsByDateRangeUseCase
-                        .invoke(
-                            from = fromDate,
-                            to = toDate,
-                        ).onSuccess { spendings ->
-                            spendingList.value = spendings
-                        }.onFailure {
-                            // TODO handle errors later
-                        }
+                    getSpendingsByDateRangeUseCase(
+                        from = fromDate,
+                        to = toDate,
+                    ).onSuccess { spendings ->
+                        spendingList.value = spendings
+                    }.onFailure {
+                        // TODO handle errors later
+                    }
                 }
 
                 else -> {
-                    getSpendingsByCategoriesByDateRangeUseCase
-                        .invoke(
-                            categoryIds = selectedCategoryIds,
-                            from = fromDate,
-                            to = toDate,
-                        ).onSuccess { spendings ->
-                            spendingList.value = spendings
-                        }.onFailure {
-                            // TODO handle errors later
-                        }
+                    getSpendingsByCategoriesByDateRangeUseCase(
+                        categoryIds = selectedCategoryIds,
+                        from = fromDate,
+                        to = toDate,
+                    ).onSuccess { spendings ->
+                        spendingList.value = spendings
+                    }.onFailure {
+                        // TODO handle errors later
+                    }
                 }
             }
         }.launchIn(viewModelScope)

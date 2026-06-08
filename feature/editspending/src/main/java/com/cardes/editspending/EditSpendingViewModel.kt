@@ -60,16 +60,14 @@ class EditSpendingViewModel(
 
     init {
         viewModelScope.launch {
-            observeCategoriesUseCase
-                .invoke()
+            observeCategoriesUseCase()
                 .collect { categories ->
                     _editSpendingUiState.update { it.copy(categories = categories) }
                 }
         }
 
         viewModelScope.launch {
-            getSpendingUseCase
-                .invoke(spendingId)
+            getSpendingUseCase(spendingId)
                 .onSuccess { spending ->
                     _editSpendingUiState.update {
                         it.copy(
@@ -99,7 +97,7 @@ class EditSpendingViewModel(
         viewModelScope.launch {
             _editSpendingUiState.value
                 .run {
-                    createSpendingUseCase.invoke(
+                    createSpendingUseCase(
                         content = description,
                         amount = parseBigDecimalString(amount),
                         time = date,
@@ -123,18 +121,17 @@ class EditSpendingViewModel(
     private fun updateSpending() {
         viewModelScope.launch {
             _editSpendingUiState.value.run {
-                updateSpendingUseCase
-                    .invoke(
-                        id = spendingId,
-                        content = description,
-                        amount = parseBigDecimalString(amount),
-                        time = date,
-                        categoryIds = selectedCategoryIds,
-                    ).onSuccess {
-                        _events.emit(EditSpendingEvent.UpdatingFinished)
-                    }.onFailure {
-                        // TODO: error handling later
-                    }
+                updateSpendingUseCase(
+                    id = spendingId,
+                    content = description,
+                    amount = parseBigDecimalString(amount),
+                    time = date,
+                    categoryIds = selectedCategoryIds,
+                ).onSuccess {
+                    _events.emit(EditSpendingEvent.UpdatingFinished)
+                }.onFailure {
+                    // TODO: error handling later
+                }
             }
         }
     }
@@ -163,7 +160,7 @@ class EditSpendingViewModel(
     fun onAddCategory(categoryName: String) {
         _showAddCategoryDialog.value = false
         viewModelScope.launch {
-            addCategoryUseCase.invoke(name = categoryName)
+            addCategoryUseCase(name = categoryName)
         }
     }
 
@@ -177,8 +174,7 @@ class EditSpendingViewModel(
 
     fun removeSpending() {
         viewModelScope.launch {
-            removeSpendingUseCase
-                .invoke(spendingId)
+            removeSpendingUseCase(spendingId)
                 .onSuccess {
                     closeRemoveSpendingDialog()
                     _events.emit(EditSpendingEvent.DeletingFinished)

@@ -23,13 +23,13 @@ class SpendingsListViewModel(
 ) : ViewModel() {
     fun addSamples() {
         viewModelScope.launch {
-            addSamplesUseCase.invoke()
+            addSamplesUseCase()
         }
     }
 
     fun deleteAllSpendings() {
         viewModelScope.launch {
-            deleteAllSpendingsUseCase.invoke()
+            deleteAllSpendingsUseCase()
         }
     }
 

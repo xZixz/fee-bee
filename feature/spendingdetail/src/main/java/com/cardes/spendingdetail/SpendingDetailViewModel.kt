@@ -13,8 +13,7 @@ class SpendingDetailViewModel(
     @InjectedParam val spendingId: Long,
     observeSpendingUseCase: ObserveSpendingUseCase,
 ) : ViewModel() {
-    val spendingUiState = observeSpendingUseCase
-        .invoke(spendingId)
+    val spendingUiState = observeSpendingUseCase(spendingId)
         .map { spending ->
             SpendingUiState.Success(
                 spendingId = spending.id,
