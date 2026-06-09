@@ -82,8 +82,8 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.feature.spendings.impl)
     implementation(projects.feature.spendingdetail.impl)
-    implementation(projects.feature.analytics)
-    implementation(projects.feature.categories)
-    implementation(projects.feature.editcategory)
-    implementation(projects.feature.editspending)
+    implementation(projects.feature.analytics.impl)
+    implementation(projects.feature.categories.impl)
+    implementation(projects.feature.editcategory.impl)
+    implementation(projects.feature.editspending.impl)
 }

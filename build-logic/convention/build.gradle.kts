@@ -70,10 +70,10 @@ gradlePlugin {
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("androidFeature") {
-            id = libs.plugins.feebee.android.feature
+            id = libs.plugins.feebee.android.feature.impl
                 .get()
                 .pluginId
-            implementationClass = "AndroidFeatureConventionPlugin"
+            implementationClass = "AndroidFeatureImplConventionPlugin"
         }
         register("androidRoom") {
             id = libs.plugins.feebee.room

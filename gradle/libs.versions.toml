@@ -117,6 +117,6 @@ feebee-kotlin-library = { id = "feebee.kotlin.library" }
 feebee-koin = { id = "feebee.koin" }
 feebee-compose-application = { id = "feebee.compose.application" }
 feebee-compose-library = { id = "feebee.compose.library" }
-feebee-android-feature = { id = "feebee.android.feature" }
+feebee-android-feature-impl = { id = "feebee.android.feature.impl" }
 feebee-room = { id = "feebee.room" }
 feebee-nav3 = { id = "feebee.nav3" }

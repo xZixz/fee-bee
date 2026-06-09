@@ -1,9 +1,9 @@
 plugins {
-    alias(libs.plugins.feebee.android.feature)
+    alias(libs.plugins.feebee.android.feature.impl)
 }
 
 android {
-    namespace = "com.cardes.editcategory"
+    namespace = "com.cardes.categories"
 }
 
 dependencies {

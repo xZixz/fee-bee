@@ -4,19 +4,19 @@ include(":core:navigation")
 
 include(":core:ui")
 
-include(":feature:categories")
+include(":feature:categories:impl")
 
-include(":feature:analytics")
+include(":feature:analytics:impl")
 
 include(":core:designsystem")
 
 include(":feature:spendings:impl")
 
-include(":feature:editcategory")
+include(":feature:editcategory:impl")
 
 include(":feature:spendingdetail:impl")
 
-include(":feature:editspending")
+include(":feature:editspending:impl")
 
 pluginManagement {
     includeBuild("build-logic")
