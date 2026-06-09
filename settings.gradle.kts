@@ -10,11 +10,11 @@ include(":feature:analytics")
 
 include(":core:designsystem")
 
-include(":feature:spendings")
+include(":feature:spendings:impl")
 
 include(":feature:editcategory")
 
-include(":feature:spendingdetail")
+include(":feature:spendingdetail:impl")
 
 include(":feature:editspending")
 

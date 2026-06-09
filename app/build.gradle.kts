@@ -80,10 +80,10 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.ui)
     implementation(projects.core.common)
-    implementation(projects.feature.spendings)
+    implementation(projects.feature.spendings.impl)
+    implementation(projects.feature.spendingdetail.impl)
     implementation(projects.feature.analytics)
     implementation(projects.feature.categories)
     implementation(projects.feature.editcategory)
-    implementation(projects.feature.spendingdetail)
     implementation(projects.feature.editspending)
 }
