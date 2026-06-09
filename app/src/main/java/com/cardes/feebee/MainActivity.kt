@@ -10,7 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.cardes.designsystem.theme.FeeBeeTheme
-import com.cardes.feebee.ui.home.HomeRoute
+import com.cardes.feebee.ui.HomeRoute
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

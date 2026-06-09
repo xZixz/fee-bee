@@ -1,4 +1,4 @@
-package com.cardes.feebee.ui.home
+package com.cardes.feebee.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,9 +53,19 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     entryProvider = entryProvider {
                         entry<TopLevelDestination.SpendingsRoute> {
                             SpendingsRoute(
-                                onCreateSpendingClick = { navigator.navigate(SpendingsDestination.EditSpending(0)) },
+                                onCreateSpendingClick = {
+                                    navigator.navigate(
+                                        SpendingsDestination.EditSpending(
+                                            0,
+                                        ),
+                                    )
+                                },
                                 onSpendingClick = { spendingId ->
-                                    navigator.navigate(SpendingsDestination.SpendingDetails(spendingId))
+                                    navigator.navigate(
+                                        SpendingsDestination.SpendingDetails(
+                                            spendingId,
+                                        ),
+                                    )
                                 },
                             )
                         }
@@ -71,7 +81,11 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                         }
                         entry<SpendingsDestination.SpendingDetails> { key ->
                             SpendingDetailRoute(
-                                onEditClick = { spendingId -> navigator.navigate(SpendingsDestination.EditSpending(spendingId)) },
+                                onEditClick = { spendingId ->
+                                    navigator.navigate(
+                                        SpendingsDestination.EditSpending(spendingId),
+                                    )
+                                },
                                 spendingDetailViewModel = koinViewModel(
                                     key = "${key.spendingId}",
                                     parameters = { parametersOf(key.spendingId) },
