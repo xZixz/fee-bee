@@ -6,9 +6,9 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.cardes.navigation.TopLevelDestination
-import com.cardes.analytics.R as analyticsR
-import com.cardes.categories.R as categoriesR
-import com.cardes.spendings.R as spendingsR
+import com.cardes.analytics.impl.R as analyticsR
+import com.cardes.categories.impl.R as categoriesR
+import com.cardes.spendings.impl.R as spendingsR
 
 enum class BottomNavItem(
     val route: TopLevelDestination,

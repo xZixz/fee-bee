@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.cardes.analytics"
+    namespace = "com.cardes.analytics.impl"
 }
 
 dependencies {

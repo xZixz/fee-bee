@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.cardes.analytics.AnalyticsRoute
-import com.cardes.categories.CategoriesListRoute
-import com.cardes.editcategory.EditCategoryRoute
-import com.cardes.editspending.EditSpendingRoute
+import com.cardes.analytics.impl.AnalyticsRoute
+import com.cardes.categories.impl.CategoriesListRoute
+import com.cardes.editcategory.impl.EditCategoryRoute
+import com.cardes.editspending.impl.EditSpendingRoute
 import com.cardes.feebee.navigation.BottomNavItem
 import com.cardes.navigation.CategoriesDestination
 import com.cardes.navigation.Navigator
@@ -23,8 +23,8 @@ import com.cardes.navigation.SpendingsDestination
 import com.cardes.navigation.TopLevelDestination
 import com.cardes.navigation.rememberNavigationState
 import com.cardes.navigation.toEntries
-import com.cardes.spendingdetail.SpendingDetailRoute
-import com.cardes.spendings.SpendingsRoute
+import com.cardes.spendingdetail.impl.SpendingDetailRoute
+import com.cardes.spendings.impl.SpendingsRoute
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 

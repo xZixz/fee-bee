@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.cardes.editspending"
+    namespace = "com.cardes.editspending.impl"
 }
 
 dependencies {
