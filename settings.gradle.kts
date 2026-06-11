@@ -1,21 +1,29 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:analytics:api")
+
+
 include(":core:navigation")
 
 include(":core:ui")
 
+include(":feature:categories:api")
 include(":feature:categories:impl")
 
 include(":feature:analytics:impl")
 
 include(":core:designsystem")
 
+include(":feature:spendings:api")
 include(":feature:spendings:impl")
 
+include(":feature:editcategory:api")
 include(":feature:editcategory:impl")
 
+include(":feature:spendingdetail:api")
 include(":feature:spendingdetail:impl")
 
+include(":feature:editspending:api")
 include(":feature:editspending:impl")
 
 pluginManagement {

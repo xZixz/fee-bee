@@ -12,18 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.cardes.analytics.api.AnalyticsNavKey
 import com.cardes.analytics.impl.AnalyticsRoute
+import com.cardes.categories.api.CategoriesNavKey
 import com.cardes.categories.impl.CategoriesListRoute
+import com.cardes.editcategory.api.EditCategoryNavKey
 import com.cardes.editcategory.impl.EditCategoryRoute
+import com.cardes.editspending.api.EditSpendingNavKey
 import com.cardes.editspending.impl.EditSpendingRoute
 import com.cardes.feebee.navigation.BottomNavItem
-import com.cardes.navigation.CategoriesDestination
 import com.cardes.navigation.Navigator
-import com.cardes.navigation.SpendingsDestination
-import com.cardes.navigation.TopLevelDestination
 import com.cardes.navigation.rememberNavigationState
 import com.cardes.navigation.toEntries
+import com.cardes.spendingdetail.api.SpendingDetailNavKey
 import com.cardes.spendingdetail.impl.SpendingDetailRoute
+import com.cardes.spendings.api.SpendingsNavKey
 import com.cardes.spendings.impl.SpendingsRoute
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -36,12 +39,8 @@ fun HomeRoute(modifier: Modifier = Modifier) {
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     val navigateState = rememberNavigationState(
-        startRoute = TopLevelDestination.SpendingsRoute,
-        topLevelRoutes = setOf(
-            TopLevelDestination.SpendingsRoute,
-            TopLevelDestination.AnalyticsRoute,
-            TopLevelDestination.CategoriesRoute,
-        ),
+        startRoute = SpendingsNavKey,
+        topLevelRoutes = BottomNavItem.entries.map { it.route }.toSet(),
     )
 
     val navigator = remember(navigateState) { Navigator(navigateState) }
@@ -51,40 +50,30 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             NavDisplay(
                 entries = navigateState.toEntries(
                     entryProvider = entryProvider {
-                        entry<TopLevelDestination.SpendingsRoute> {
+                        entry<SpendingsNavKey> {
                             SpendingsRoute(
                                 onCreateSpendingClick = {
-                                    navigator.navigate(
-                                        SpendingsDestination.EditSpending(
-                                            0,
-                                        ),
-                                    )
+                                    navigator.navigate(EditSpendingNavKey(0))
                                 },
                                 onSpendingClick = { spendingId ->
-                                    navigator.navigate(
-                                        SpendingsDestination.SpendingDetails(
-                                            spendingId,
-                                        ),
-                                    )
+                                    navigator.navigate(SpendingDetailNavKey(spendingId))
                                 },
                             )
                         }
-                        entry<TopLevelDestination.CategoriesRoute> {
+                        entry<CategoriesNavKey> {
                             CategoriesListRoute(
                                 onCategoryClick = { categoryId ->
-                                    navigator.navigate(CategoriesDestination.EditCategory(categoryId))
+                                    navigator.navigate(EditCategoryNavKey(categoryId))
                                 },
                             )
                         }
-                        entry<TopLevelDestination.AnalyticsRoute> {
+                        entry<AnalyticsNavKey> {
                             AnalyticsRoute()
                         }
-                        entry<SpendingsDestination.SpendingDetails> { key ->
+                        entry<SpendingDetailNavKey> { key ->
                             SpendingDetailRoute(
                                 onEditClick = { spendingId ->
-                                    navigator.navigate(
-                                        SpendingsDestination.EditSpending(spendingId),
-                                    )
+                                    navigator.navigate(EditSpendingNavKey(spendingId))
                                 },
                                 spendingDetailViewModel = koinViewModel(
                                     key = "${key.spendingId}",
@@ -92,7 +81,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                                 ),
                             )
                         }
-                        entry<SpendingsDestination.EditSpending> { key ->
+                        entry<EditSpendingNavKey> { key ->
                             EditSpendingRoute(
                                 navUp = { navigator.goBack() },
                                 onSpendingRemoved = { navigator.goBackToTopRoute() },
@@ -102,7 +91,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                                 ),
                             )
                         }
-                        entry<CategoriesDestination.EditCategory> { key ->
+                        entry<EditCategoryNavKey> { key ->
                             EditCategoryRoute(
                                 onFinishRemovingCategory = { navigator.goBack() },
                                 editCategoryViewModel = koinViewModel(
