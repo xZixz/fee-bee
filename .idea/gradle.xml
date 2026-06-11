@@ -37,14 +37,19 @@
             <option value="$PROJECT_DIR$/feature/analytics/api" />
             <option value="$PROJECT_DIR$/feature/analytics/impl" />
             <option value="$PROJECT_DIR$/feature/categories" />
+            <option value="$PROJECT_DIR$/feature/categories/api" />
             <option value="$PROJECT_DIR$/feature/categories/impl" />
             <option value="$PROJECT_DIR$/feature/editcategory" />
+            <option value="$PROJECT_DIR$/feature/editcategory/api" />
             <option value="$PROJECT_DIR$/feature/editcategory/impl" />
             <option value="$PROJECT_DIR$/feature/editspending" />
+            <option value="$PROJECT_DIR$/feature/editspending/api" />
             <option value="$PROJECT_DIR$/feature/editspending/impl" />
             <option value="$PROJECT_DIR$/feature/spendingdetail" />
+            <option value="$PROJECT_DIR$/feature/spendingdetail/api" />
             <option value="$PROJECT_DIR$/feature/spendingdetail/impl" />
             <option value="$PROJECT_DIR$/feature/spendings" />
+            <option value="$PROJECT_DIR$/feature/spendings/api" />
             <option value="$PROJECT_DIR$/feature/spendings/impl" />
           </set>
         </option>

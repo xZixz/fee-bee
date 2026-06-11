@@ -12,24 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.cardes.analytics.api.AnalyticsNavKey
-import com.cardes.analytics.impl.AnalyticsRoute
-import com.cardes.categories.api.CategoriesNavKey
-import com.cardes.categories.impl.CategoriesListRoute
-import com.cardes.editcategory.api.EditCategoryNavKey
-import com.cardes.editcategory.impl.EditCategoryRoute
-import com.cardes.editspending.api.EditSpendingNavKey
-import com.cardes.editspending.impl.EditSpendingRoute
+import com.cardes.analytics.impl.navigation.analyticsEntry
+import com.cardes.categories.navigation.categoriesEntry
+import com.cardes.editcategory.navigation.editCategoryEntry
+import com.cardes.editspending.navigation.editSpendingEntry
 import com.cardes.feebee.navigation.BottomNavItem
 import com.cardes.navigation.Navigator
 import com.cardes.navigation.rememberNavigationState
 import com.cardes.navigation.toEntries
-import com.cardes.spendingdetail.api.SpendingDetailNavKey
-import com.cardes.spendingdetail.impl.SpendingDetailRoute
+import com.cardes.spendingdetail.navigation.spendingDetailEntry
 import com.cardes.spendings.api.SpendingsNavKey
-import com.cardes.spendings.impl.SpendingsRoute
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
+import com.cardes.spendings.navigation.spendingsEntry
 
 @Composable
 fun HomeRoute(modifier: Modifier = Modifier) {
@@ -50,56 +43,12 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             NavDisplay(
                 entries = navigateState.toEntries(
                     entryProvider = entryProvider {
-                        entry<SpendingsNavKey> {
-                            SpendingsRoute(
-                                onCreateSpendingClick = {
-                                    navigator.navigate(EditSpendingNavKey(0))
-                                },
-                                onSpendingClick = { spendingId ->
-                                    navigator.navigate(SpendingDetailNavKey(spendingId))
-                                },
-                            )
-                        }
-                        entry<CategoriesNavKey> {
-                            CategoriesListRoute(
-                                onCategoryClick = { categoryId ->
-                                    navigator.navigate(EditCategoryNavKey(categoryId))
-                                },
-                            )
-                        }
-                        entry<AnalyticsNavKey> {
-                            AnalyticsRoute()
-                        }
-                        entry<SpendingDetailNavKey> { key ->
-                            SpendingDetailRoute(
-                                onEditClick = { spendingId ->
-                                    navigator.navigate(EditSpendingNavKey(spendingId))
-                                },
-                                spendingDetailViewModel = koinViewModel(
-                                    key = "${key.spendingId}",
-                                    parameters = { parametersOf(key.spendingId) },
-                                ),
-                            )
-                        }
-                        entry<EditSpendingNavKey> { key ->
-                            EditSpendingRoute(
-                                navUp = { navigator.goBack() },
-                                onSpendingRemoved = { navigator.goBackToTopRoute() },
-                                editSpendingViewModel = koinViewModel(
-                                    key = "${key.spendingId}",
-                                    parameters = { parametersOf(key.spendingId) },
-                                ),
-                            )
-                        }
-                        entry<EditCategoryNavKey> { key ->
-                            EditCategoryRoute(
-                                onFinishRemovingCategory = { navigator.goBack() },
-                                editCategoryViewModel = koinViewModel(
-                                    key = "${key.categoryId}",
-                                    parameters = { parametersOf(key.categoryId) },
-                                ),
-                            )
-                        }
+                        spendingsEntry(navigator = navigator)
+                        categoriesEntry(navigator = navigator)
+                        analyticsEntry()
+                        spendingDetailEntry(navigator = navigator)
+                        editSpendingEntry(navigator = navigator)
+                        editCategoryEntry(navigator = navigator)
                     },
                 ),
                 onBack = { navigator.goBack() },

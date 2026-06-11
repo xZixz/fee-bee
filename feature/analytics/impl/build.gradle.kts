@@ -16,8 +16,10 @@ dependencies {
 
     // Number Picker
     implementation(libs.numberPicker)
-
     implementation(libs.material)
+
+    implementation(projects.feature.analytics.api)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

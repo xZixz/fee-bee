@@ -51,9 +51,9 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EditCategoryRoute(
-    modifier: Modifier = Modifier,
-    editCategoryViewModel: EditCategoryViewModel,
     onFinishRemovingCategory: () -> Unit,
+    editCategoryViewModel: EditCategoryViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val fetchingCategoryUiState by editCategoryViewModel.fetchingCategoryUiState.collectAsStateWithLifecycle()
 
