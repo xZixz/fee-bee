@@ -33,13 +33,11 @@ android {
             dimension = "version"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
-            resValue("string", "app_name", "FeeBee-dev")
         }
         create("prod") {
             dimension = "version"
             applicationIdSuffix = ".prod"
             versionNameSuffix = "-prod"
-            resValue("string", "app_name", "FeeBee")
         }
     }
 }
@@ -66,6 +64,8 @@ dependencies {
 
     // Pie Chart
     implementation(libs.composeChart)
+
+    implementation("androidx.concurrent:concurrent-futures:1.2.0")
 
     testImplementation(libs.junit)
     testImplementation(libs.google.truth)

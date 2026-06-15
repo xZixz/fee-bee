@@ -16,14 +16,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.annotation.InjectedParam
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Calendar
 
 class EditSpendingViewModel(
-    @InjectedParam private val spendingId: Long,
+    private val spendingId: Long,
     private val createSpendingUseCase: CreateSpendingUseCase,
     private val updateSpendingUseCase: UpdateSpendingUseCase,
     private val removeSpendingUseCase: RemoveSpendingUseCase,

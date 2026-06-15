@@ -16,10 +16,9 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.koin.core.annotation.InjectedParam
 
 class EditCategoryViewModel(
-    @InjectedParam private val categoryId: Long,
+    private val categoryId: Long,
     private val updateCategoryNameUseCase: UpdateCategoryNameUseCase,
     private val removeCategoryUseCase: RemoveCategoryUseCase,
     private val updateCategoryEmojiUseCase: UpdateCategoryEmojiUseCase,

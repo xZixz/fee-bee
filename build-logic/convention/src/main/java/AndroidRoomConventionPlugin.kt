@@ -17,7 +17,6 @@
 import androidx.room.gradle.RoomExtension
 import com.cardes.buildconvention.implementation
 import com.cardes.buildconvention.libs
-import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -30,14 +29,7 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             apply(plugin = "androidx.room")
             apply(plugin = "com.google.devtools.ksp")
 
-            extensions.configure<KspExtension> {
-                arg("room.generateKotlin", "true")
-            }
-
             extensions.configure<RoomExtension> {
-                // The schemas directory contains a schema file for each version of the Room database.
-                // This is required to enable Room auto migrations.
-                // See https://developer.android.com/reference/kotlin/androidx/room/AutoMigration.
                 schemaDirectory("$projectDir/schemas")
             }
 

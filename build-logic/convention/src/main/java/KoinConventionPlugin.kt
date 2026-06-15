@@ -12,7 +12,6 @@ class KoinConventionPlugin : Plugin<Project> {
                 implementation(libs.findLibrary("koin.core").get())
                 implementation(libs.findLibrary("koin.android").get())
                 implementation(libs.findLibrary("koin.compose.viewmodel").get())
-                implementation(libs.findLibrary("koin.annotations").get())
             }
         }
     }

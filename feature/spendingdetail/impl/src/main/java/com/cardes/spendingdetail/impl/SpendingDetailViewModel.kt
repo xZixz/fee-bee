@@ -7,10 +7,9 @@ import com.cardes.domain.usecase.observespending.ObserveSpendingUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import org.koin.core.annotation.InjectedParam
 
 class SpendingDetailViewModel(
-    @InjectedParam val spendingId: Long,
+    val spendingId: Long,
     observeSpendingUseCase: ObserveSpendingUseCase,
 ) : ViewModel() {
     val spendingUiState = observeSpendingUseCase(spendingId)
