@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.cardes.designsystem.theme.FeeBeeTheme
+import com.cardes.designsystem.theme.Spacing
 import com.cardes.ui.shared.DarkModePreview
 
 val foodAndDrinkEmojis = listOf(
@@ -214,13 +215,13 @@ fun EmojiPicker(
             Card(
                 modifier = Modifier.wrapContentSize(),
                 colors = CardDefaults.cardColors(),
-                elevation = CardDefaults.cardElevation(5.dp),
+                elevation = CardDefaults.cardElevation(Spacing.xs),
             ) {
                 LazyVerticalGrid(
-                    modifier = Modifier.padding(10.dp),
+                    modifier = Modifier.padding(Spacing.s),
                     columns = GridCells.Adaptive(minSize = 45.dp),
-                    verticalArrangement = Arrangement.spacedBy(5.dp),
-                    horizontalArrangement = Arrangement.spacedBy(5.dp),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     emojis.forEach { emojiCategory ->
                         item(span = { GridItemSpan(maxLineSpan) }) {

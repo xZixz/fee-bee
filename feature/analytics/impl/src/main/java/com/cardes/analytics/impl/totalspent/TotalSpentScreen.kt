@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.analytics.impl.R
 import com.cardes.designsystem.common.monthDayYearDisplayFormat
 import com.cardes.designsystem.component.FeeBeeDateInput
+import com.cardes.designsystem.theme.Spacing
 import org.koin.androidx.compose.koinViewModel
 import com.cardes.ui.R as uiR
 
@@ -30,8 +31,8 @@ fun TotalSpentScreen(
     val spendingsData by viewModel.spendingsData.collectAsStateWithLifecycle()
     val spendingsChartModelProducer = viewModel.spendingsChartModelProducer
     val totalSpentViewState by viewModel.totalSpentViewState.collectAsStateWithLifecycle()
-    Column(modifier = modifier.padding(horizontal = 10.dp)) {
-        Spacer(modifier = Modifier.height(10.dp))
+    Column(modifier = modifier.padding(horizontal = Spacing.s)) {
+        Spacer(modifier = Modifier.height(Spacing.s))
         when {
             spendingsData.isEmpty() -> {
                 Box(
@@ -48,17 +49,17 @@ fun TotalSpentScreen(
 
             else -> TotalSpentBarChart(spendingsChartModelProducer = spendingsChartModelProducer)
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(Spacing.s))
         Text(
             text = stringResource(uiR.string.categories),
             style = MaterialTheme.typography.titleMedium,
         )
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(Spacing.xs))
         CategoryFilters(
             onCategoryClick = viewModel::onCategoryClick,
             selectCategoryViewStates = totalSpentViewState.selectCategoryViewStates,
         )
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(Spacing.xs))
         Text(
             text = stringResource(R.string.from),
             style = MaterialTheme.typography.titleMedium,
@@ -68,7 +69,7 @@ fun TotalSpentScreen(
             dateFormat = remember { monthDayYearDisplayFormat },
             onDatePicked = viewModel::onFromDatePicked,
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(Spacing.s))
         Text(
             text = stringResource(R.string.to),
             style = MaterialTheme.typography.titleMedium,

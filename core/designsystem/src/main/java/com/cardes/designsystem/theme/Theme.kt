@@ -8,8 +8,12 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
 
+private val LocalShapes = staticCompositionLocalOf { AppShape }
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
@@ -31,6 +35,11 @@ private val LightColorScheme = lightColorScheme(
      */
 )
 
+object FeeBeeTheme {
+    val shapes
+        @Composable @ReadOnlyComposable get() = LocalShapes.current
+}
+
 @Composable
 fun FeeBeeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -48,18 +57,15 @@ fun FeeBeeTheme(
             darkTheme -> DarkColorScheme
             else -> LightColorScheme
         }
-//    val view = LocalView.current
-//    if (!view.isInEditMode) {
-//        SideEffect {
-//            val window = (view.context as Activity).window
-//            window.statusBarColor = colorScheme.primary.toArgb()
-//            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-//        }
-//    }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content,
-    )
+    CompositionLocalProvider(
+        LocalShapes provides AppShape,
+    ) {
+
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content,
+        )
+    }
 }

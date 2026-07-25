@@ -28,11 +28,11 @@ import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cardes.designsystem.component.BasePage
 import com.cardes.designsystem.theme.FeeBeeTheme
+import com.cardes.designsystem.theme.Spacing
 import com.cardes.domain.entity.Spending
 import org.koin.androidx.compose.koinViewModel
 import java.text.SimpleDateFormat
@@ -77,7 +77,7 @@ fun SpendingsScreen(
                 contentDescription = "Add spending",
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .padding(end = 5.dp)
+                    .padding(end = Spacing.xs)
                     .clickable(onClick = onCreateSpendingClick),
             )
         },
@@ -149,7 +149,7 @@ fun SpendingsList(
 ) {
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(5.dp),
+        verticalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
         spendingsData.forEach { (dayYear, spendingsByDate) ->
             stickyHeader {
@@ -171,7 +171,7 @@ fun SpendingsList(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(color = MaterialTheme.colorScheme.background)
-                            .padding(top = 20.dp, bottom = 2.dp),
+                            .padding(top = Spacing.m, bottom = Spacing.xxs),
                         text = stickyText,
                         style = MaterialTheme.typography.labelLarge,
                     )
@@ -182,7 +182,6 @@ fun SpendingsList(
                 key = { spending -> spending.id },
             ) { spending ->
                 SpendingItem(
-                    modifier = Modifier.padding(horizontal = 5.dp),
                     spending = spending,
                     onSpendingClick = onSpendingClick,
                 )

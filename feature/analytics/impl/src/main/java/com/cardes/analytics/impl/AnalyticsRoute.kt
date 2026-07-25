@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.cardes.analytics.impl.bycategories.ByCategoriesRoute
 import com.cardes.analytics.impl.totalspent.TotalSpentScreen
 import com.cardes.designsystem.theme.FeeBeeTheme
+import com.cardes.designsystem.theme.Spacing
 
 @Composable
 fun AnalyticsRoute(modifier: Modifier = Modifier) {
@@ -114,7 +115,7 @@ fun AnalyticTab(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(imageVector = icon, contentDescription = "$title tab", tint = tintColor)
-        Spacer(modifier = Modifier.width(5.dp))
+        Spacer(modifier = Modifier.width(Spacing.xs))
         Text(text = title, color = tintColor)
     }
 }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddReaction
@@ -26,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.cardes.designsystem.theme.FeeBeeTheme
+import com.cardes.designsystem.theme.Spacing
 import com.cardes.domain.entity.Category
 
 private val ItemHeight = 34.dp
@@ -40,11 +40,11 @@ fun CategoryItem(
         modifier = modifier
             .height(ItemHeight)
             .clickable { onCategoryClick(category.id) },
-        shape = RoundedCornerShape(50),
+        shape = FeeBeeTheme.shapes.pill,
     ) {
         Row(
             modifier = Modifier
-                .padding(horizontal = 15.dp, vertical = 5.dp)
+                .padding(horizontal = Spacing.m, vertical = Spacing.xs)
                 .fillMaxWidth(),
         ) {
             Text(
@@ -104,7 +104,7 @@ fun AddCategoryItem(
             .clickable {
                 onItemClick()
             },
-        shape = RoundedCornerShape(50),
+        shape = FeeBeeTheme.shapes.pill,
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),

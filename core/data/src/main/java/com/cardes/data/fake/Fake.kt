@@ -54,7 +54,7 @@ object Fake {
                 categories = listOf(),
             ),
             Spending(
-                id = 1,
+                id = 4,
                 time = Sat_June_22_2004,
                 amount = 70.toBigDecimal(),
                 content = "Lunch",
@@ -64,14 +64,14 @@ object Fake {
                 ),
             ),
             Spending(
-                id = 2,
+                id = 5,
                 time = Sat_June_22_2004,
                 amount = 300.toBigDecimal(),
                 content = "bTask",
                 categories = listOf(categories[1]),
             ),
             Spending(
-                id = 3,
+                id = 6,
                 time = Wed_Jul_10_2004,
                 amount = 100.toBigDecimal(),
                 content = "Book",

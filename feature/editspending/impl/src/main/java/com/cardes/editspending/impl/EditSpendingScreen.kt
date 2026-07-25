@@ -171,7 +171,7 @@ fun EditSpendingScreen(
                             onClick = {
                                 onCategoryClick(category.id)
                             },
-                            shape = RoundedCornerShape(50),
+                            shape = FeeBeeTheme.shapes.pill,
                             label = {
                                 Text(text = category.name)
                             },

@@ -14,7 +14,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.cardes.designsystem.theme.Spacing
 
 @Composable
 fun CreateMockDataButtons(
@@ -25,7 +25,7 @@ fun CreateMockDataButtons(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 10.dp),
+            .padding(bottom = Spacing.s),
     ) {
         FloatingActionButton(
             shape = CircleShape,
@@ -39,7 +39,7 @@ fun CreateMockDataButtons(
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "Add 3")
             },
         )
-        Spacer(modifier = Modifier.width(10.dp))
+        Spacer(modifier = Modifier.width(Spacing.s))
         FloatingActionButton(
             shape = CircleShape,
             modifier = Modifier

@@ -45,6 +45,7 @@ import com.cardes.analytics.impl.R
 import com.cardes.designsystem.common.monthYearDisplayFormat
 import com.cardes.designsystem.component.FeeBeeTextInput
 import com.cardes.designsystem.theme.FeeBeeTheme
+import com.cardes.designsystem.theme.Spacing
 import com.cardes.domain.base.MonthYear
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
@@ -98,7 +99,7 @@ fun ByCategoryScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(10.dp),
+        modifier = modifier.padding(Spacing.s),
     ) {
         Box(
             modifier = Modifier
@@ -132,7 +133,7 @@ fun ByCategoryScreen(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(Spacing.xs))
         MonthSelection(
             month = selectedMonth.month,
             year = selectedMonth.year,
@@ -163,7 +164,7 @@ fun MonthSelection(
             text = stringResource(R.string.select_the_month),
             style = MaterialTheme.typography.titleMedium,
         )
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(Spacing.xs))
         Box(modifier = Modifier.wrapContentWidth()) {
             val focusRequester = remember { FocusRequester() }
             val interactionSource = remember { MutableInteractionSource() }

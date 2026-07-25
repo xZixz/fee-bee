@@ -12,7 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.cardes.designsystem.theme.Spacing
 
 @Composable
 fun BasePage(
@@ -24,9 +24,9 @@ fun BasePage(
     Column(
         modifier = modifier
             .background(color = MaterialTheme.colorScheme.background)
-            .padding(horizontal = 10.dp),
+            .padding(horizontal = Spacing.s),
     ) {
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(Spacing.s))
         Row {
             Text(
                 text = title,
@@ -35,7 +35,7 @@ fun BasePage(
             Spacer(modifier = Modifier.weight(1.0f))
             titleAction()
         }
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(Spacing.m))
         content()
     }
 }
