@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import com.cardes.data.fake.Fake
 import com.cardes.designsystem.component.CategoryChip
@@ -32,17 +31,13 @@ fun SpendingItem(
 ) {
     Row(
         modifier = modifier
-            .background(
-                color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                shape = FeeBeeTheme.shapes.pill,
-            )
-            .clip(shape = FeeBeeTheme.shapes.pill)
+            .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
             .clickable {
                 onSpendingClick(spending.id)
             }
             .padding(
                 horizontal = Spacing.s,
-                vertical = Spacing.xs,
+                vertical = Spacing.s,
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {

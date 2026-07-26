@@ -19,8 +19,14 @@ private val SfPro = FontFamily(
     Font(R.font.sf_pro_bold, FontWeight.Bold),
 )
 
+private val JetBrainMono = FontFamily(
+    Font(R.font.jet_brains_mono_regular),
+    Font(R.font.jet_brains_mono_medium, FontWeight.Medium),
+    Font(R.font.jet_brains_mono_bold, FontWeight.Bold),
+)
+
 private val defaultTextStyle = TextStyle(
-    fontFamily = SfPro,
+    fontFamily = JetBrainMono,
     platformStyle = PlatformTextStyle(includeFontPadding = false),
     lineHeightStyle = LineHeightStyle(
         alignment = LineHeightStyle.Alignment.Center,
